@@ -41,10 +41,10 @@ export default function Menu({ onClose }: MenuProps) {
           type="button"
           aria-label="Close navigation menu"
           onClick={onClose}
-          className="relative mr-20 flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white shadow-lg backdrop-blur transition-all duration-300 hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111] sm:h-14 sm:w-14"
+          className="relative mr-20 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 shadow-lg backdrop-blur transition-all cursor-pointer hover:scale-125 duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 "
         >
-          <span className="absolute left-1/2 h-[2px] w-7 -translate-x-1/2 rotate-45 bg-white" />
-          <span className="absolute left-1/2 h-[2px] w-7 -translate-x-1/2 -rotate-45 bg-white" />
+          <span className="absolute left-1/2 h-[2px] w-5 -translate-x-1/2 rotate-45 bg-white" />
+          <span className="absolute left-1/2 h-[2px] w-5 -translate-x-1/2 -rotate-45 bg-white" />
         </button>
       </div>
       <div className="box-border flex flex-1 flex-col justify-between px-5 pb-5 md:px-20 md:pb-20">
