@@ -36,8 +36,8 @@ const HeroSection = () => {
         scrollTrigger:{
           trigger:sectionRef.current,
           start:"top top",
-          end:"+=200%",
-          scrub:0.5,
+          end:"+=250%",
+          scrub:1.2,
           pin:true,
           pinSpacing:true,
           invalidateOnRefresh:true,
@@ -51,7 +51,7 @@ const HeroSection = () => {
         opacity:0,
         y:0,
         scale:0.8,
-        duration:1,
+        duration:1.8,
         ease:"power2.inOut"
       });
 
@@ -62,10 +62,10 @@ const HeroSection = () => {
           y:0,
           scale:1,
           pointerEvents:"auto",
-          duration:1.2,
+          duration:1.8,
           ease:"power2.out"
         },
-        "+=0.1"
+        "+=0.4"
       );
 
       console.log("Scroll Trigger and animation setup complete");
@@ -183,9 +183,9 @@ const HeroSection = () => {
         >
           <Link
             href="#contact"
-            className="heading-font inline-flex items-center justify-center rounded-full bg-linear-to-r from-purple-500 via-purple-400 to-purple-600 px-8 py-3 text-lg font-semibold text-white shadow-[0_0_25px_rgba(168,85,247,0.35)] transition-transform duration-300 hover:scale-105 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)]"
+            className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-8 py-3 text-lg font-semibold text-purple-600 shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]"
           >
-            Our Startups
+            <span>Our Startups</span>
           </Link>
         </motion.div>
       </motion.div>

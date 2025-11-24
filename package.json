@@ -16,6 +16,7 @@
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-parallax-tilt": "^1.7.313",
     "tailwind-merge": "^3.4.0",
     "three": "^0.171.0"
   },

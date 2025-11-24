@@ -48,7 +48,7 @@ export default function Menu({ onClose }: MenuProps) {
       initial="initial"
       animate="enter"
       exit="exit"
-      className="fixed inset-0 flex h-screen w-screen flex-col bg-[#111] text-white backdrop-blur-3xl"
+      className="fixed inset-0 flex h-screen w-screen flex-col bg-[#111] backdrop-blur-3xl text-white"
       style={{ 
         zIndex: 99999,
         position: 'fixed',
