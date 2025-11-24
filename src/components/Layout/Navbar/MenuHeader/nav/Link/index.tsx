@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { slide, scale } from "../../anim";
 import type { Dispatch, SetStateAction } from "react";
-import type { NavItem } from "..";
+import { NavItem } from "..";
 
 interface NavLinkData extends NavItem {
   index: number;

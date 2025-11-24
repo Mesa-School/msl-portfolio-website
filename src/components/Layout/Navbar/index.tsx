@@ -21,7 +21,7 @@ const NavbarMainSection = () => {
     const navMenuList = [
         { id: 1, title: "Home", href: "/" },
         { id: 2, title: "About", href: "/about" },
-        { id: 3, title: "Our Startups", href: "/our-startups" },
+        { id: 3, title: "Our Startups", href:"/our-startups" },
         { id: 4, title: "Contact", href: "/contact" },
     ];
 
@@ -31,23 +31,23 @@ const NavbarMainSection = () => {
         >
             <div
                 className={cn(
-                    "mx-auto flex justify-between items-center transition-all duration-300 border-2",
+                    "mx-auto flex mt-1 py-2 justify-between items-center transition-all duration-300 border-2",
                     isScrolled ? 
-                        "w-[80%] mt-2 px-4 rounded-full backdrop-blur-md bg-white/5"
-                        : "w-[90%]",
+                        "w-[90%] md:w-[85%] mt-2 px-2 md:px-4 rounded-full backdrop-blur-md bg-white/5"
+                        : "w-[95%] md:w-[90%",
                         isScrolled ? "border-white/10" : "border-transparent"
 
                 )}
             >
                 <Image
-                    src="/logo_bg.png"
+                    src="/msl_logo2.png"
                     alt="logo"
                     width={150}
                     height={100}
-                    className='h-16 object-contain'
+                    className='h-12 w-auto object-contain rounded-md'
                 />
 
-                <div className='flex justify-between items-center gap-10'>
+                <div className='justify-between hidden md:flex items-center gap-10'>
                     {navMenuList.map((item) => (
                         <Link 
                             key={item.id} 
