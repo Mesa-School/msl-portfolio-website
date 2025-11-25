@@ -99,9 +99,10 @@ export const StartupOverviewGrid = () => {
   }, []);
 
   return (
-    <section className="mx-auto mt-20 flex w-full max-w-6xl flex-col gap-10">
-      <motion.div
-        className="flex flex-col gap-4 text-center"
+    <section className="relative mx-auto mt-20 flex w-full flex-col gap-10 overflow-hidden ">
+     
+      {/* <motion.div
+        className="relative flex flex-col gap-4 text-center"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -117,27 +118,44 @@ export const StartupOverviewGrid = () => {
           Profiles are updated live from Strapi so you always see the latest companies in
           the lab.
         </p>
-      </motion.div>
+      </motion.div> */}
 
       {loading && (
-        <div className="flex justify-center rounded-3xl border border-white/10 bg-white/5 p-10 text-white/70">
-          Loading startups…
+        <div className="relative grid gap-6 md:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <StartupOverviewCard
+              key={`startup-skeleton-${idx}`}
+              index={idx}
+              isLoading
+              startup={{
+                id: idx,
+                documentId: `skeleton-${idx}`,
+                name: '',
+                summary: '',
+                location: '',
+                cohort: '',
+                sectorName: '',
+                logoUrl: null,
+                founders: [],
+              }}
+            />
+          ))}
         </div>
       )}
 
       {error && !loading && (
-        <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-6 text-center text-sm text-red-200">
+        <div className="relative rounded-3xl border border-red-500/20 bg-red-500/10 p-6 text-center text-sm text-red-200">
           {error}
         </div>
       )}
 
       {!loading && !error && startups.length === 0 && (
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center text-white/60">
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 p-10 text-center text-white/60">
           Startups will appear here once they are published in Strapi.
         </div>
       )}
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="relative grid gap-6 md:grid-cols-2">
         {startups.map((startup, index) => (
           <StartupOverviewCard key={startup.documentId ?? `${startup.id}`} startup={startup} index={index} />
         ))}

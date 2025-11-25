@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Oswald } from 'next/font/google';
 
+import { Skeleton } from '@/components/ui/skeleton';
+
 type Sector = {
   id: number;
   documentId: string;
@@ -38,17 +40,25 @@ export const OurStartupsHeader = () => {
         }
 
         if (isMounted) {
-          const normalizedSectors: Sector[] = (payload?.data ?? []).map(
+          const sectorSource = Array.isArray(payload?.data)
+            ? payload.data
+            : Array.isArray(payload?.data?.data)
+              ? payload.data.data
+              : [];
+
+          const normalizedSectors: Sector[] = sectorSource.map(
             (item: any, index: number) => {
+              const base = item?.attributes ?? item ?? {};
               const name =
+                base?.name ??
+                base?.sector_name ??
                 item?.name ??
-                item?.attributes?.name ??
-                item?.sector_name ??
-                'Sector';
+                'Unnamed Sector';
 
               return {
-                id: item?.id ?? index,
-                documentId: item?.documentId ?? `${item?.id ?? index}`,
+                id: base?.id ?? item?.id ?? index,
+                documentId:
+                  base?.documentId ?? item?.documentId ?? `${base?.id ?? index}`,
                 name,
               };
             },
@@ -56,7 +66,7 @@ export const OurStartupsHeader = () => {
 
           setSectors(
             normalizedSectors.filter(
-              (sector) => Boolean(sector.name) && sector.name !== 'Sector',
+              (sector) => typeof sector.name === 'string' && sector.name.trim().length,
             ),
           );
           setError(null);
@@ -190,21 +200,29 @@ export const OurStartupsHeader = () => {
             custom={2}
           >
             <div className="flex flex-wrap justify-center gap-3 text-sm text-white/80">
-              {loading && <span className="text-white/60">Loading sectors…</span>}
+              {loading &&
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <Skeleton
+                    key={`sector-skeleton-${idx}`}
+                    className="h-8 w-24 rounded-full bg-white/10"
+                  />
+                ))}
               {error && <span className="text-red-300">{error}</span>}
               {!loading && !error && sectors.length === 0 && (
                 <span className="text-white/60">No sectors available.</span>
               )}
-              {sectors.map((sector, index) => (
-                <motion.span
-                  key={sector.documentId ?? sector.id}
-                  className="rounded-full border border-white/15 bg-white/10 px-4 py-1"
-                  variants={chipVariants}
-                  custom={index}
-                >
-                  {sector.name}
-                </motion.span>
-              ))}
+              {!loading &&
+                !error &&
+                sectors.map((sector, index) => (
+                  <motion.span
+                    key={sector.documentId ?? sector.id}
+                    className="rounded-full border border-white/15 bg-white/10 px-4 py-1"
+                    variants={chipVariants}
+                    custom={index}
+                  >
+                    {sector.name}
+                  </motion.span>
+                ))}
             </div>
           </motion.div>
         </div>

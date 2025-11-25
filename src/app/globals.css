@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 body {
   background-color: #000;
   font-family: var(--font-dm-sans), "DM Sans", sans-serif;
@@ -8,7 +10,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0.8vh;
 }
 
 ::-webkit-scrollbar-track {
