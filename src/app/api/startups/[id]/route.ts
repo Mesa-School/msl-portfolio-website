@@ -3,9 +3,9 @@ import { API_URL, AUTH_TOKEN } from '@/config/apiUrl';
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await context.params;
 
   if (!API_URL || !AUTH_TOKEN) {
     return NextResponse.json(

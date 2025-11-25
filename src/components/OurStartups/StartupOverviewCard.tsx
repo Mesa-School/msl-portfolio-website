@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 
@@ -60,6 +61,9 @@ export const StartupOverviewCard = ({
   const summary = startup.summary ?? '';
   const foundersLabel =
     startup.founders?.map((founder) => founder.name).join(', ') || '—';
+  const detailHref = startup.documentId
+    ? `/our-startups/${startup.documentId}`
+    : null;
 
   return (
     <Tilt
@@ -162,11 +166,18 @@ export const StartupOverviewCard = ({
               </div>
             )}
             {isLoading ? (
-              <Skeleton className="h-10 w-28 rounded-full bg-white/10" />
-            ) : (
-              <button className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition duration-300 hover:scale-110 hover:bg-white hover:text-[#05070f]">
+              <Skeleton className="h-10 w-32 rounded-full bg-white/10" />
+            ) : detailHref ? (
+              <Link
+                href={detailHref}
+                className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition duration-300 hover:scale-110 hover:bg-white hover:text-[#05070f]"
+              >
                 View Startup
-              </button>
+              </Link>
+            ) : (
+              <span className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/60">
+                Details unavailable
+              </span>
             )}
           </div>
         </div>
