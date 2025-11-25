@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ExternalLink, MapPin, Globe, Award, Target, Rocket, Share2, BarChart3, LinkIcon } from 'lucide-react';
-
+import { ArrowLeft, ExternalLink, MapPin, Globe, Award, Target, Rocket, Share2, BarChart3, Users, TrendingUp, Lightbulb, Eye } from 'lucide-react';
 import { API_URL, AUTH_TOKEN } from '@/config/apiUrl';
 
 type StartupDetail = {
@@ -19,11 +18,13 @@ type StartupDetail = {
   website?: string;
   cohort?: string;
   sector?: string;
+  competitors?: string;
   founders: Array<{
     id: number | string;
     name: string;
     designation?: string | null;
     linkedin?: string | null;
+    email?: string | null;
   }>;
   companyLogo?: string | null;
   companyHeader?: string | null;
@@ -73,14 +74,13 @@ const normalizeStartupDetail = (payload: any): StartupDetail | null => {
       name: node?.name ?? 'Founder',
       designation: node?.designation ?? null,
       linkedin: node?.linkedin_url ?? null,
+      email: node?.email ?? null,
     };
   });
 
   const achievements = coalesceArray(source.key_achievements).map(
     (entry: any) =>
-      entry?.attributes?.achievement_summary ??
-      entry?.achievement_summary ??
-      null,
+      entry?.attributes?.achievement_summary ?? entry?.achievement_summary ?? null
   );
 
   return {
@@ -96,10 +96,8 @@ const normalizeStartupDetail = (payload: any): StartupDetail | null => {
     location: source.location ?? null,
     website: source.startup_website ?? null,
     cohort: source.cohort ?? null,
-    sector:
-      source.sector?.data?.attributes?.name ??
-      source.sector?.name ??
-      null,
+    competitors: source.competitors ?? null,
+    sector: source.sector?.data?.attributes?.name ?? source.sector?.name ?? null,
     founders,
     companyLogo: pickImageUrl(source.company_logo),
     companyHeader: pickImageUrl(source.company_header),
@@ -110,7 +108,7 @@ const normalizeStartupDetail = (payload: any): StartupDetail | null => {
       twitter: source.social_media_links?.twitter ?? null,
     },
     revenue: {
-      isRevenue: source.revenue_status?.isRevenue ?? null,
+      isRevenue: source.revenue_status?.isRevenue ?? false,
       revenue: source.revenue_status?.revenue ?? null,
       current: source.revenue_status?.current_revenue ?? null,
     },
@@ -124,22 +122,19 @@ const fetchStartupDetail = async (documentId: string) => {
 
   const query =
     'populate[sector][fields]=name' +
-    '&populate[founder][fields]=name,designation,linkedin_url' +
+    '&populate[founder][fields]=name,designation,linkedin_url,email' +
     '&populate[company_logo][fields]=url,formats' +
     '&populate[company_header][fields]=url,formats' +
     '&populate[social_media_links][fields]=instagram,linkedin,twitter' +
     '&populate[key_achievements][fields]=achievement_summary' +
     '&populate[revenue_status][fields]=isRevenue,revenue,current_revenue';
 
-  const response = await fetch(
-    `${API_URL}/startup2/${documentId}?${query}`,
-    {
-      headers: {
-        Authorization: `Bearer ${AUTH_TOKEN}`,
-      },
-      cache: 'no-store',
+  const response = await fetch(`${API_URL}/startup2/${documentId}?${query}`, {
+    headers: {
+      Authorization: `Bearer ${AUTH_TOKEN}`,
     },
-  );
+    cache: 'no-store',
+  });
 
   if (!response.ok) {
     return null;
@@ -149,84 +144,11 @@ const fetchStartupDetail = async (documentId: string) => {
   return normalizeStartupDetail(payload);
 };
 
-const DetailSection = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <section className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur">
-    <h3 className="text-xl font-semibold text-white">{title}</h3>
-    <div className="mt-3 text-sm text-white/80">{children}</div>
-  </section>
-);
-
-const FoundersList = ({ founders }: { founders: StartupDetail['founders'] }) => {
-  if (!founders.length) {
-    return null;
-  }
-
-  return (
-    <section className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur">
-      <h3 className="text-xl font-semibold text-white">Founding Team</h3>
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
-        {founders.map((founder) => (
-          <div
-            key={founder.id}
-            className="rounded-2xl border border-white/10 bg-[#05070f]/60 p-4"
-          >
-            <p className="text-lg font-semibold">{founder.name}</p>
-            <p className="text-sm text-white/60">
-              {founder.designation ?? 'Founder'}
-            </p>
-            {founder.linkedin && (
-              <Link
-                href={founder.linkedin}
-                className="mt-2 inline-flex items-center gap-2 text-sm text-white/70 underline-offset-4 hover:underline"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <LinkIcon className="h-4 w-4" /> LinkedIn
-              </Link>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const SocialLinks = ({
-  social,
-}: {
-  social: StartupDetail['social'];
-}) => {
-  const links = [
-    { label: 'Instagram', href: social.instagram },
-    { label: 'LinkedIn', href: social.linkedin },
-    { label: 'Twitter / X', href: social.twitter },
-  ].filter((item) => item.href);
-
-  if (!links.length) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-wrap gap-3">
-      {links.map((link) => (
-        <Link
-          key={link.label}
-          href={link.href ?? '#'}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/80 transition hover:bg-white hover:text-[#05070f]"
-        >
-          <Share2 className="h-4 w-4" /> {link.label}
-        </Link>
-      ))}
-    </div>
-  );
+const formatCurrency = (value: string | null | undefined) => {
+  if (!value) return '—';
+  const num = parseFloat(value.replace(/,/g, ''));
+  if (isNaN(num)) return value;
+  return `₹${num.toLocaleString('en-IN')}`;
 };
 
 type DetailPageProps = {
@@ -244,154 +166,300 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
   const heroImage = detail.companyHeader ?? detail.companyLogo;
 
   return (
-    <main className="relative min-h-screen mt-20 bg-[#05070f] px-4 py-10 text-white sm:px-8 lg:px-16">
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="absolute -left-10 top-20 h-72 w-72 rounded-full bg-[#5d5cff]/30 blur-[160px]" />
-        <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#ff5dc8]/25 blur-[180px]" />
+    <div className="relative min-h-screen mt-20 bg-[#05070f] text-white">
+      {/* Navigation */}
+      <nav className="">
+        <div className="mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-10 justify-between">
+            <Link
+              href="/our-startups"
+              className="group flex items-center gap-2 text-white/70 transition hover:text-white"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              <span className="font-medium">Back to Startups</span>
+            </Link>
+            {detail.website && (
+              <a
+                href={detail.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-[#05070f]"
+              >
+                <Globe className="w-4 h-4" />
+                Visit Website
+              </a>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative h-80 w-[80%] mx-auto overflow-hidden">
+        {heroImage ? (
+          <Image
+            src={heroImage}
+            alt={detail.name}
+            fill
+            className="w-[80%] mx-auto object-cover"
+            priority
+          />
+        ) : (
+          <div className="h-full w-full bg-linear-to-br from-[#1c1f2d] to-[#05070f]" />
+        )}
+        <div className="absolute inset-0 bg-linear-to-t from-[#05070f] via-transparent to-transparent" />
+        
+        {/* Logo Overlay */}
+        {detail.companyLogo && (
+          <div className="absolute bottom-6 left-8">
+            <div className="h-24 w-24 overflow-hidden rounded-2xl border-4 border-white/40 bg-white/5 shadow-xl backdrop-blur">
+              <Image
+                src={detail.companyLogo}
+                alt={`${detail.name} logo`}
+                width={96}
+                height={96}
+                className="object-contain p-2"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
-        <div className="flex items-center gap-4 text-sm text-white/60">
-          <Link
-            href="/our-startups"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-white/80 transition hover:bg-white/10"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to Startups
-          </Link>
-          {detail.website && (
-            <Link
-              href={detail.website}
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-white/80 transition hover:bg-white hover:text-[#05070f]"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <ExternalLink className="h-4 w-4" /> Visit Website
-            </Link>
+      {/* Main Content */}
+      <div className="relative z-10  mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        {/* Header Card */}
+        <div className="mb-10 rounded-3xl border border-white/10 bg-[#0b0f1f] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.65)]">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              {detail.sector && (
+                <span className="mb-3 inline-block rounded-full border border-white/15 bg-white/10 px-3 py-1 text-sm font-medium text-white/80">
+                  {detail.sector}
+                </span>
+              )}
+              <h1 className="mb-3 text-4xl font-bold text-white">
+                {detail.name}
+              </h1>
+              <p className="text-lg leading-relaxed text-white/70">
+                {detail.summary}
+              </p>
+            </div>
+          </div>
+
+          {/* Meta Info */}
+          <div className="mt-6 flex flex-wrap gap-4 border-t border-white/10 pt-6 text-sm text-white/65">
+            {detail.location && (
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-white/75">
+                <MapPin className="h-4 w-4 text-white/50" />
+                <span>{detail.location}</span>
+              </div>
+            )}
+            {detail.cohort && (
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-white/75">
+                <Award className="h-4 w-4 text-white/50" />
+                <span>{detail.cohort}</span>
+              </div>
+            )}
+            {detail.website && (
+              <a
+                href={detail.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/75 transition hover:bg-white hover:text-[#05070f]"
+              >
+                <ExternalLink className="h-4 w-4" />
+                <span>Website</span>
+              </a>
+            )}
+          </div>
+
+          {/* Social Links */}
+          {(detail.social.instagram || detail.social.linkedin || detail.social.twitter) && (
+            <div className="mt-6 flex gap-3 border-t border-white/10 pt-6">
+              {detail.social.instagram && (
+                <a
+                  href={detail.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-[#05070f]"
+                >
+                  Instagram
+                </a>
+              )}
+              {detail.social.linkedin && (
+                <a
+                  href={detail.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-[#05070f]"
+                >
+                  LinkedIn
+                </a>
+              )}
+              {detail.social.twitter && (
+                <a
+                  href={detail.social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white hover:text-[#05070f]"
+                >
+                  Twitter / X
+                </a>
+              )}
+            </div>
           )}
         </div>
 
-        <section className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_35px_120px_rgba(5,7,15,0.65)]">
-          <div className="relative h-72 w-full">
-            {heroImage ? (
-              <Image
-                src={heroImage}
-                alt={`${detail.name} hero`}
-                fill
-                className="object-cover opacity-80"
-                priority
-              />
-            ) : (
-              <div className="h-full w-full bg-linear-to-r from-[#15192a] to-[#0a0c14]" />
+        {/* Two Column Layout */}
+        <div className="mb-12 grid gap-8 lg:grid-cols-3">
+          {/* Main Content - Left Column */}
+          <div className="space-y-8 lg:col-span-2">
+            {/* Overview */}
+            {detail.overview && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.45)]">
+                <div className="flex items-center gap-3 mb-4">
+                  <Eye className="h-6 w-6 text-white/60" />
+                  <h2 className="text-2xl font-bold text-white">Overview</h2>
+                </div>
+                <p className="leading-relaxed text-white/70">{detail.overview}</p>
+              </section>
             )}
-            <div className="absolute inset-0 bg-linear-to-t from-[#05070f] via-[#05070f]/60 to-transparent" />
-            {detail.companyLogo && (
-              <div className="absolute -bottom-12 left-10 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/10 p-4 shadow-lg backdrop-blur">
-                <Image
-                  src={detail.companyLogo}
-                  alt={`${detail.name} logo`}
-                  width={96}
-                  height={96}
-                  className="h-full w-full object-contain"
-                />
-              </div>
+
+            {/* Problem & Gap */}
+            {detail.problemGap && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.45)]">
+                <div className="flex items-center gap-3 mb-4">
+                  <Target className="h-6 w-6 text-white/60" />
+                  <h2 className="text-2xl font-bold text-white">Problem & Market Gap</h2>
+                </div>
+                <p className="leading-relaxed text-white/70">{detail.problemGap}</p>
+              </section>
+            )}
+
+            {/* Solution / 10x Better */}
+            {detail.betterment && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.45)]">
+                <div className="flex items-center gap-3 mb-4">
+                  <Lightbulb className="h-6 w-6 text-white/60" />
+                  <h2 className="text-2xl font-bold text-white">Why We're 10x Better</h2>
+                </div>
+                <p className="leading-relaxed text-white/70">{detail.betterment}</p>
+              </section>
+            )}
+
+            {/* Vision */}
+            {detail.vision && (
+              <section className="rounded-3xl border border-white/15 bg-linear-to-br from-[#14172b] to-[#1f1335] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.55)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <Rocket className="h-6 w-6 text-purple-300" />
+                  <h2 className="text-2xl font-bold text-white">Future Vision</h2>
+                </div>
+                <p className="leading-relaxed text-white/75">{detail.vision}</p>
+              </section>
+            )}
+
+            {/* Competitors */}
+            {detail.competitors && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-8 shadow-[0_35px_120px_rgba(5,7,15,0.45)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <Users className="h-6 w-6 text-white/60" />
+                  <h2 className="text-2xl font-bold text-white">Competitors</h2>
+                </div>
+                <p className="text-white/70">{detail.competitors}</p>
+              </section>
             )}
           </div>
-          <div className="px-6 pb-8 pt-16 sm:px-10">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/50">
-              {detail.sector ?? 'Emerging Sector'}
-            </p>
-            <h1 className="mt-2 text-4xl font-bold text-white sm:text-[46px]">
-              {detail.name}
-            </h1>
-            <p className="mt-4 max-w-3xl text-base text-white/75">
-              {detail.summary}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
-              {detail.location && (
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1">
-                  <MapPin className="h-4 w-4" /> {detail.location}
-                </span>
-              )}
-              {detail.cohort && (
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1">
-                  <Target className="h-4 w-4" /> {detail.cohort}
-                </span>
-              )}
-              {detail.website && (
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1">
-                  <Globe className="h-4 w-4" /> Website Live
-                </span>
-              )}
-            </div>
+
+          {/* Sidebar - Right Column */}
+          <div className="space-y-8">
+            {/* Revenue Metrics */}
+            {detail.revenue?.isRevenue && (
+              <section className="rounded-3xl border border-emerald-400/20 bg-linear-to-br from-[#0d1f1d] to-[#0c1a13] p-6 shadow-[0_35px_120px_rgba(5,7,15,0.45)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <BarChart3 className="h-6 w-6 text-emerald-300" />
+                  <h2 className="text-xl font-bold text-white">Revenue</h2>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <p className="mb-1 text-sm text-white/50">Lifetime Revenue</p>
+                    <p className="text-2xl font-bold text-emerald-300">
+                      {formatCurrency(detail.revenue.revenue)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-1 text-sm text-white/50">Current Revenue</p>
+                    <p className="text-2xl font-bold text-emerald-300">
+                      {formatCurrency(detail.revenue.current)}
+                    </p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Key Progress */}
+            {detail.keyProgress && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-6 shadow-[0_35px_120px_rgba(5,7,15,0.35)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <TrendingUp className="h-6 w-6 text-white/60" />
+                  <h2 className="text-xl font-bold text-white">Key Progress</h2>
+                </div>
+                <p className="leading-relaxed text-white/70">{detail.keyProgress}</p>
+              </section>
+            )}
+
+            {/* Achievements */}
+            {detail.achievements.length > 0 && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-6 shadow-[0_35px_120px_rgba(5,7,15,0.35)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <Award className="h-6 w-6 text-white/60" />
+                  <h2 className="text-xl font-bold text-white">Key Achievements</h2>
+                </div>
+                <ul className="space-y-3">
+                  {detail.achievements.map((achievement, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/40" />
+                      <span className="text-sm leading-relaxed text-white/70">{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* Founding Team */}
+            {detail.founders.length > 0 && (
+              <section className="rounded-3xl border border-white/10 bg-[#0b0f1f] p-6 shadow-[0_35px_120px_rgba(5,7,15,0.35)]">
+                <div className="mb-4 flex items-center gap-3">
+                  <Users className="h-6 w-6 text-white/60" />
+                  <h2 className="text-xl font-bold text-white">Founding Team</h2>
+                </div>
+                <div className="space-y-4">
+                  {detail.founders.map((founder) => (
+                    <div key={founder.id} className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <p className="font-semibold text-white">{founder.name}</p>
+                        <p className="text-sm text-white/60">{founder.designation ?? 'Founder'}</p>
+                        {founder.email && (
+                          <p className="mt-1 text-xs text-white/40">{founder.email}</p>
+                        )}
+                      </div>
+                      {founder.linkedin && (
+                        <a
+                          href={founder.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white/60 transition hover:text-white"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
-        </section>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          <DetailSection title="Overview">
-            {detail.overview ?? 'Overview coming soon.'}
-          </DetailSection>
-          <DetailSection title="Key Progress">
-            {detail.keyProgress ?? 'Progress metrics are being updated.'}
-          </DetailSection>
         </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          <DetailSection title="Problem / Market Gap">
-            {detail.problemGap ?? 'Problem statement not provided yet.'}
-          </DetailSection>
-          <DetailSection title="10x Betterment">
-            {detail.betterment ?? 'Differentiation details coming soon.'}
-          </DetailSection>
-        </div>
-
-        <DetailSection title="Future Growth Vision">
-          {detail.vision ?? 'Vision statement is being crafted.'}
-        </DetailSection>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          <DetailSection title="Revenue Snapshot">
-            {detail.revenue?.isRevenue ? (
-              <ul className="space-y-1 text-sm text-white/80">
-                <li>
-                  <span className="text-white/60">Lifetime Revenue:</span>{' '}
-                  {detail.revenue.revenue ?? '—'}
-                </li>
-                <li>
-                  <span className="text-white/60">Current Revenue:</span>{' '}
-                  {detail.revenue.current ?? '—'}
-                </li>
-              </ul>
-            ) : (
-              'Pre-revenue or undisclosed.'
-            )}
-          </DetailSection>
-          <DetailSection title="Key Achievements">
-            {detail.achievements.length ? (
-              <ul className="space-y-3 text-sm">
-                {detail.achievements.map((achievement, idx) => (
-                  <li
-                    key={`achievement-${idx}`}
-                    className="inline-flex items-start gap-2"
-                  >
-                    <Award className="mt-1 h-4 w-4 text-white/50" />
-                    <span>{achievement}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              'Achievements will appear here once shared.'
-            )}
-          </DetailSection>
-          <DetailSection title="Social Presence">
-            <SocialLinks social={detail.social} />
-          </DetailSection>
-        </div>
-
-        <FoundersList founders={detail.founders} />
       </div>
-    </main>
+    </div>
   );
 };
 
 export default StartupDetailPage;
-
