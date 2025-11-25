@@ -1,12 +1,17 @@
-"use client";
-import React from 'react'
+'use client';
+
+import { OurStartupsHeader } from '@/components/OurStartups/OurStartupsHeader';
+import { StartupOverviewGrid } from '@/components/OurStartups/StartupOverviewGrid';
 
 const OurStartupsPage = () => {
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <h1 className='text-4xl font-bold text-white'>Our Startups</h1>
-    </div>
-  )
-}
+    <main className="min-h-screen bg-[#05070f] px-4 py-12 text-white sm:px-8 lg:px-16">
+      <div className="mx-auto w-full max-w-6xl">
+        <OurStartupsHeader />
+        <StartupOverviewGrid />
+      </div>
+    </main>
+  );
+};
 
 export default OurStartupsPage;

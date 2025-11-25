@@ -1,0 +1,2 @@
+export const API_URL = process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL;
+export const AUTH_TOKEN = process.env.NEXT_PUBLIC_STRAPI_AUTHORIZATION_TOKEN;
