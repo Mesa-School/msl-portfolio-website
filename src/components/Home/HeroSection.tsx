@@ -102,7 +102,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/90"></div>
       </motion.div>
       <motion.div
-        className="relative z-10 mx-auto w-full max-w-5xl flex flex-col items-center justify-center gap-10 text-center"
+        className="relative z-10 mx-auto w-full max-w-5xl flex flex-col items-center justify-center gap-5 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -111,9 +111,9 @@ const HeroSection = () => {
           className="heading-font text-sm uppercase tracking-[0.4em] text-white font-black md:text-base"
           variants={itemVariants}
         >
-          Founder-First Platform
+          
         </motion.p>
-        <div className="relative w-full min-h-[15vh]">
+        <div className="relative w-full min-h-[20vh]">
           <motion.div
             ref={heading1Ref}
             className="perspective-1000 absolute inset-0 flex items-center justify-center px-4"
@@ -170,22 +170,20 @@ const HeroSection = () => {
           </motion.div>
         </div>
         <motion.p
-          className="max-w-2xl text-lg text-white/80 md:text-xl"
+          className="max-w-2xl text-lg  text-white/80 md:text-xl"
           variants={itemVariants}
         >
-          Founder-first. India-first. Future-focused. We back bold ideas with capital,
-          community, and conviction to scale the next generation of category-defining
-          companies.
+          At Mesa Startup Lab, founders don’t just build startups — they build conviction.
         </motion.p>
         <motion.div
           className="flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center"
           variants={itemVariants}
         >
           <Link
-            href="#contact"
+            href="/portfolio"
             className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-8 py-3 text-lg font-semibold text-purple-600 shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]"
           >
-            <span>Our Startups</span>
+            <span>Portfolio</span>
           </Link>
         </motion.div>
       </motion.div>

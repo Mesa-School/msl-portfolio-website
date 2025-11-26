@@ -154,7 +154,7 @@ export const OurStartupsHeader = () => {
               variants={staggeredFadeVariants}
               custom={0}
             >
-              Our Startups
+              Portfolio
             </motion.h1>
             <motion.p
               className="max-w-2xl text-base text-white/70 sm:text-lg"

@@ -7,7 +7,7 @@ import Nav from "./nav";
 
 interface MenuHeaderProps {
   triggerClassName?: string;
-}
+};
 
 export default function MenuHeader({ triggerClassName }: MenuHeaderProps) {
   const [isActive, setIsActive] = useState(false);
@@ -48,4 +48,4 @@ export default function MenuHeader({ triggerClassName }: MenuHeaderProps) {
       </AnimatePresence>
     </>
   );
-}
+};

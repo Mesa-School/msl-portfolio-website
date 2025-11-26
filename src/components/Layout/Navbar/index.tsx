@@ -21,7 +21,7 @@ const NavbarMainSection = () => {
     const navMenuList = [
         { id: 1, title: "Home", href: "/" },
         { id: 2, title: "About", href: "/about" },
-        { id: 3, title: "Our Startups", href:"/our-startups" },
+        { id: 3, title: "Portfolio", href:"/portfolio" },
         { id: 4, title: "Contact", href: "/contact" },
     ];
 

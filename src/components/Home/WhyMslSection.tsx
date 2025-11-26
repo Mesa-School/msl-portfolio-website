@@ -23,13 +23,7 @@ const WhyMslSection = () => {
       description:
         "Work with mentors, operators, and investors who have scaled Indian companies.",
       icon: Users2,
-    },
-    {
-      title: "Build conviction.",
-      description:
-        "We stay in the trenches with you so you can confidently raise, hire, and grow.",
-      icon: ShieldCheck,
-    },
+    }
   ];
 
   return (
@@ -83,7 +77,7 @@ const WhyMslSection = () => {
         </motion.p>
 
         <motion.div
-          className="mt-16 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-4"
+          className="mt-16 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}

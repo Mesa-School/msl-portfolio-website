@@ -62,7 +62,7 @@ export const StartupOverviewCard = ({
   const foundersLabel =
     startup.founders?.map((founder) => founder.name).join(', ') || '—';
   const detailHref = startup.documentId
-    ? `/our-startups/${startup.documentId}`
+    ? `/portfolio/${startup.documentId}`
     : null;
 
   return (
