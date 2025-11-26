@@ -135,20 +135,20 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
   const heroImage = detail.companyHeader || detail.companyLogo;
 
   return (
-    <div className="relative md:w-[75%] mx-auto min-h-screen mt-20 text-white">
+    <div className="relative w-full md:w-[75%] mx-auto min-h-screen mt-12 md:mt-20 text-white px-4 md:px-0">
       {/* Back Button */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-4 md:py-6">
         <Link 
           href="/portfolio" 
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Startups
+          <span className="text-sm md:text-base">Back to Startups</span>
         </Link>
       </div>
 
       {/* Hero Section */}
-      <div className="relative h-[400px] w-full">
+      <div className="relative h-[250px] md:h-[400px] w-full">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#05070f]" />
         {heroImage && (
           <Image
@@ -162,15 +162,15 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 -mt-20 relative z-10">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 -mt-12 md:-mt-20 relative z-10">
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 md:space-y-8">
             {/* Company Header Card */}
-            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
-              <div className="flex items-start gap-6">
+            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-gray-700/50">
+              <div className="flex flex-col sm:flex-row items-start gap-4 md:gap-6">
                 {detail.companyLogo && (
-                  <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 ring-2 ring-purple-500/20">
+                  <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden flex-shrink-0 ring-2 ring-white/20">
                     <Image
                       src={detail.companyLogo}
                       alt={detail.startupName}
@@ -179,21 +179,21 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
                     />
                   </div>
                 )}
-                <div className="flex-1">
-                  <div className="flex items-start justify-between gap-4 flex-wrap">
-                    <div>
-                      <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <div className="flex-1 w-full">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                    <div className="w-full">
+                      <h1 className="text-2xl md:text-4xl font-bold mb-2 text-white">
                         {detail.startupName}
                       </h1>
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                      <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-white/80">
                         <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
+                          <MapPin className="w-3 h-3 md:w-4 md:h-4" />
                           {detail.location}
                         </span>
-                        <span className="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full border border-purple-500/20">
+                        <span className="px-2 md:px-3 py-1 bg-white/10 text-white/80 rounded-full border border-white/20">
                           {detail.cohort}
                         </span>
-                        <span className="px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20">
+                        <span className="px-2 md:px-3 py-1 bg-white/10 text-white/80 rounded-full border border-white/20">
                           {detail.sector.name}
                         </span>
                       </div>
@@ -202,15 +202,16 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
                       <Link 
                         href={detail.startupWebsite}
                         target="_blank"
-                        className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+                        className="flex items-center gap-2 px-3 md:px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm md:text-base"
                       >
                         <Globe className="w-4 h-4" />
-                        Visit Website
+                        <span className="hidden sm:inline">Visit Website</span>
+                        <span className="sm:hidden">Website</span>
                         <ExternalLink className="w-3 h-3" />
                       </Link>
                     )}
                   </div>
-                  <p className="mt-4 text-gray-300 text-lg leading-relaxed">
+                  <p className="mt-4 text-white/80 text-base md:text-lg leading-relaxed">
                     {detail.startupSummary}
                   </p>
                 </div>
@@ -218,32 +219,32 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
             </div>
 
             {/* Overview Section */}
-            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
+            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-gray-700/50">
               <div className="flex items-center gap-3 mb-4">
-                <Eye className="w-6 h-6 text-purple-400" />
-                <h2 className="text-2xl font-bold">Overview</h2>
+                <Eye className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                <h2 className="text-xl md:text-2xl font-bold text-white">Overview</h2>
               </div>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-white/80 leading-relaxed text-sm md:text-base">
                 {detail.startupOverview}
               </p>
             </div>
 
             {/* Problem & Solution */}
-            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
+            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-gray-700/50">
               <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="w-6 h-6 text-yellow-400" />
-                <h2 className="text-2xl font-bold">Problem & Solution</h2>
+                <Lightbulb className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                <h2 className="text-xl md:text-2xl font-bold text-white">Problem & Solution</h2>
               </div>
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-red-400 mb-2">The Problem</h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <h3 className="text-base md:text-lg font-semibold text-white mb-2">The Problem</h3>
+                  <p className="text-white/80 leading-relaxed text-sm md:text-base">
                     {detail.startupProblemGap}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-green-400 mb-2">Our Advantage</h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <h3 className="text-base md:text-lg font-semibold text-white mb-2">Our Advantage</h3>
+                  <p className="text-white/80 leading-relaxed text-sm md:text-base">
                     {detail.startup10xBetterment}
                   </p>
                 </div>
@@ -251,28 +252,28 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
             </div>
 
             {/* Vision & Growth */}
-            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
+            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-gray-700/50">
               <div className="flex items-center gap-3 mb-4">
-                <Rocket className="w-6 h-6 text-blue-400" />
-                <h2 className="text-2xl font-bold">Future Vision</h2>
+                <Rocket className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                <h2 className="text-xl md:text-2xl font-bold text-white">Future Vision</h2>
               </div>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-white/80 leading-relaxed text-sm md:text-base">
                 {detail.futureGrowthVision}
               </p>
             </div>
 
             {/* Key Achievements */}
             {detail.keyAchievements.length > 0 && (
-              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50">
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-gray-700/50">
                 <div className="flex items-center gap-3 mb-6">
-                  <Award className="w-6 h-6 text-yellow-400" />
-                  <h2 className="text-2xl font-bold">Key Achievements</h2>
+                  <Award className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <h2 className="text-xl md:text-2xl font-bold text-white">Key Achievements</h2>
                 </div>
                 <div className="space-y-6">
                   {detail.keyAchievements.map((achievement, index) => (
-                    <div key={index} className="flex gap-4 items-start">
+                    <div key={index} className="flex flex-col sm:flex-row gap-4 items-start">
                       {achievement.achievementImage && (
-                        <div className="relative w-32 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                        <div className="relative w-full sm:w-32 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
                           <Image
                             src={achievement.achievementImage}
                             alt="Achievement"
@@ -282,7 +283,7 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
                         </div>
                       )}
                       <div className="flex-1">
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-white/80 leading-relaxed text-sm md:text-base">
                           {achievement.achievementSummary}
                         </p>
                       </div>
@@ -297,21 +298,21 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
           <div className="space-y-6">
             {/* Revenue Stats */}
             {detail.revenueStatus.isRevenue && (
-              <div className="bg-gradient-to-br from-green-900/40 to-emerald-800/20 backdrop-blur-xl rounded-2xl p-6 border border-green-700/50">
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-gray-700/50">
                 <div className="flex items-center gap-3 mb-4">
-                  <BarChart3 className="w-6 h-6 text-green-400" />
-                  <h3 className="text-xl font-bold">Revenue</h3>
+                  <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <h3 className="text-lg md:text-xl font-bold text-white">Revenue</h3>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">Total Revenue</p>
-                    <p className="text-3xl font-bold text-green-400">
+                    <p className="text-xs md:text-sm text-white/80 mb-1">Total Revenue</p>
+                    <p className="text-2xl md:text-3xl font-bold text-white">
                       {formatCurrency(detail.revenueStatus.revenue)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">Current Monthly</p>
-                    <p className="text-2xl font-bold text-green-300">
+                    <p className="text-xs md:text-sm text-white/80 mb-1">Current Monthly</p>
+                    <p className="text-xl md:text-2xl font-bold text-white">
                       {formatCurrency(detail.revenueStatus.currentRevenue)}
                     </p>
                   </div>
@@ -320,28 +321,28 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
             )}
 
             {/* Key Progress */}
-            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
+            <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-gray-700/50">
               <div className="flex items-center gap-3 mb-4">
-                <TrendingUp className="w-6 h-6 text-purple-400" />
-                <h3 className="text-xl font-bold">Key Progress</h3>
+                <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                <h3 className="text-lg md:text-xl font-bold text-white">Key Progress</h3>
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-white/80 text-xs md:text-sm leading-relaxed">
                 {detail.keyProgress}
               </p>
             </div>
 
             {/* Founders */}
             {detail.founders.length > 0 && (
-              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-gray-700/50">
                 <div className="flex items-center gap-3 mb-4">
-                  <Users className="w-6 h-6 text-blue-400" />
-                  <h3 className="text-xl font-bold">Founders</h3>
+                  <Users className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <h3 className="text-lg md:text-xl font-bold text-white">Founders</h3>
                 </div>
                 <div className="space-y-4">
                   {detail.founders.map((founder, index) => (
-                    <div key={index} className="flex items-center gap-4">
+                    <div key={index} className="flex items-center gap-3 md:gap-4">
                       {founder.profileImage && (
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-purple-500/20 flex-shrink-0">
+                        <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden ring-2 ring-white/20 flex-shrink-0">
                           <Image
                             src={founder.profileImage}
                             alt={founder.name}
@@ -350,14 +351,14 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
                           />
                         </div>
                       )}
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-white">{founder.name}</h4>
-                        <p className="text-sm text-gray-400">{founder.designation}</p>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-semibold text-white text-sm md:text-base truncate">{founder.name}</h4>
+                        <p className="text-xs md:text-sm text-white/80 truncate">{founder.designation}</p>
                         {founder.linkedinUrl && (
                           <Link 
                             href={founder.linkedinUrl}
                             target="_blank"
-                            className="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 mt-1"
+                            className="inline-flex items-center gap-1 text-xs text-white/80 hover:text-white mt-1"
                           >
                             <Linkedin className="w-3 h-3" />
                             LinkedIn
@@ -372,12 +373,12 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
 
             {/* Competition */}
             {detail.competitors && (
-              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-gray-700/50">
                 <div className="flex items-center gap-3 mb-4">
-                  <Target className="w-6 h-6 text-orange-400" />
-                  <h3 className="text-xl font-bold">Competition</h3>
+                  <Target className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <h3 className="text-lg md:text-xl font-bold text-white">Competition</h3>
                 </div>
-                <p className="text-gray-300 text-sm">
+                <p className="text-white/80 text-xs md:text-sm">
                   {detail.competitors}
                 </p>
               </div>
@@ -385,28 +386,28 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
 
             {/* Social Links */}
             {(detail.socialMediaLinks.instagram || detail.socialMediaLinks.linkedin) && (
-              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/50">
+              <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-gray-700/50">
                 <div className="flex items-center gap-3 mb-4">
-                  <Share2 className="w-6 h-6 text-pink-400" />
-                  <h3 className="text-xl font-bold">Connect</h3>
+                  <Share2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <h3 className="text-lg md:text-xl font-bold text-white">Connect</h3>
                 </div>
                 <div className="flex gap-3">
                   {detail.socialMediaLinks.instagram && (
                     <Link
                       href={detail.socialMediaLinks.instagram}
                       target="_blank"
-                      className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all"
+                      className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
                     >
-                      <Instagram className="w-5 h-5" />
+                      <Instagram className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </Link>
                   )}
                   {detail.socialMediaLinks.linkedin && (
                     <Link
                       href={detail.socialMediaLinks.linkedin}
                       target="_blank"
-                      className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all"
+                      className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
                     >
-                      <Linkedin className="w-5 h-5" />
+                      <Linkedin className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </Link>
                   )}
                 </div>
@@ -417,7 +418,7 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
       </div>
 
       {/* Bottom Spacing */}
-      <div className="h-20" />
+      <div className="h-12 md:h-20" />
     </div>
   );
 };

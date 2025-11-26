@@ -76,16 +76,17 @@ export const StartupOverviewCard = ({
       style={{ width: '100%', height: '100%' }}
     >
       <motion.article
-        className="group relative h-full overflow-hidden rounded-3xl bg-white/5 p-px text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur transition duration-300 hover:bg-white/10"
+        className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/5 p-px text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur transition duration-300 hover:bg-white/10"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2, once: true }}
         variants={cardVariants}
         custom={index}
       >
-        <div className="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-white/20 via-transparent to-transparent opacity-0 blur-2xl transition duration-500 group-hover:opacity-80" />
-        <div className="relative flex h-full flex-col gap-5 rounded-3xl bg-[#05070f]/90 p-6">
-          <div className="absolute right-6 top-6 flex flex-col items-end gap-2 text-xs">
+        <div className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/20 via-transparent to-transparent opacity-0 blur-2xl transition duration-500 group-hover:opacity-80" />
+        <div className="relative flex h-full flex-col gap-4 sm:gap-5 rounded-2xl sm:rounded-3xl bg-[#05070f]/90 p-4 sm:p-6">
+          {/* Tags - Repositioned for mobile */}
+          <div className="flex flex-wrap items-center gap-2 text-xs sm:absolute sm:right-6 sm:top-6 sm:flex-col sm:items-end">
             {isLoading ? (
               <>
                 <Skeleton className="h-6 w-24 rounded-full bg-white/10" />
@@ -94,23 +95,19 @@ export const StartupOverviewCard = ({
             ) : (
               <>
                 {startup.sectorName && (
-                  <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-white/80">
+                  <span className="rounded-full border border-white/15 bg-green-500/50 px-3 py-1 text-white/80">
                     {startup.sectorName}
-                  </span>
-                )}
-                {startup.cohort && (
-                  <span className="rounded-full border border-purple-500/40 bg-purple-500/15 px-3 py-1 text-purple-200">
-                    {startup.cohort}
                   </span>
                 )}
               </>
             )}
           </div>
 
-          <div className="flex items-center gap-4 pr-28">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 shadow-inner shadow-black/20">
+          {/* Logo and Title Section */}
+          <div className="flex items-center gap-3 sm:gap-4 sm:pr-28">
+            <div className="flex h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white/5 shadow-inner shadow-black/20">
               {isLoading ? (
-                <Skeleton className="h-16 w-16 rounded-2xl bg-white/10" />
+                <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white/10" />
               ) : hasLogo ? (
                 <Image
                   src={startup.logoUrl ?? ''}
@@ -118,15 +115,15 @@ export const StartupOverviewCard = ({
                   width={72}
                   height={72}
                   unoptimized
-                  className="h-16 w-16 rounded-2xl object-contain"
+                  className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-contain"
                 />
               ) : (
-                <span className="text-xl font-semibold text-white/80">
+                <span className="text-lg sm:text-xl font-semibold text-white/80">
                   {renderInitials(startup.name)}
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-1 text-left">
+            <div className="flex flex-col gap-1 text-left min-w-0 flex-1">
               {isLoading ? (
                 <>
                   <Skeleton className="h-3 w-24 rounded-full bg-white/10" />
@@ -134,15 +131,16 @@ export const StartupOverviewCard = ({
                 </>
               ) : (
                 <>
-                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                  <h3 className="text-lg sm:text-xl font-semibold truncate">{startup.name}</h3>
+                  <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] sm:tracking-[0.35em] text-white/45">
                     {startup.location ?? 'Global'}
                   </p>
-                  <h3 className="text-2xl font-semibold">{startup.name}</h3>
                 </>
               )}
             </div>
           </div>
 
+          {/* Summary Section */}
           <div>
             {isLoading ? (
               <div className="flex flex-col gap-2">
@@ -151,31 +149,34 @@ export const StartupOverviewCard = ({
                 <Skeleton className="h-3 w-2/3 rounded bg-white/10" />
               </div>
             ) : (
-              <p className="text-sm text-white/75">
+              <p className="text-xs sm:text-sm text-white/75 line-clamp-3">
                 {summary.length > 150 ? `${summary.slice(0, 120)}…` : summary}
               </p>
             )}
           </div>
 
-          <div className="mt-auto flex items-center justify-between pt-2">
+          {/* Footer Section */}
+          <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 pt-2">
             {isLoading ? (
               <Skeleton className="h-5 w-44 rounded bg-white/10" />
             ) : (
-              <div className="text-sm text-white/55">
-                Founded by <span className="text-white/90">{foundersLabel}</span>
+              <div className="text-xs sm:text-sm text-white/55 truncate max-w-full">
+                <span className="hidden sm:inline">Founders: </span>
+                <span className="sm:hidden">👥 </span>
+                <span className="text-white/90 truncate">{foundersLabel}</span>
               </div>
             )}
             {isLoading ? (
-              <Skeleton className="h-10 w-32 rounded-full bg-white/10" />
+              <Skeleton className="h-10 w-full sm:w-32 rounded-full bg-white/10" />
             ) : detailHref ? (
               <Link
                 href={detailHref}
-                className="cursor-pointer rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition duration-300 hover:scale-110 hover:bg-white hover:text-[#05070f]"
+                className="w-full sm:w-auto text-center cursor-pointer rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition duration-300 hover:scale-110 bg-white text-[#05070f]"
               >
                 View Startup
               </Link>
             ) : (
-              <span className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/60">
+              <span className="w-full sm:w-auto text-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs sm:text-sm text-white/60">
                 Details unavailable
               </span>
             )}
@@ -185,4 +186,3 @@ export const StartupOverviewCard = ({
     </Tilt>
   );
 };
-
