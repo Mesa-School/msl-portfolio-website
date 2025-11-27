@@ -95,11 +95,6 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
     <div className="relative w-full md:w-[75%] mx-auto min-h-screen mt-12 md:mt-20 text-white">
       <HeaderSection detail={detail} />
 
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#5d5cff]/50 -z-20 blur-[150px]" />
-        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-[#ff5dc8]/50 -z-20 blur-[140px]" />
-      </div>
-
       <div className="container mx-auto px-4 -mt-12 md:-mt-20 relative z-10">
         <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
           <LeftColumnSection detail={detail} />
