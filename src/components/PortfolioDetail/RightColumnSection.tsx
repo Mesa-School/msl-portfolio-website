@@ -1,22 +1,42 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
-import { BarChart3, Linkedin, Instagram, Share2, Target, Users, Twitter } from 'lucide-react';
+import { BarChart3, Linkedin, Instagram, Share2, Target, Twitter, Users } from 'lucide-react';
 import { DM_Sans } from 'next/font/google';
+import { motion, type Variants } from 'framer-motion';
 
 import type { StartupDetail } from '@/types/startupDetail';
 import { formatCurrency } from './helpers';
+import ImageWithSkeleton from './ImageWithSkeleton';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
+
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
 
 type RightColumnSectionProps = {
   detail: StartupDetail;
 };
 
 const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
-  <div className={`space-y-6 ${dmSans.className}`}>
+  <div className={`sticky top-20 self-start space-y-6 ${dmSans.className}`}>
     {/* Revenue Section */}
     {detail.revenueStatus.isRevenue && (
-      <div className="rounded-3xl bg-linear-to-br from-purple-900/30 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        className="relative rounded-3xl bg-linear-to-b from-black/80 via-purple-500/10 to-transparent backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-2xl"
+      >
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2 bg-purple-500/15 rounded-xl">
             <BarChart3 className="w-5 h-5 text-purple-300" />
@@ -40,12 +60,18 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
     )}
 
     {/* Founders Section */}
     {detail.founders.length > 0 && (
-      <div className="rounded-3xl bg-linear-to-br from-purple-900/25 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.1 }}
+        className="rounded-3xl bg-linear-to-br from-purple-900/25 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+      >
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2 bg-purple-500/15 rounded-xl">
             <Users className="w-5 h-5 text-purple-300" />
@@ -65,11 +91,11 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             >
               {founder.profileImage && (
                 <div className="relative bg-white w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden ring-2 ring-white/10 shrink-0 shadow-lg">
-                  <Image 
-                    src={founder.profileImage} 
-                    alt={founder.name} 
-                    fill 
-                    className="object-cover" 
+                  <ImageWithSkeleton
+                    src={founder.profileImage}
+                    alt={founder.name}
+                    fill
+                    className="object-cover"
                   />
                 </div>
               )}
@@ -90,19 +116,25 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     )}
 
     {/* Competitors Section */}
     {detail.competitors && detail.competitors.length > 0 && (
-      <div className="rounded-3xl bg-linear-to-br from-blue-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-blue-500/20 shadow-xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.2 }}
+        className="rounded-3xl bg-linear-to-br from-purple-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+      >
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2 bg-blue-500/10 rounded-xl">
-            <Target className="w-5 h-5 text-blue-300" />
+          <div className="p-2 bg-purple-500/10 rounded-xl">
+            <Users className="w-5 h-5 text-purple-300" />
           </div>
           <div>
             <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Competitors</h3>
-            <div className="h-0.5 w-10 bg-linear-to-r from-blue-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-0.5 w-10 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="space-y-3">
@@ -113,7 +145,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             >
               {competitor.company_logo?.url && (
                 <div className="relative bg-white w-10 h-10 md:w-12 md:h-12 rounded-lg overflow-hidden ring-2 ring-white/10 shrink-0">
-                  <Image
+                  <ImageWithSkeleton
                     src={competitor.company_logo.url}
                     alt={competitor.company_name}
                     fill
@@ -138,12 +170,18 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     )}
 
     {/* Social Media Section */}
     {(detail.socialMediaLinks.instagram || detail.socialMediaLinks.linkedin || detail.socialMediaLinks.twitter) && (
-      <div className="rounded-3xl bg-linear-to-br from-purple-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.3 }}
+        className="rounded-3xl bg-linear-to-br from-purple-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+      >
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2 bg-purple-500/15 rounded-xl">
             <Share2 className="w-5 h-5 text-purple-300" />
@@ -185,7 +223,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             </Link>
           )}
         </div>
-      </div>
+      </motion.div>
     )}
   </div>
 );

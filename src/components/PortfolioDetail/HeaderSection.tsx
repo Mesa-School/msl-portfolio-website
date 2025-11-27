@@ -1,8 +1,22 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { motion, type Variants } from 'framer-motion';
 
 import type { StartupDetail } from '@/types/startupDetail';
+import ImageWithSkeleton from './ImageWithSkeleton';
+
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
 
 type HeaderSectionProps = {
   detail: StartupDetail;
@@ -13,20 +27,31 @@ const HeaderSection = ({ detail }: HeaderSectionProps) => {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-4 md:py-6">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        className="container mx-auto py-4 md:py-6"
+      >
         <Link
           href="/portfolio"
           className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Back to Startups</span>
+          <ArrowLeft className="w-4 h-4 md:w-6 md:h-6" />
+          <span className="text-sm md:text-lg hover:underline hover:font-semibold">Back to Startups</span>
         </Link>
-      </div>
+      </motion.div>
 
-      <div className="relative h-[200px] md:h-[400px] w-full">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.2 }}
+        className="relative h-[200px] md:h-[400px] w-full"
+      >
         <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#05070f]" />
         {heroImage && (
-          <Image
+          <ImageWithSkeleton
             src={heroImage}
             alt={detail.startupName}
             fill
@@ -34,7 +59,7 @@ const HeaderSection = ({ detail }: HeaderSectionProps) => {
             priority
           />
         )}
-      </div>
+      </motion.div>
     </>
   );
 };
