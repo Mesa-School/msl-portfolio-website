@@ -9,6 +9,10 @@ body {
   overflow-x: hidden;
 }
 
+.dm-sans {
+  font-family: var(--font-dm-sans), "DM Sans", sans-serif;
+}
+
 ::-webkit-scrollbar {
   width: 0.8vh;
 }

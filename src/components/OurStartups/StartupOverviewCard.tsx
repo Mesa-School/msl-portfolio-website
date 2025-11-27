@@ -76,7 +76,7 @@ export const StartupOverviewCard = ({
       style={{ width: '100%', height: '100%' }}
     >
       <motion.article
-        className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/5 p-px text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur transition duration-300 hover:bg-white/10"
+        className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/10 p-px text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur transition duration-300 hover:bg-white/10"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2, once: true }}
@@ -115,7 +115,7 @@ export const StartupOverviewCard = ({
                   width={72}
                   height={72}
                   unoptimized
-                  className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-contain"
+                  className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-contain bg-white"
                 />
               ) : (
                 <span className="text-lg sm:text-xl font-semibold text-white/80">
@@ -150,7 +150,7 @@ export const StartupOverviewCard = ({
               </div>
             ) : (
               <p className="text-xs sm:text-sm text-white/75 line-clamp-3">
-                {summary.length > 150 ? `${summary.slice(0, 120)}…` : summary}
+                {summary}
               </p>
             )}
           </div>
@@ -173,7 +173,7 @@ export const StartupOverviewCard = ({
                 href={detailHref}
                 className="w-full sm:w-auto text-center cursor-pointer rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition duration-300 hover:scale-110 bg-white text-[#05070f]"
               >
-                View Startup
+                View Detail
               </Link>
             ) : (
               <span className="w-full sm:w-auto text-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs sm:text-sm text-white/60">

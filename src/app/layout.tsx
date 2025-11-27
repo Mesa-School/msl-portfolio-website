@@ -20,16 +20,12 @@ export const metadata: Metadata = {
   description: "Mesa Startup Lab is a startup incubator that helps startups grow and succeed.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${dmSans.variable} ${oswald.variable} bg-black text-white antialiased`}>
+    <html lang="en" className={`${dmSans.variable} ${oswald.variable}`}>
+      <body className="bg-black text-white antialiased">
         <Navbar />
-        <main className="">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
