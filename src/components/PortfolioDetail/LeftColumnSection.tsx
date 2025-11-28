@@ -130,8 +130,8 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
         <section className="relative pl-2 md:pl-5">
           
           <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-blue-300" />
-            The Problem
+            <Target className="w-5 h-5 text-purple-300" />
+            Problem
           </h3>
           <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
             {renderMarkdownText(detail.startupProblemGap, {
@@ -215,13 +215,13 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
                         src={achievement.achievementImage}
                         alt="Achievement preview"
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="object-cover cursor-pointer group-hover:scale-105 transition-transform duration-300"
                       />
                       <span className="sr-only">Open achievement image</span>
                     </button>
                   </DialogTrigger>
                   <DialogContent
-                    className="bg-transparent border-none shadow-none p-0 max-w-5xl w-[92vw]"
+                    className="bg-black p-4 border-none shadow-none w-full"
                     showCloseButton
                   >
                     <DialogTitle className="sr-only">Achievement image preview</DialogTitle>

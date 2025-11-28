@@ -47,7 +47,7 @@ const ImageWithSkeleton = ({
         fill={fill}
         width={width}
         height={height}
-        className={`${className} transition-opacity duration-300 ${
+        className={`${className} cursor-pointer transition-opacity duration-300 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
         sizes={sizes}

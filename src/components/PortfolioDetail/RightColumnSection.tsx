@@ -8,6 +8,7 @@ import { motion, type Variants } from 'framer-motion';
 import type { StartupDetail } from '@/types/startupDetail';
 import { formatCurrency } from './helpers';
 import ImageWithSkeleton from './ImageWithSkeleton';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
 
@@ -85,30 +86,81 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         </div>
         <div className="space-y-4">
           {detail.founders.map((founder, index) => (
-            <div 
-              key={`${founder.name}-${index}`} 
+            <div
+              key={`${founder.name}-${index}`}
               className="flex items-center gap-3"
             >
               {founder.profileImage && (
-                <div className="relative bg-white w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden ring-2 ring-white/10 shrink-0 shadow-lg">
-                  <ImageWithSkeleton
-                    src={founder.profileImage}
-                    alt={founder.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="relative bg-white w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-white/10 shrink-0 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
+                    >
+                      <ImageWithSkeleton
+                        src={founder.profileImage}
+                        alt={founder.name}
+                        fill
+                        className="object-cover hover:scale-125 transition-transform duration-300"
+                      />
+                      <span className="sr-only">Open founder details</span>
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-black/95 border border-white/10 w-full max-w-2xl rounded-3xl space-y-6">
+                    <DialogTitle className="text-white text-2xl font-semibold text-center">
+                        Founder Details
+                    </DialogTitle>
+                    <div className="flex flex-col items-center text-center space-y-5">
+                      <div className="relative w-full max-w-sm h-72 md:h-80 rounded-2xl overflow-hidden bg-black">
+                        <ImageWithSkeleton
+                          src={founder.profileImage}
+                          alt={`${founder.name} portrait`}
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      </div>
+                      <div className="flex flex-col gap-4 text-sm md:text-base text-gray-300 w-full max-w-sm">
+                        <div>
+                          <p className="text-2xl text-purple-300/80">{founder.name}</p>
+                          <p className="text-lg text-white">{founder.designation}</p>
+                        </div>
+                        {founder.email && (
+                          <div>
+                            <p className="text-xs uppercase tracking-wide text-purple-300/80">Email</p>
+                            <a
+                              href={`mailto:${founder.email}`}
+                              className="text-white hover:text-purple-200 transition-colors"
+                            >
+                              {founder.email}
+                            </a>
+                          </div>
+                        )}
+                        {founder.linkedinUrl && (
+                          <Link
+                            href={founder.linkedinUrl}
+                            target="_blank"
+                            className="inline-flex items-center gap-2 mx-auto w-fit justify-center rounded-full px-4 py-2 text-sm font-medium text-white bg-purple-700 transition-colors"
+                          >
+                            <Linkedin className="w-4 h-4" />
+                            <span>LinkedIn Profile</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               )}
               <div className="flex-1 min-w-0">
-                <h4 className="font-semibold text-white text-sm md:text-base">{founder.name}</h4>
+                <h4 className="font-semibold text-white text-sm md:text-[1.25rem]">{founder.name}</h4>
                 <p className="text-xs md:text-sm text-gray-400">{founder.designation}</p>
                 {founder.linkedinUrl && (
                   <Link
                     href={founder.linkedinUrl}
                     target="_blank"
-                    className="inline-flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 transition-colors mt-1"
+                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors mt-1"
                   >
-                    <Linkedin className="w-3 h-3" />
+                    <Linkedin className="w-4 h-4" />
                     <span>LinkedIn</span>
                   </Link>
                 )}
