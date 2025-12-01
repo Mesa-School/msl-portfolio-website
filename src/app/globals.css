@@ -34,14 +34,14 @@ body {
 
 .clip-hover {
   background-color: #fff;
-  color: #7c3aed;
+  color: #C8A2C8;
 }
 
 .clip-hover::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: #7c3aed;
+  background: #C8A2C8;
   transform: scaleY(0);
   transform-origin: bottom;
   transition: transform 0.45s ease;
