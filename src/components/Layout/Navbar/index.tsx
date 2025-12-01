@@ -20,9 +20,9 @@ const NavbarMainSection = () => {
 
     const navMenuList = [
         { id: 1, title: "Home", href: "/" },
-        { id: 2, title: "About", href: "/about" },
+        { id: 2, title: "About", href: "#why-msl" },
         { id: 3, title: "Portfolio", href:"/portfolio" },
-        { id: 4, title: "Contact", href: "/contact" },
+        { id: 4, title: "Contact", href: "#why-msl" },
     ];
 
     return (
