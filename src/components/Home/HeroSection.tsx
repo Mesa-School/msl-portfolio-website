@@ -11,77 +11,77 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
 
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const heading1Ref = useRef<HTMLHeadingElement>(null);
-  const heading2Ref = useRef<HTMLHeadingElement>(null);
+  // const sectionRef = useRef<HTMLDivElement>(null);
+  // const heading1Ref = useRef<HTMLHeadingElement>(null);
+  // const heading2Ref = useRef<HTMLHeadingElement>(null);
 
-  useEffect(()=>{
-    const timeout = setTimeout(()=>{
-      if(!sectionRef.current) return;
+  // useEffect(()=>{
+  //   const timeout = setTimeout(()=>{
+  //     if(!sectionRef.current) return;
 
-      gsap.set(heading1Ref.current,{
-        opacity:1,
-        y:0,
-        scale:1
-      });
+  //     gsap.set(heading1Ref.current,{
+  //       opacity:1,
+  //       y:0,
+  //       scale:1
+  //     });
 
-      gsap.set(heading2Ref.current,{
-        opacity:0,
-        y:0,
-        scale:0.9,
-        pointerEvents:"none"
-      });
+  //     gsap.set(heading2Ref.current,{
+  //       opacity:0,
+  //       y:0,
+  //       scale:0.9,
+  //       pointerEvents:"none"
+  //     });
 
-      const t1 = gsap.timeline({
-        scrollTrigger:{
-          trigger:sectionRef.current,
-          start:"top top",
-          end:"+=250%",
-          scrub:1.2,
-          pin:true,
-          pinSpacing:true,
-          invalidateOnRefresh:true,
-          onUpdate:(self)=>{
-            console.log("Self Progress: ",self.progress.toFixed(2));
-          },
-        },
-      });
+  //     const t1 = gsap.timeline({
+  //       scrollTrigger:{
+  //         trigger:sectionRef.current,
+  //         start:"top top",
+  //         end:"+=250%",
+  //         scrub:1.2,
+  //         pin:true,
+  //         pinSpacing:true,
+  //         invalidateOnRefresh:true,
+  //         onUpdate:(self)=>{
+  //           console.log("Self Progress: ",self.progress.toFixed(2));
+  //         },
+  //       },
+  //     });
 
-      t1.to(heading1Ref.current,{
-        opacity:0,
-        y:0,
-        scale:0.8,
-        duration:1.8,
-        ease:"power2.inOut"
-      });
+  //     t1.to(heading1Ref.current,{
+  //       opacity:0,
+  //       y:0,
+  //       scale:0.8,
+  //       duration:1.8,
+  //       ease:"power2.inOut"
+  //     });
 
-      t1.to(
-        heading2Ref.current,
-        {
-          opacity:1,
-          y:0,
-          scale:1,
-          pointerEvents:"auto",
-          duration:1.8,
-          ease:"power2.out"
-        },
-        "+=0.4"
-      );
+  //     t1.to(
+  //       heading2Ref.current,
+  //       {
+  //         opacity:1,
+  //         y:0,
+  //         scale:1,
+  //         pointerEvents:"auto",
+  //         duration:1.8,
+  //         ease:"power2.out"
+  //       },
+  //       "+=0.4"
+  //     );
 
-      console.log("Scroll Trigger and animation setup complete");
-    }, 500);
+  //     console.log("Scroll Trigger and animation setup complete");
+  //   }, 500);
 
-    return()=>{
-      clearTimeout(timeout);
-      ScrollTrigger.getAll().forEach((trigger)=>trigger.kill());
-      console.log("Cleanup Complete ")
-    }
+  //   return()=>{
+  //     clearTimeout(timeout);
+  //     ScrollTrigger.getAll().forEach((trigger)=>trigger.kill());
+  //     console.log("Cleanup Complete ")
+  //   }
 
-  },[]);
+  // },[]);
 
   return (
     <section 
-      ref={sectionRef} 
+      // ref={sectionRef} 
       className="relative flex min-h-screen items-center justify-center overflow-hidden text-white"
     >
       {/* Background Image */}
@@ -115,15 +115,15 @@ const HeroSection = () => {
         </motion.p>
         <div className="relative w-full min-h-[20vh]">
           <motion.div
-            ref={heading1Ref}
-            className="perspective-1000 absolute inset-0 flex items-center justify-center px-4"
-            style={{ 
-              perspective: "1000px",
-              transformStyle: "preserve-3d",
-            }}
+            // ref={heading1Ref}
+            className=" flex items-center justify-center px-4"
+            // style={{ 
+            //   perspective: "1000px",
+            //   transformStyle: "preserve-3d",
+            // }}
           >
             <motion.h1
-              className="heading-font text-3xl font-black text-white md:text-6xl lg:text-7xl transform-gpu"
+              className="heading-font text-3xl font-black text-white md:text-6xl lg:text-7xl"
               variants={headingVariants}
               style={{
                 transformStyle: "preserve-3d",
@@ -141,7 +141,7 @@ const HeroSection = () => {
               Where India's best founders build conviction.
             </motion.h1>
           </motion.div>
-          <motion.div
+          {/* <motion.div
             ref={heading2Ref}
             className="perspective-1000 absolute inset-0 flex items-center justify-center px-4"
             style={{ 
@@ -167,14 +167,14 @@ const HeroSection = () => {
             >
               Founder-first. India-first. Future-focused.
             </motion.h1>
-          </motion.div>
+          </motion.div> */}
         </div>
-        <motion.p
+        {/* <motion.p
           className="max-w-2xl text-lg  text-white/80 md:text-xl"
           variants={itemVariants}
         >
           At Mesa Startup Lab, founders don’t just build startups — they build conviction.
-        </motion.p>
+        </motion.p> */}
         <motion.div
           className="flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center"
           variants={itemVariants}

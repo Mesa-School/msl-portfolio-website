@@ -29,38 +29,68 @@ const NavbarMainSection = () => {
         <div
             className="fixed top-0 left-0 z-50 w-full transition-all duration-300"
         >
+            {/* Tagline Header - Hidden on scroll */}
             <div
                 className={cn(
-                    "mx-auto flex mt-1 py-2 justify-between items-center transition-all duration-300 border-2",
+                    "w-full bg-black/80 backdrop-blur-sm border-b border-white/10 transition-all duration-300 overflow-hidden",
+                    isScrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
+                )}
+            >
+                <div className='w-[95%] md:w-[90%] mx-auto py-2 px-4'>
+                    <p className="text-white/80 text-sm md:text-base text-center font-medium">
+                        Empowering Startups, Building Tomorrow
+                    </p>
+                </div>
+            </div>
+
+            {/* Navbar */}
+            <div
+                className={cn(
+                    "mx-auto flex py-2 justify-between items-center transition-all duration-300 border-2",
                     isScrolled ? 
-                        "w-[90%] md:w-[85%] mt-2 px-2 md:px-4 rounded-full backdrop-blur-md bg-white/5"
-                        : "w-[95%] md:w-[90%",
-                        isScrolled ? "border-white/10" : "border-transparent"
+                        "backdrop-blur-md bg-white/5 border-b-2 border-white/10"
+                        : "",
+                        isScrolled ? "border-transparent" : "border-transparent"
 
                 )}
             >
-                <Image
-                    src="/msl_logo2.png"
-                    alt="logo"
-                    width={150}
-                    height={100}
-                    className='h-12 w-auto object-contain rounded-md'
-                />
+                <div className='w-[95%] md:w-[90%] mx-auto flex justify-between items-center gap-4'>
 
-                <div className='justify-between hidden md:flex items-center gap-10'>
-                    {navMenuList.map((item) => (
+                    <Image
+                        src="/logo-mesa.png"
+                        alt="logo"
+                        width={150}
+                        height={100}
+                        className='h-12 w-auto object-contain rounded-md'
+                    />
+
+                    {/* Nav Links - Center */}
+                    {/* <div className='hidden md:flex items-center gap-6 flex-1 justify-center'>
                         <Link 
-                            key={item.id} 
-                            href={item.href} 
-                            className='text-white text-xl font-medium transition-colors duration-200 hover:text-purple-400'
+                            href="/portfolio"
+                            className='text-white text-base font-medium transition-colors duration-200 hover:text-purple-400'
                         >
-                            {item.title}
+                            Portfolio
                         </Link>
-                    ))}
+                        <Link 
+                            href="#why-msl"
+                            className='text-white text-base font-medium transition-colors duration-200 hover:text-purple-400'
+                        >
+                            Why MSL
+                        </Link>
+                    </div> */}
+
+                    {/* Right side - Portfolio Button */}
+                    <div className="flex items-center gap-4">
+                        <Link
+                            href="/portfolio"
+                            className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-6 py-2 text-sm md:text-base font-semibold text-purple-600 shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]"
+                        >
+                            <span>Portfolio</span>
+                        </Link>
+                        {/* <MenuHeader /> */}
+                    </div>
                 </div>
-
-                <MenuHeader />
-
             </div>
         </div>
     )
