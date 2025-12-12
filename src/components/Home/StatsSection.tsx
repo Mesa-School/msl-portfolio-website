@@ -83,22 +83,22 @@ const StatsSection = () => {
     {
       value: 31,
       suffix: "",
-      label: "Startups",
+      label: "Incubated Startups",
     },
     {
       value: 10,
-      suffix: "Cr+",
-      label: "Total Revenue",
+      suffix: " Cr+",
+      label: "Collective ARR",
     },
     {
       value:60,
       suffix: "+",
-      label: "VCs",
+      label: "VCs Engaged",
     },
     {
-      value: 21,
-      suffix: "",
-      label: "New Ventures Incubated",
+      value: 8,
+      suffix: " M+",
+      label: "Invested by Mesa",
     },
   ];
 

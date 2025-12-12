@@ -61,7 +61,7 @@ const SuccessStoriesSection = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="heading-font text-3xl md:text-5xl font-bold mb-4">
-            Success Stories from Mesa Startup Lab
+            Success Stories
           </h2>
         </motion.div>
 

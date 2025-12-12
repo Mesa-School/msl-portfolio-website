@@ -84,7 +84,6 @@ const MslJourneySection = () => {
                     <div className="space-y-24 md:space-y-10">
                         {stages.map((stage, index) => {
                             const isEven = index % 2 === 0;
-
                             return (
                                 <motion.div
                                     key={index}
@@ -95,18 +94,18 @@ const MslJourneySection = () => {
                                     transition={{ duration: 0.6, delay: index * 0.1 }}
                                 >
                                     <div className="relative grid grid-cols-1 md:grid-cols-12 items-center">
-                                        {/* Content Card - Alternates left and right */}
+                                        {/* Content Card - Alternates left and right (inner content always left-aligned) */}
                                         <div
                                             className={`md:col-span-5 ${isEven
-                                                    ? "md:col-start-1 md:text-right md:pr-8"
-                                                    : "md:col-start-8 md:text-left md:pl-8"
+                                                    ? "md:col-start-1 md:pr-8"
+                                                    : "md:col-start-8 md:pl-8"
                                                 }`}
                                         >
                                             <div className="relative rounded-3xl bg-linear-to-br from-purple-500/40 via-transparent to-purple-500/40 p-px transition duration-300 hover:from-purple-500/60 hover:to-purple-500/60">
                                                 <div className="relative rounded-3xl bg-black/80 p-6 md:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.55)] backdrop-blur">
 
-                                                    <div className={`flex items-center gap-4 ${isEven ? "flex-row-reverse" : "flex-row"} mb-4`}>
-                                                        <div className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 ${isEven ? "" : " md:mr-4"}`}>
+                                                    <div className="flex items-center gap-4 mb-4">
+                                                        <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 md:mr-4">
                                                             <stage.icon size={24} />
                                                         </div>
                                                         <h3 className="heading-font text-2xl md:text-3xl font-semibold text-white">
@@ -114,11 +113,11 @@ const MslJourneySection = () => {
                                                         </h3>
                                                     </div>
 
-                                                    <ul className={`space-y-2 text-base md:text-lg text-white/80 ${isEven ? "md:flex md:flex-col md:items-end" : ""}`}>
+                                                    <ul className="space-y-2 text-base md:text-lg text-white/80 text-left">
                                                         {stage.bullets.map((bullet, bulletIndex) => (
-                                                            <li key={bulletIndex} className={`flex items-start ${isEven ? "md:flex-row-reverse md:justify-end" : ""}`}>
-                                                                <span className={`text-purple-400 shrink-0 ${isEven ? "md:ml-2 md:mr-0" : "mr-2"}`}>→</span>
-                                                                <span className={isEven ? "md:text-right" : ""}>{bullet}</span>
+                                                            <li key={bulletIndex} className="flex items-start">
+                                                                <span className="text-purple-400 mr-2">→</span>
+                                                                <span>{bullet}</span>
                                                             </li>
                                                         ))}
                                                     </ul>
@@ -140,8 +139,6 @@ const MslJourneySection = () => {
                                             </div>
                                         </div>
 
-                                        {/* Empty space for alternating layout */}
-                                        <div className={`hidden md:block md:col-span-5 ${isEven ? "md:col-start-8" : "md:col-start-1"}`} />
                                     </div>
                                 </motion.div>
                             );
@@ -150,7 +147,7 @@ const MslJourneySection = () => {
                 </div>
 
                 {/* Footer Text */}
-                <motion.div
+                {/* <motion.div
                     className="text-center mt-16"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -160,7 +157,7 @@ const MslJourneySection = () => {
                     <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
                         Each stage is outcome-driven — you focus on building, we ensure you're supported.
                     </p>
-                </motion.div>
+                </motion.div> */}
             </div>
         </section>
     );
