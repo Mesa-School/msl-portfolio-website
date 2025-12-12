@@ -1,5 +1,4 @@
 "use client";
-
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -128,20 +127,27 @@ const WhatYouGetSection = () => {
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <div className="flex flex-col gap-2 relative rounded-2xl bg-black/10 backdrop-blur-xs border border-white/20 p-4 transition-all duration-300 hover:bg-white/15 hover:border-white/30 h-full group">
-                  {/* Icon */}
-                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-white/20 text-white shadow-lg group-hover:bg-white/30 transition-colors">
-                    <Icon size={28} />
-                  </div>
+                <div className="flex flex-col gap-2 relative rounded-2xl bg-black/10 
+                backdrop-blur-xs border border-white/20 p-4 transition-all 
+                duration-300 hover:bg-purple-600/10 hover:border-purple-500 
+                h-full group">
 
-                  {/* Content */}
-                  <h3 className="heading-font text-xl font-semibold text-white">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-sm md:text-[1rem] text-white/90">
-                    {benefit.description}
-                  </p>
-                </div>
+  {/* Icon */}
+  <div className="inline-flex h-14 w-14 items-center justify-center 
+                  rounded-xl bg-white/20 text-white shadow-lg 
+                  group-hover:bg-white/30 transition-colors">
+    <Icon size={28} />
+  </div>
+
+  {/* Content */}
+  <h3 className="heading-font text-xl font-semibold text-white">
+    {benefit.title}
+  </h3>
+  <p className="text-sm md:text-[1rem] text-white/90">
+    {benefit.description}
+  </p>
+</div>
+
               </motion.div>
             );
           })}

@@ -83,22 +83,22 @@ const StatsSection = () => {
     {
       value: 31,
       suffix: "",
-      label: "Funded Startups",
+      label: "Startups",
     },
     {
       value: 10,
-      suffix: "cr+",
+      suffix: "Cr+",
       label: "Total Revenue",
     },
     {
-      value: 50,
+      value:60,
       suffix: "+",
-      label: "Mentors",
+      label: "VCs",
     },
     {
-      value: 100,
-      suffix: "+",
-      label: "Success stories",
+      value: 21,
+      suffix: "",
+      label: "New Ventures Incubated",
     },
   ];
 

@@ -98,8 +98,7 @@ const HeroSection = () => {
           className="object-cover"
           priority
         />
-        {/* Gradient overlay for better text readability - transparent at top to darker at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/90"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black/90"></div>
       </motion.div>
       <motion.div
         className="relative z-10 mx-auto w-full max-w-5xl flex flex-col items-center justify-center gap-5 text-center"
@@ -138,7 +137,7 @@ const HeroSection = () => {
                 transition: { duration: 0.3 },
               }}
             >
-              Where India's best founders build conviction.
+              Where India's best founders build conviction
             </motion.h1>
           </motion.div>
           {/* <motion.div

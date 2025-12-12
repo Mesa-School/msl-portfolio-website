@@ -44,14 +44,14 @@ const WhyMslSection = () => {
           >
             <div className="relative w-full h-full rounded-3xl overflow-hidden">
               <Image
-                src="/anupam_mittal.jpg"
+                src="/why_msl.png"
                 alt="Anupam Mittal"
                 fill
                 className="object-cover"
                 priority
               />
               {/* Gradient overlay for better visual integration */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-r from-black/20 via-transparent to-transparent" />
             </div>
           </motion.div>
 
