@@ -5,6 +5,7 @@ import WhyMslSection from "@/components/Home/WhyMslSection";
 import MslJourneySection from "@/components/Home/MslJourneySection";
 import WhatYouGetSection from "@/components/Home/WhatYouGetSection";
 import SuccessStoriesSection from "@/components/Home/SuccessStoriesSection";
+import StartupLogosSection from "@/components/Home/StartupLogosSection";
 import MeetOurTeam from "@/components/Home/MeetOurTeam";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <MslJourneySection />
       <WhatYouGetSection />
       <SuccessStoriesSection />
+      <StartupLogosSection />
       {/* <MeetOurTeam /> */}
     </div>
   );
