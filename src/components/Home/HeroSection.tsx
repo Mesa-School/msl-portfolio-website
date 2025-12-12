@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
@@ -80,7 +80,7 @@ const HeroSection = () => {
   // },[]);
 
   return (
-    <section 
+    <section
       // ref={sectionRef} 
       className="relative flex min-h-screen items-center justify-center overflow-hidden text-white"
     >
@@ -92,13 +92,13 @@ const HeroSection = () => {
         animate="visible"
       >
         <Image
-          src="/background.webp"
+          src="/hero_img.jpg"
           alt="Background"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black/90"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/5 to-black/50"></div>
       </motion.div>
       <motion.div
         className="relative z-10 mx-auto w-full max-w-5xl flex flex-col items-center justify-center gap-5 text-center"
@@ -107,31 +107,31 @@ const HeroSection = () => {
         animate="visible"
       >
         <motion.p
-          className="heading-font text-lg tracking-wider text-white font-black md:text-2xl"
-          variants={itemVariants}
+          className="heading-font text-2xl font-black text-white md:text-5xl lg:text-6xl"
+          variants={headingVariants}
         >
           MESA STARTUP LAB
         </motion.p>
-        <div className="relative w-full min-h-[20vh]">
+        <div className="relative w-full">
           <motion.div
             // ref={heading1Ref}
             className=" flex items-center justify-center px-4"
-            // style={{ 
-            //   perspective: "1000px",
-            //   transformStyle: "preserve-3d",
-            // }}
+          // style={{ 
+          //   perspective: "1000px",
+          //   transformStyle: "preserve-3d",
+          // }}
           >
             <motion.h1
-              className="heading-font text-3xl font-black text-white md:text-6xl lg:text-7xl"
-              variants={headingVariants}
+              className="heading-font text-xl tracking-wider text-white font-bold md:text-3xl"
+              variants={itemVariants}
               style={{
-                transformStyle: "preserve-3d",
+                // transformStyle: "preserve-3d",
                 textShadow: "0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.3), 0 5px 15px rgba(0, 0, 0, 0.8)",
                 letterSpacing: "0.02em",
               }}
               whileHover={{
-                rotateX: 5,
-                rotateY: 5,
+                // rotateX: 5,
+                // rotateY: 5,
                 scale: 1.02,
                 z: 20,
                 transition: { duration: 0.3 },

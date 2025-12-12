@@ -70,7 +70,7 @@ body {
 }
 
 /* 3D Perspective Effects */
-.perspective-1000 {
+/* .perspective-1000 {
   perspective: 1000px;
   transform-style: preserve-3d;
 }
@@ -79,4 +79,4 @@ body {
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
-}
+} */
