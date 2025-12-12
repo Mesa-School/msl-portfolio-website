@@ -44,7 +44,7 @@ const WhyMslSection = () => {
           >
             <div className="relative w-full h-full rounded-3xl overflow-hidden">
               <Image
-                src="/why_msl.png"
+                src="/why_msl_sidak.png"
                 alt="Anupam Mittal"
                 fill
                 className="object-cover"

@@ -107,10 +107,10 @@ const HeroSection = () => {
         animate="visible"
       >
         <motion.p
-          className="heading-font text-sm uppercase tracking-[0.4em] text-white font-black md:text-base"
+          className="heading-font text-lg tracking-wider text-white font-black md:text-2xl"
           variants={itemVariants}
         >
-          
+          MESA STARTUP LAB
         </motion.p>
         <div className="relative w-full min-h-[20vh]">
           <motion.div

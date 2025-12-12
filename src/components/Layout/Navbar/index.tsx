@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MenuHeader from './MenuHeader'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ const NavbarMainSection = () => {
     const navMenuList = [
         { id: 1, title: "Home", href: "/" },
         { id: 2, title: "About", href: "#why-msl" },
-        { id: 3, title: "Portfolio", href:"/portfolio" },
+        { id: 3, title: "Portfolio", href: "/portfolio" },
         { id: 4, title: "Contact", href: "#why-msl" },
     ];
 
@@ -38,7 +38,7 @@ const NavbarMainSection = () => {
             >
                 <div className='w-[95%] md:w-[90%] mx-auto py-2 px-4'>
                     <p className="text-white/80 text-sm md:text-base text-center font-medium">
-                        Empowering Startups, Building Tomorrow
+                        The launchpad for India’s next generation of builders
                     </p>
                 </div>
             </div>
@@ -47,22 +47,25 @@ const NavbarMainSection = () => {
             <div
                 className={cn(
                     "mx-auto flex py-2 justify-between items-center transition-all duration-300 border-2",
-                    isScrolled ? 
+                    isScrolled ?
                         "backdrop-blur-md bg-white/5 border-b-2 border-white/10"
                         : "",
-                        isScrolled ? "border-transparent" : "border-transparent"
+                    isScrolled ? "border-transparent" : "border-transparent"
 
                 )}
             >
                 <div className='w-[95%] md:w-[90%] mx-auto flex justify-between items-center gap-4'>
 
-                    <Image
-                        src="/logo-mesa.png"
-                        alt="logo"
-                        width={150}
-                        height={100}
-                        className='h-12 w-auto object-contain rounded-md'
-                    />
+                    <Link href="/">
+                        <Image
+                            src="/logo-mesa.png"
+                            alt="logo"
+                            width={150}
+                            height={100}
+                            className='h-12 w-auto object-contain rounded-md'
+                        />
+                    </Link>
+
 
                     {/* Nav Links - Center */}
                     {/* <div className='hidden md:flex items-center gap-6 flex-1 justify-center'>
