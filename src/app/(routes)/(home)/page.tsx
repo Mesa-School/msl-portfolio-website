@@ -17,7 +17,7 @@ export default function Home() {
       <MslJourneySection />
       <WhatYouGetSection />
       <SuccessStoriesSection />
-      <StartupLogosSection />
+      {/* <StartupLogosSection /> */}
       {/* <MeetOurTeam /> */}
     </div>
   );
