@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { Startup, StartupOverviewCard } from './StartupOverviewCard';
+import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 
 const pickLogoUrl = (source: any, fallback?: any) =>
   source?.company_logo?.url ??
@@ -54,6 +55,7 @@ const normalizeStartups = (payload: any): Startup[] =>
   });
 
 export const StartupOverviewGrid = () => {
+  const { selectedSectors, searchTerm } = usePortfolioFilters();
   const [startups, setStartups] = useState<Startup[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -97,6 +99,37 @@ export const StartupOverviewGrid = () => {
       controller.abort();
     };
   }, []);
+
+  // Filter startups based on selected sectors and search term
+  const filteredStartups = useMemo(() => {
+    let filtered = [...startups];
+
+    // Filter by selected sectors
+    if (selectedSectors.length > 0) {
+      filtered = filtered.filter((startup) =>
+        startup.sectorName && selectedSectors.includes(startup.sectorName)
+      );
+    }
+
+    // Filter by search term
+    if (searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase();
+      filtered = filtered.filter((startup) => {
+        const matchesName = startup.name.toLowerCase().includes(searchLower);
+        const matchesSummary = startup.summary.toLowerCase().includes(searchLower);
+        const matchesLocation = startup.location?.toLowerCase().includes(searchLower);
+        const matchesFounders = startup.founders.some((founder) =>
+          founder.name.toLowerCase().includes(searchLower)
+        );
+        const matchesSector = startup.sectorName?.toLowerCase().includes(searchLower);
+        const matchesCohort = startup.cohort?.toLowerCase().includes(searchLower);
+
+        return matchesName || matchesSummary || matchesLocation || matchesFounders || matchesSector || matchesCohort;
+      });
+    }
+
+    return filtered;
+  }, [startups, selectedSectors, searchTerm]);
 
   return (
     <section className="relative mx-auto mt-20 flex w-full flex-col gap-10 overflow-hidden ">
@@ -155,8 +188,14 @@ export const StartupOverviewGrid = () => {
         </div>
       )}
 
+      {!loading && !error && startups.length > 0 && filteredStartups.length === 0 && (
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 p-10 text-center text-white/60">
+          No startups found matching your filters. Try adjusting your search or sector selection.
+        </div>
+      )}
+
       <div className="relative grid gap-6 md:grid-cols-2">
-        {startups.map((startup, index) => (
+        {filteredStartups.map((startup, index) => (
           <StartupOverviewCard key={startup.documentId ?? `${startup.id}`} startup={startup} index={index} />
         ))}
       </div>

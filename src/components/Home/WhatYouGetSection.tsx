@@ -15,10 +15,15 @@ import {
 
 const WhatYouGetSection = () => {
   const benefits = [
+    // {
+    //   title: "Founder-Led Mentorship",
+    //   description: "Direct sparring with the MSL core team.",
+    //   icon: Users,
+    // },
     {
-      title: "Founder-Led Mentorship",
-      description: "Direct sparring with the MSL core team.",
-      icon: Users,
+      title: "Mentor Bench",
+      description: "Leading operators and industry experts aligned to your milestones.",
+      icon: GraduationCap,
     },
     {
       title: "Specialist Access",
@@ -30,36 +35,32 @@ const WhatYouGetSection = () => {
       description: "Curated introductions and fundraising readiness.",
       icon: Network,
     },
-    {
-      title: "Mentor Bench",
-      description: "Leading operators and industry experts aligned to your milestones.",
-      icon: GraduationCap,
-    },
-    {
-      title: "Workspace",
-      description: "Build with your team from our dedicated campus.",
-      icon: Building2,
-    },
+
+    // {
+    //   title: "Workspace",
+    //   description: "Build with your team from our dedicated campus.",
+    //   icon: Building2,
+    // },
     {
       title: "Partnerships & Credits",
       description: "Startup tools, corporate connects, competitions.",
       icon: Handshake,
     },
-    {
-      title: "Structured Check-ins",
-      description: "1:1 accountability, tailored to your journey.",
-      icon: Calendar,
-    },
+    // {
+    //   title: "Structured Check-ins",
+    //   description: "1:1 accountability, tailored to your journey.",
+    //   icon: Calendar,
+    // },
     // {
     //   title: "Victory Fridays",
     //   description: "Weekly peer updates and shared learnings.",
     //   icon: Trophy,
     // },
-    {
-      title: "Additional Building Time",
-      description: "Hours intentionally carved out for your company's growth.",
-      icon: Clock,
-    },
+    // {
+    //   title: "Additional Building Time",
+    //   description: "Hours intentionally carved out for your company's growth.",
+    //   icon: Clock,
+    // },
   ];
 
   return (
@@ -132,21 +133,21 @@ const WhatYouGetSection = () => {
                 duration-300 hover:bg-purple-600/10 hover:border-purple-500 
                 h-full group">
 
-  {/* Icon */}
-  <div className="inline-flex h-14 w-14 items-center justify-center 
+                  {/* Icon */}
+                  <div className="inline-flex h-14 w-14 items-center justify-center 
                   rounded-xl bg-white/20 text-white shadow-lg 
                   group-hover:bg-white/30 transition-colors">
-    <Icon size={28} />
-  </div>
+                    <Icon size={28} />
+                  </div>
 
-  {/* Content */}
-  <h3 className="heading-font text-xl font-semibold text-white">
-    {benefit.title}
-  </h3>
-  <p className="text-sm md:text-[1rem] text-white/90">
-    {benefit.description}
-  </p>
-</div>
+                  {/* Content */}
+                  <h3 className="heading-font text-xl font-semibold text-white">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-sm md:text-[1rem] text-white/90">
+                    {benefit.description}
+                  </p>
+                </div>
 
               </motion.div>
             );

@@ -92,7 +92,7 @@ const HeroSection = () => {
         animate="visible"
       >
         <Image
-          src="/hero_img.jpg"
+          src="/hero_test.jpg"
           alt="Background"
           fill
           className="object-cover"
