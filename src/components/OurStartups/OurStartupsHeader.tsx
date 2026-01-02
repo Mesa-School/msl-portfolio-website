@@ -1,8 +1,7 @@
 'use client';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { Oswald } from 'next/font/google';
-import { Skeleton } from '@/components/ui/skeleton';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { Search, X } from 'lucide-react';
 
@@ -12,6 +11,40 @@ type Sector = {
   name: string;
 };
 
+// Hardcoded sectors data
+const HARDCODED_SECTORS: Sector[] = [
+  {
+    id: 28,
+    documentId: 'thubd0y8e90rhrigx3bg5y3j',
+    name: 'AI Startups',
+  },
+  {
+    id: 30,
+    documentId: 'gnoy5rjsikv1yyud7d72fwki',
+    name: 'D2C ',
+  },
+  {
+    id: 32,
+    documentId: 'r7u8wl1ankilczky7nr0mfwz',
+    name: 'Quick Commerce/ E-commerce',
+  },
+  {
+    id: 34,
+    documentId: 'y7abqy7g591ox36nfz5q7eoo',
+    name: 'Sports ',
+  },
+  {
+    id: 36,
+    documentId: 'ztg7jxrd43qqegiletyid7ud',
+    name: 'Mobility ',
+  },
+  {
+    id: 38,
+    documentId: 'g91hb6i2v6yaad7i3ahc65kb',
+    name: 'Agritech',
+  },
+];
+
 const oswald = Oswald({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
@@ -19,9 +52,6 @@ const oswald = Oswald({
 
 export const OurStartupsHeader = () => {
   const { searchTerm, setSearchTerm, selectedSectors, toggleSector, clearFilters } = usePortfolioFilters();
-  const [sectors, setSectors] = useState<Sector[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -32,84 +62,14 @@ export const OurStartupsHeader = () => {
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const fetchSectors = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch('/api/sectors', {
-          signal: controller.signal,
-        });
-        const payload = await response.json();
-
-        if (!response.ok) {
-          throw new Error(payload?.error ?? 'Failed to load sectors');
-        }
-
-        if (isMounted) {
-          const sectorSource = Array.isArray(payload?.data)
-            ? payload.data
-            : Array.isArray(payload?.data?.data)
-            ? payload.data.data
-            : [];
-
-          const normalizedSectors: Sector[] = sectorSource.map(
-            (item: any, index: number) => {
-              const base = item?.attributes ?? item ?? {};
-              const name =
-                base?.name ??
-                base?.sector_name ??
-                item?.name ??
-                'Unnamed Sector';
-
-              return {
-                id: base?.id ?? item?.id ?? index,
-                documentId:
-                  base?.documentId ?? item?.documentId ?? `${base?.id ?? index}`,
-                name,
-              };
-            }
-          );
-
-          setSectors(
-            normalizedSectors.filter(
-              (sector) =>
-                typeof sector.name === 'string' &&
-                sector.name.trim().length > 0
-            )
-          );
-          setError(null);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError(
-            err instanceof Error ? err.message : 'Unable to fetch sectors'
-          );
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchSectors();
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, []);
-
   // Filter sectors based on search term
   const filteredSectors = useMemo(() => {
-    if (!searchTerm.trim()) return sectors;
+    if (!searchTerm.trim()) return HARDCODED_SECTORS;
     const searchLower = searchTerm.toLowerCase();
-    return sectors.filter((sector) =>
+    return HARDCODED_SECTORS.filter((sector) =>
       sector.name.toLowerCase().includes(searchLower)
     );
-  }, [sectors, searchTerm]);
+  }, [searchTerm]);
 
   // Handle click outside to close suggestions
   useEffect(() => {
@@ -267,39 +227,24 @@ export const OurStartupsHeader = () => {
             custom={2}
           >
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/80">
-              {loading &&
-                Array.from({ length: 8 }).map((_, idx) => (
-                  <Skeleton
-                    key={`sector-skeleton-${idx}`}
-                    className="h-7 w-20 sm:h-8 sm:w-24 rounded-full bg-white/10"
-                  />
-                ))}
-
-              {error && <span className="text-red-300">{error}</span>}
-              {!loading && !error && sectors.length === 0 && (
-                <span className="text-white/60">No sectors available.</span>
-              )}
-
-              {!loading &&
-                !error &&
-                sectors.map((sector, index) => {
-                  const isSelected = selectedSectors.includes(sector.name);
-                  return (
-                    <motion.button
-                      key={sector.documentId ?? sector.id}
-                      onClick={() => toggleSector(sector.name)}
-                      className={`rounded-full border px-3 py-1 sm:px-4 sm:py-1 transition-all cursor-pointer ${
-                        isSelected
-                          ? 'border-purple-500/50 bg-purple-500/20 text-white'
-                          : 'border-white/15 bg-white/10 text-white/80 hover:bg-white/15 hover:text-white'
-                      }`}
-                      variants={chipVariants}
-                      custom={index}
-                    >
-                      {sector.name}
-                    </motion.button>
-                  );
-                })}
+              {HARDCODED_SECTORS.map((sector, index) => {
+                const isSelected = selectedSectors.includes(sector.name);
+                return (
+                  <motion.button
+                    key={sector.documentId ?? sector.id}
+                    onClick={() => toggleSector(sector.name)}
+                    className={`rounded-full border px-3 py-1 sm:px-4 sm:py-1 transition-all cursor-pointer ${
+                      isSelected
+                        ? 'border-purple-500/50 bg-purple-500/20 text-white'
+                        : 'border-white/15 bg-white/10 text-white/80 hover:bg-white/15 hover:text-white'
+                    }`}
+                    variants={chipVariants}
+                    custom={index}
+                  >
+                    {sector.name}
+                  </motion.button>
+                );
+              })}
             </div>
           </motion.div>
         </div>
