@@ -86,7 +86,7 @@ export const StartupOverviewCard = ({
   return (
 
     <motion.article
-      className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/10 p-px text-white shadow-[0_25px_80px_rgba(5,7,15,0.65)] backdrop-blur transition duration-300 hover:bg-white/10"
+      className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/10 text-white transition duration-300 hover:bg-white/10"
       initial="hidden"
       whileInView="visible"
       viewport={{ amount: 0.2, once: true }}
