@@ -155,7 +155,7 @@ export const OurStartupsHeader = () => {
             custom={0}
           >
             <motion.h1
-              className={`${oswald.className} font-semibold tracking-tight text-white text-[40px] sm:text-[60px] md:text-[74px] leading-tight`}
+              className={`font-bold tracking-tight text-white text-[40px] sm:text-[60px] md:text-[74px] leading-tight`}
               variants={staggeredFadeVariants}
               custom={0}
             >

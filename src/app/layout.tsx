@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Layout/Navbar";
-import { DM_Sans, Oswald } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-const dmSans = DM_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
-
-const oswald = Oswald({
-  subsets: ["latin"],
-  variable: "--font-oswald",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -22,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${oswald.variable}`}>
+    <html lang="en" className={`${manrope.variable}`}>
       <body className="bg-black text-white antialiased">
         <Navbar />
         <main>{children}</main>

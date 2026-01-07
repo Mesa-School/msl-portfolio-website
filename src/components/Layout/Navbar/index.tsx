@@ -32,7 +32,7 @@ const NavbarMainSection = () => {
             {/* Tagline Header - Hidden on scroll */}
             <div
                 className={cn(
-                    "w-full bg-black/80 backdrop-blur-sm border-b border-white/10 transition-all duration-300 overflow-hidden",
+                    "w-full bg-[#091414] backdrop-blur-sm transition-all duration-300 overflow-hidden",
                     isScrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
                 )}
             >
@@ -87,9 +87,9 @@ const NavbarMainSection = () => {
                     <div className="flex items-center gap-4">
                         <Link
                             href="/portfolio"
-                            className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-6 py-2 text-sm md:text-base font-semibold text-purple-600 shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]"
+                            className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-6 py-2 text-sm md:text-base font-semibold text-[#27614A] shadow-[0_0_25px_rgba(39,97,74,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(39,97,74,0.35)]"
                         >
-                            <span>Portfolio</span>
+                            <span className='font-black'>Portfolio</span>
                         </Link>
                         {/* <MenuHeader /> */}
                     </div>

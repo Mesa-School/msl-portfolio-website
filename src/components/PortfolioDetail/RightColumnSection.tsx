@@ -36,26 +36,26 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         initial="hidden"
         animate="visible"
         variants={fadeUpVariants}
-        className="relative rounded-3xl bg-linear-to-b from-black/80 via-purple-500/10 to-transparent backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-2xl"
+        className="relative rounded-3xl bg-[#091414] to-transparent backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-2xl"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2 bg-purple-500/15 rounded-xl">
-            <BarChart3 className="w-5 h-5 text-purple-300" />
+          <div className="p-2 bg-[#27614A]/15 rounded-xl">
+            <BarChart3 className="w-5 h-5 text-[#27614A]" />
           </div>
           <div>
             <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Revenue</h3>
-            <div className="h-0.5 w-10 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-0.5 w-10 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="space-y-4">
           <div>
-            <p className="text-xs text-purple-200/70 mb-1">Total Revenue</p>
+            <p className="text-xs text-[#27614A]/70 mb-1">Total Revenue</p>
             <p className="text-xl md:text-2xl font-bold text-white">
               {formatCurrency(detail.revenueStatus.revenue)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-purple-200/70 mb-1">Monthly Revenue</p>
+            <p className="text-xs text-[#27614A]/70 mb-1">Monthly Revenue</p>
             <p className="text-lg md:text-xl font-bold text-white">
               {formatCurrency(detail.revenueStatus.currentRevenue)}
             </p>
@@ -71,17 +71,17 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         animate="visible"
         variants={fadeUpVariants}
         transition={{ delay: 0.1 }}
-        className="rounded-3xl bg-linear-to-br from-purple-900/25 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-5 md:p-6 border border-gray-700/30 shadow-xl"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2 bg-purple-500/15 rounded-xl">
-            <Users className="w-5 h-5 text-purple-300" />
+          <div className="p-2 bg-[#27614A]/15 rounded-xl">
+            <Users className="w-5 h-5 text-[#27614A]" />
           </div>
           <div>
             <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">
               {detail.founders.length > 1 ? 'Founders' : 'Founder'}
             </h3>
-            <div className="h-0.5 w-10 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-0.5 w-10 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="space-y-4">
@@ -95,7 +95,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                   <DialogTrigger asChild>
                     <button
                       type="button"
-                      className="relative bg-white w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-white/10 shrink-0 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
+                      className="relative bg-white w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-white/10 shrink-0 shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27614A]"
                     >
                       <ImageWithSkeleton
                         src={founder.profileImage}
@@ -122,7 +122,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                       </div>
                       <div className="flex flex-col gap-4 text-sm md:text-base text-gray-300 w-full max-w-sm">
                         <div>
-                          <p className="text-2xl text-purple-300/80">{founder.name}</p>
+                          <p className="text-2xl text-[#27614A]/80">{founder.name}</p>
                           <p className="text-lg text-white">{founder.designation}</p>
                         </div>
                         {founder.email && (
@@ -130,7 +130,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                             <p className="text-xs uppercase tracking-wide text-purple-300/80">Email</p>
                             <a
                               href={`mailto:${founder.email}`}
-                              className="text-white hover:text-purple-200 transition-colors"
+                              className="text-white hover:text-[#27614A] transition-colors"
                             >
                               {founder.email}
                             </a>
@@ -140,7 +140,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                           <Link
                             href={founder.linkedinUrl}
                             target="_blank"
-                            className="inline-flex items-center gap-2 mx-auto w-fit justify-center rounded-full px-4 py-2 text-sm font-medium text-white bg-purple-700 transition-colors"
+                            className="inline-flex items-center gap-2 mx-auto w-fit justify-center rounded-full px-4 py-2 text-sm font-medium text-white bg-[#27614A] transition-colors"
                           >
                             <Linkedin className="w-4 h-4" />
                             <span>LinkedIn Profile</span>
@@ -148,7 +148,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                         )}
                       </div>
                     </div>
-                  </DialogContent>
+                  </DialogContent>  
                 </Dialog>
               )}
               <div className="flex-1 min-w-0">
@@ -158,7 +158,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                   <Link
                     href={founder.linkedinUrl}
                     target="_blank"
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors mt-1"
+                    className="inline-flex items-center gap-1.5 text-sm text-[#27614A] hover:text-[#27614A] transition-colors mt-1"
                   >
                     <Linkedin className="w-4 h-4" />
                     <span>LinkedIn</span>
@@ -178,15 +178,15 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         animate="visible"
         variants={fadeUpVariants}
         transition={{ delay: 0.2 }}
-        className="rounded-3xl bg-linear-to-br from-purple-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-5 md:p-6 border border-gray-700/30 shadow-xl"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2 bg-purple-500/10 rounded-xl">
-            <Users className="w-5 h-5 text-purple-300" />
+          <div className="p-2 bg-[#27614A]/10 rounded-xl">
+            <Users className="w-5 h-5 text-[#27614A]" />
           </div>
           <div>
             <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Competitors</h3>
-            <div className="h-0.5 w-10 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-0.5 w-10 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="space-y-3">
@@ -213,7 +213,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                   <Link
                     href={competitor.company_website}
                     target="_blank"
-                    className="text-xs text-blue-300 hover:text-blue-200 transition-colors inline-flex items-center gap-1"
+                    className="text-xs text-white/70 transition-colors inline-flex items-center gap-1"
                   >
                     <span className="truncate">{competitor.company_website.replace(/^https?:\/\/(www\.)?/, '')}</span>
                   </Link>

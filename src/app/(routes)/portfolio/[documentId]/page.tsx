@@ -92,7 +92,7 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
   }
 
   return (
-    <div className="relative w-full md:w-[75%] mx-auto min-h-screen mt-12 md:mt-20 text-white">
+    <div className="relative  w-full md:w-[75%] mx-auto min-h-screen mt-12 md:mt-20 text-white">
       <HeaderSection detail={detail} />
 
       <div className="container mx-auto px-4 -mt-12 md:-mt-20 relative z-10">

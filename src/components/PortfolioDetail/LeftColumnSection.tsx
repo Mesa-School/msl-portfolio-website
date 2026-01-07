@@ -35,7 +35,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
       initial="hidden"
       animate="visible"
       variants={fadeUpVariants}
-      className="relative rounded-3xl bg-linear-to-b from-black/80 via-purple-500/10 to-transparent backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-2xl"
+      className="relative rounded-3xl bg-[#091414] to-transparent backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-2xl"
     >
 
       {/* Subtle background decoration */}
@@ -69,9 +69,9 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
             
             {detail.startupWebsite && (
               <Link href={detail.startupWebsite} target="_blank" className="shrink-0">
-                <button className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full cursor-pointer bg-white px-4 py-2 text-sm md:text-lg font-semibold text-purple-600 shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(168,85,247,0.35)]">
-                  <span className="relative z-10">Visit Website</span>
-                  <div className="absolute inset-0 rounded-xl bg-linear-to-r from-purple-500 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <button className="clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full cursor-pointer bg-white px-4 py-2 text-sm md:text-lg font-semibold text-[#27614A] shadow-[0_0_25px_rgba(39,97,74,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(39,97,74,0.35)]">
+                  <span className="relative z-10 text-sm">Visit Website</span>
+                  <div className="absolute inset-0 rounded-xl bg-linear-to-r from-[#27614A] to-[#27614A] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>
               </Link>
             )}
@@ -90,15 +90,15 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
       animate="visible"
       variants={fadeUpVariants}
       transition={{ delay: 0.1 }}
-      className="rounded-3xl bg-linear-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+      className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
     >
       <div className="flex items-center gap-4 mb-6">
-        <div className="p-3 bg-purple-500/10 rounded-xl">
-          <Eye className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
+        <div className="p-3 bg-[#27614A]/10 rounded-xl">
+          <Eye className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
         </div>
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Startup Overview</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+          <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
         </div>
       </div>
       <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
@@ -114,15 +114,15 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
       animate="visible"
       variants={fadeUpVariants}
       transition={{ delay: 0.2 }}
-      className="rounded-3xl bg-linear-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+      className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
     >
       <div className="flex items-center gap-4 mb-8">
-        <div className="p-3 bg-purple-500/10 rounded-xl">
-          <Lightbulb className="w-6 h-6 md:w-7 md:h-7 text-purple-300" />
+        <div className="p-3 bg-[#27614A]/10 rounded-xl">
+          <Lightbulb className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
         </div>
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Problem & Solution</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+          <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
         </div>
       </div>
       
@@ -130,7 +130,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
         <section className="relative pl-2 md:pl-5">
           
           <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-purple-300" />
+            <Target className="w-5 h-5 text-[#27614A]" />
             Problem
           </h3>
           <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
@@ -143,7 +143,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
         <section className="relative pl-2 md:pl-5">
           
           <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-purple-300" />
+            <Lightbulb className="w-5 h-5 text-[#27614A]" />
             The Solution
           </h3>
           <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
@@ -161,15 +161,15 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
       animate="visible"
       variants={fadeUpVariants}
       transition={{ delay: 0.3 }}
-      className="rounded-3xl bg-linear-to-br from-blue-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+      className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
     >
       <div className="flex items-center gap-4 mb-6">
-        <div className="p-3 bg-purple-500/10 rounded-xl">
-          <Rocket className="w-6 h-6 md:w-7 md:h-7 text-purple-400" />
+        <div className="p-3 bg-[#27614A]/10 rounded-xl">
+          <Rocket className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
         </div>
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Future Vision</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+          <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
         </div>
       </div>
       <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
@@ -186,15 +186,15 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
         animate="visible"
         variants={fadeUpVariants}
         transition={{ delay: 0.4 }}
-        className="rounded-3xl bg-linear-to-br from-purple-900/15 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
       >
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-3 bg-purple-500/10 rounded-xl">
-            <Award className="w-6 h-6 md:w-7 md:h-7 text-purple-300" />
+          <div className="p-3 bg-[#27614A]/10 rounded-xl">
+            <Award className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
           </div>
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Key Achievements</h2>
-            <div className="h-1 w-16 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         
@@ -202,14 +202,14 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
           {detail.keyAchievements.map((achievement, index) => (
             <div
               key={`${achievement.achievementSummary}-${index}`}
-              className="group relative flex flex-col sm:flex-row gap-5 hover:border-blue-500/30 transition-all duration-300"
+              className="group relative flex flex-col sm:flex-row gap-5 hover:border-[#27614A]/30 transition-all duration-300"
             >
               {achievement.achievementImage && (
                 <Dialog>
                   <DialogTrigger asChild>
                     <button
                       type="button"
-                      className="relative w-full sm:w-40 h-48 sm:h-40 rounded-xl overflow-hidden shrink-0 ring-2 ring-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500"
+                      className="relative w-full sm:w-40 h-48 sm:h-40 rounded-xl overflow-hidden shrink-0 ring-2 ring-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27614A]"
                     >
                       <ImageWithSkeleton
                         src={achievement.achievementImage}
