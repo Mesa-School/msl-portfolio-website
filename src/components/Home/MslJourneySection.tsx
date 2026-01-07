@@ -78,7 +78,7 @@ const MslJourneySection = () => {
                 {/* Timeline */}
                 <div className="relative">
                     {/* Central Timeline Line */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500/40 via-purple-500/60 to-purple-500/40 hidden md:block" />
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-linear-to-b from-purple-500/40 via-purple-500/60 to-purple-500/40 hidden md:block" />
 
                     {/* Timeline Items */}
                     <div className="space-y-24 md:space-y-10">

@@ -16,7 +16,7 @@ const HARDCODED_SECTORS: Sector[] = [
   {
     id: 28,
     documentId: 'thubd0y8e90rhrigx3bg5y3j',
-    name: 'AI Startups',
+    name: 'AI',
   },
   {
     id: 30,

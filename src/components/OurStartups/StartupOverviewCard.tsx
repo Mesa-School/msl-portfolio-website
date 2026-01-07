@@ -59,8 +59,11 @@ export const StartupOverviewCard = ({
 }: StartupOverviewCardProps) => {
   const hasLogo = Boolean(startup.logoUrl);
   const summary = startup.summary ?? '';
-  const foundersLabel =
-    startup.founders?.map((founder) => founder.name).join(', ') || '—';
+  const founderNames =
+    startup.founders?.map((founder) => founder.name).filter(Boolean) ?? [];
+  const displayedFounders = founderNames.slice(0, 2).join(', ');
+  const hasFounders = founderNames.length > 0;
+  const isSingleFounder = founderNames.length === 1;
   const detailHref = startup.documentId
     ? `/portfolio/${startup.documentId}`
     : null;
@@ -105,7 +108,7 @@ export const StartupOverviewCard = ({
 
           {/* Logo and Title Section */}
           <div className="flex items-center gap-3 sm:gap-4 sm:pr-28">
-            <div className="flex h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white/5 shadow-inner shadow-black/20">
+            <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white/5 shadow-inner shadow-black/20">
               {isLoading ? (
                 <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white/10" />
               ) : hasLogo ? (
@@ -161,9 +164,19 @@ export const StartupOverviewCard = ({
               <Skeleton className="h-5 w-44 rounded bg-white/10" />
             ) : (
               <div className="text-xs sm:text-sm text-white/55 truncate max-w-full">
-                <span className="hidden sm:inline">Founders: </span>
-                <span className="sm:hidden">👥 </span>
-                <span className="text-white/90 truncate">{foundersLabel}</span>
+                {hasFounders ? (
+                  <>
+                    <span className="hidden sm:inline">
+                      {isSingleFounder ? 'Founder: ' : 'Founders: '}
+                    </span>
+                    <span className="sm:hidden">👥 </span>
+                    <span className="text-white/90 truncate">
+                      {displayedFounders}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-white/60">—</span>
+                )}
               </div>
             )}
             {isLoading ? (

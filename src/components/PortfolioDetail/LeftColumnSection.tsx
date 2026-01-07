@@ -60,11 +60,11 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
               <h1 className="text-2xl md:text-3xl font-bold mb-3 md:mb-1 text-white tracking-tight leading-tight">
                 {detail.startupName}
               </h1>
-              <div className="flex flex-wrap items-center gap-3 text-sm md:text-base text-purple-200/90">
+              {/* <div className="flex flex-wrap items-center gap-3 text-sm md:text-base text-purple-200/90">
                 <span className="flex items-center gap-2 bg-black px-3 py-1.5 rounded-full backdrop-blur-sm">
                   {detail?.sector?.name}
                 </span>
-              </div>
+              </div> */}
             </div>
             
             {detail.startupWebsite && (
