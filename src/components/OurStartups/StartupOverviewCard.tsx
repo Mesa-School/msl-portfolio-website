@@ -105,7 +105,7 @@ export const StartupOverviewCard = ({
           ) : (
             <>
               {startup.sectorName && (
-                <span className="rounded-full border border-white/15 bg-green-500/50 px-3 py-1 text-white/80">
+                <span className="rounded-full text-sm border border-white/15 bg-black/50 px-3 py-1 text-white/80">
                   {startup.sectorName}
                 </span>
               )}

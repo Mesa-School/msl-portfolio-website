@@ -49,13 +49,13 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         </div>
         <div className="space-y-4">
           <div>
-            <p className="text-xs text-[#27614A]/70 mb-1">Total Revenue</p>
+            <p className="text-xs text-white/80 mb-1">Total Revenue</p>
             <p className="text-xl md:text-2xl font-bold text-white">
               {formatCurrency(detail.revenueStatus.revenue)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-[#27614A]/70 mb-1">Monthly Revenue</p>
+            <p className="text-xs text-white/80 mb-1">Monthly Revenue</p>
             <p className="text-lg md:text-xl font-bold text-white">
               {formatCurrency(detail.revenueStatus.currentRevenue)}
             </p>
@@ -232,15 +232,15 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         animate="visible"
         variants={fadeUpVariants}
         transition={{ delay: 0.3 }}
-        className="rounded-3xl bg-linear-to-br from-purple-900/20 via-gray-900/40 to-gray-900/20 backdrop-blur-xl p-5 md:p-6 border border-purple-500/20 shadow-xl"
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-5 md:p-6 border border-gray-700/30 shadow-xl"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2 bg-purple-500/15 rounded-xl">
+          <div className="p-2 bg-[#27614A]/15 rounded-xl">
             <Share2 className="w-5 h-5 text-purple-300" />
           </div>
           <div>
             <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Connect</h3>
-            <div className="h-0.5 w-10 bg-linear-to-r from-purple-500 to-transparent rounded-full mt-1"></div>
+            <div className="h-0.5 w-10 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="flex gap-3">

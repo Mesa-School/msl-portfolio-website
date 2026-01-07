@@ -159,11 +159,11 @@ export const OurStartupsHeader = () => {
               variants={staggeredFadeVariants}
               custom={0}
             >
-              Portfolio
+              Mesa Startup Lab
             </motion.h1>
 
             <motion.p
-              className="max-w-xl text-sm sm:text-base md:text-lg text-white/70 px-2"
+              className="text-sm sm:text-base md:text-lg text-white/70 px-2"
               variants={staggeredFadeVariants}
               custom={0.5}
             >
@@ -185,7 +185,7 @@ export const OurStartupsHeader = () => {
                   value={searchTerm}
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={() => setShowSuggestions(searchTerm.length > 0)}
-                  placeholder="Search for founders, sectors, destinations"
+                  placeholder="Search for startups"
                   className="flex-1 bg-transparent text-sm sm:text-base text-white placeholder:text-white/40 focus:outline-none"
                 />
                 {(searchTerm || selectedSectors.length > 0) && (
@@ -203,7 +203,7 @@ export const OurStartupsHeader = () => {
 
               {/* Sector Suggestions Dropdown */}
               {showSuggestions && filteredSectors.length > 0 && (
-                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/15 bg-[#05070f]/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(2,6,23,0.65)] overflow-hidden">
+                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/15 bg-[#091414] backdrop-blur-xl shadow-[0_25px_60px_rgba(2,6,23,0.65)] overflow-hidden">
                   <div className="max-h-64 overflow-y-auto p-2">
                     {filteredSectors.map((sector) => (
                       <button
@@ -235,7 +235,7 @@ export const OurStartupsHeader = () => {
                     onClick={() => toggleSector(sector.name)}
                     className={`rounded-full border px-3 py-1 sm:px-4 sm:py-1 transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-purple-500/50 bg-purple-500/20 text-white'
+                        ? 'border-[#27614A]/50 bg-[#27614A] text-white'
                         : 'border-white/15 bg-white/10 text-white/80 hover:bg-white/15 hover:text-white'
                     }`}
                     variants={chipVariants}
