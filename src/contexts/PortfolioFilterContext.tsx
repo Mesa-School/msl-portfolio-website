@@ -2,12 +2,6 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type Sector = {
-  id: number;
-  documentId: string;
-  name: string;
-};
-
 type PortfolioFilterContextType = {
   selectedSectors: string[];
   searchTerm: string;

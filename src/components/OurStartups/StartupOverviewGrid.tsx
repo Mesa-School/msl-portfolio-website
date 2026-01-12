@@ -12,6 +12,7 @@ const pickLogoUrl = (source: any, fallback?: any) =>
   source?.company_logo?.data?.attributes?.formats?.thumbnail?.url ??
   fallback?.company_logo?.url ??
   fallback?.company_logo?.data?.attributes?.url ??
+  source?.company_logo ??
   null;
 
 const pickFounders = (source: any) => {
@@ -19,9 +20,21 @@ const pickFounders = (source: any) => {
     ? source?.founder?.data
     : Array.isArray(source?.founder)
       ? source?.founder
-      : [];
+      : Array.isArray(source?.founders)
+        ? source?.founders
+        : [];
 
   return founderCollection.map((entry: any, index: number) => {
+    // If entry is a string (founder name), convert it to founder object
+    if (typeof entry === 'string') {
+      return {
+        id: index,
+        name: entry,
+        designation: null,
+      };
+    }
+
+    // Otherwise handle as object
     const node = entry?.attributes ?? entry;
     return {
       id: node?.id ?? entry?.id ?? index,
@@ -39,11 +52,14 @@ const normalizeStartups = (payload: any): Startup[] =>
       source?.sector?.name ??
       source?.sector?.data?.attributes?.name ??
       item?.sector?.name ??
+      source?.sector_name ??
+      item?.sector_name ??
       null;
 
     return {
       id: item?.id ?? index,
       documentId: item?.documentId ?? `${item?.id ?? index}`,
+      slug: item?.slug ?? source?.slug ?? null,
       name: source?.startup_name ?? 'Untitled Startup',
       summary: source?.startup_summary ?? '',
       location: source?.location ?? null,
@@ -67,7 +83,20 @@ export const StartupOverviewGrid = () => {
     const fetchStartups = async () => {
       setLoading(true);
       try {
-        const response = await fetch('/api/startups', {
+        // Build query parameters
+        const params = new URLSearchParams();
+
+        // Add sector filters if any are selected
+        if (selectedSectors.length > 0) {
+          selectedSectors.forEach((sector) => {
+            params.append('sector', sector);
+          });
+        }
+
+        const queryString = params.toString();
+        const url = `/api/startups${queryString ? `?${queryString}` : ''}`;
+
+        const response = await fetch(url, {
           signal: controller.signal,
         });
         const payload = await response.json();
@@ -98,20 +127,13 @@ export const StartupOverviewGrid = () => {
       isMounted = false;
       controller.abort();
     };
-  }, []);
+  }, [selectedSectors]);
 
-  // Filter startups based on selected sectors and search term
+  // Filter startups based on search term (sectors are filtered on backend)
   const filteredStartups = useMemo(() => {
     let filtered = [...startups];
 
-    // Filter by selected sectors
-    if (selectedSectors.length > 0) {
-      filtered = filtered.filter((startup) =>
-        startup.sectorName && selectedSectors.includes(startup.sectorName)
-      );
-    }
-
-    // Filter by search term
+    // Filter by search term only (client-side)
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
       filtered = filtered.filter((startup) => {
@@ -129,7 +151,7 @@ export const StartupOverviewGrid = () => {
     }
 
     return filtered;
-  }, [startups, selectedSectors, searchTerm]);
+  }, [startups, searchTerm]);
 
   return (
     <section className="relative mx-auto mt-20 flex w-full flex-col gap-10 overflow-hidden ">
@@ -163,6 +185,7 @@ export const StartupOverviewGrid = () => {
               startup={{
                 id: idx,
                 documentId: `skeleton-${idx}`,
+                slug: null,
                 name: '',
                 summary: '',
                 location: '',

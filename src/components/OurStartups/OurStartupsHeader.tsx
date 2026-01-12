@@ -7,41 +7,50 @@ import { Search, X } from 'lucide-react';
 
 type Sector = {
   id: number;
-  documentId: string;
   name: string;
 };
 
 // Hardcoded sectors data
 const HARDCODED_SECTORS: Sector[] = [
   {
-    id: 28,
-    documentId: 'thubd0y8e90rhrigx3bg5y3j',
+    id: 1,
     name: 'AI',
   },
   {
-    id: 30,
-    documentId: 'gnoy5rjsikv1yyud7d72fwki',
-    name: 'D2C ',
+    id: 2,
+    name: 'D2C',
   },
   {
-    id: 32,
-    documentId: 'r7u8wl1ankilczky7nr0mfwz',
-    name: 'Quick Commerce/ E-commerce',
-  },
-  {
-    id: 34,
-    documentId: 'y7abqy7g591ox36nfz5q7eoo',
-    name: 'Sports ',
-  },
-  {
-    id: 36,
-    documentId: 'ztg7jxrd43qqegiletyid7ud',
-    name: 'Mobility ',
-  },
-  {
-    id: 38,
-    documentId: 'g91hb6i2v6yaad7i3ahc65kb',
+    id: 3,
     name: 'Agritech',
+  },
+  {
+    id: 4,
+    name: 'Quick Commerce/E Commerce',
+  },
+  {
+    id: 5,
+    name: 'Sports',
+  },
+  {
+    id: 6,
+    name: 'Mobility',
+  },
+  {
+    id: 7,
+    name: 'HealthTech',
+  },
+  {
+    id: 8,
+    name: 'FinTech',
+  },
+  {
+    id: 9,
+    name: 'EdTech',
+  },
+  {
+    id: 10,
+    name: 'Other',
   },
 ];
 
@@ -207,7 +216,7 @@ export const OurStartupsHeader = () => {
                   <div className="max-h-64 overflow-y-auto p-2">
                     {filteredSectors.map((sector) => (
                       <button
-                        key={sector.documentId ?? sector.id}
+                        key={sector.id}
                         onClick={() => handleSectorSelect(sector.name)}
                         className="w-full text-left px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm text-white/80 hover:text-white"
                       >
@@ -231,7 +240,7 @@ export const OurStartupsHeader = () => {
                 const isSelected = selectedSectors.includes(sector.name);
                 return (
                   <motion.button
-                    key={sector.documentId ?? sector.id}
+                    key={sector.id}
                     onClick={() => toggleSector(sector.name)}
                     className={`rounded-full border px-3 py-1 sm:px-4 sm:py-1 transition-all cursor-pointer ${
                       isSelected

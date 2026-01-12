@@ -14,6 +14,7 @@ type Founder = {
 export type Startup = {
   id: number | string;
   documentId: string;
+  slug?: string | null;
   name: string;
   summary: string;
   location?: string | null;

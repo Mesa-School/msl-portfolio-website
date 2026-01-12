@@ -1,6 +1,6 @@
 export interface StartupDetail {
-  id: number;
-  documentId: string;
+  id: string;
+  slug: string;
   startupName: string;
   name: string;
   startupSummary: string;
@@ -10,41 +10,46 @@ export interface StartupDetail {
   startupWebsite: string;
   keyProgress: string;
   competitors: Array<{
-    company_name: string;
-    company_logo?: {
-      url?: string;
-    };
-    company_website?: string;
+    id: number;
+    competitor_name: string;
+    competitor_image: string | null;
+    competitor_website: string | null;
   }>;
   startup10xBetterment: string;
   futureGrowthVision: string;
   cohort: string;
   sector: {
     name: string;
-    description?: string;
   };
   companyLogo: string;
-  companyHeader: string;
+  companyHeaderImage: string;
   socialMediaLinks: {
-    instagram?: string;
-    linkedin?: string;
-    twitter?: string;
+    instagram?: string | null;
+    linkedin?: string | null;
+    twitter?: string | null;
+    facebook?: string | null;
   };
   revenueStatus: {
-    isRevenue: boolean;
-    revenue: string;
-    currentRevenue: string;
+    isGeneratingRevenue: boolean;
+    revenueDetails: string | null;
   };
   founders: Array<{
+    id: number;
     name: string;
     designation: string;
-    linkedinUrl: string;
-    email?: string;
-    profileImage: string;
+    linkedin: string;
+    email: string | null;
+    bio: string;
+    founderProfilePic: string;
   }>;
   keyAchievements: Array<{
-    achievementSummary: string;
+    id: number;
+    title: string;
+    description: string;
     achievementImage: string;
   }>;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string | null;
 }
 

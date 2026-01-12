@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation';
 
-import { API_URL, AUTH_TOKEN } from '@/config/apiUrl';
+import { API_URL } from '@/config/apiUrl';
 import type { StartupDetail } from '@/types/startupDetail';
 import { HeaderSection, LeftColumnSection, RightColumnSection } from '@/components/PortfolioDetail';
 
 const normalizeStartupDetail = (payload: any): StartupDetail => {
   const data = payload.data;
   return {
-    id: data.id,
-    documentId: data.documentId,
+    id: data._id,
+    slug: data.slug,
     startupName: data.startup_name,
     name: data.name,
     startupSummary: data.startup_summary,
@@ -19,9 +19,10 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
     keyProgress: data.key_progress,
     competitors: Array.isArray(data.competitors)
       ? data.competitors.map((competitor: any) => ({
-          company_name: competitor.company_name,
-          company_logo: competitor.company_logo,
-          company_website: competitor.company_website,
+          id: competitor.id,
+          competitor_name: competitor.competitor_name,
+          competitor_image: competitor.competitor_image,
+          competitor_website: competitor.competitor_website,
         }))
       : [],
     startup10xBetterment: data.startup_10x_betterment,
@@ -29,43 +30,46 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
     cohort: data.cohort,
     sector: {
       name: data.sector?.name || 'N/A',
-      description: data.sector?.description,
     },
-    companyLogo: data.company_logo?.url || '',
-    companyHeader: data.company_header?.url || '',
+    companyLogo: data.company_logo || '',
+    companyHeaderImage: data.company_header_image || '',
     socialMediaLinks: {
       instagram: data.social_media_links?.instagram,
       linkedin: data.social_media_links?.linkedin,
       twitter: data.social_media_links?.twitter,
+      facebook: data.social_media_links?.facebook,
     },
     revenueStatus: {
-      isRevenue: data.revenue_status?.isRevenue || false,
-      revenue: data.revenue_status?.revenue || '0',
-      currentRevenue: data.revenue_status?.current_revenue || '0',
+      isGeneratingRevenue: data.revenue_status?.is_generating_revenue || false,
+      revenueDetails: data.revenue_status?.revenue_details || null,
     },
     founders: (data.founder || []).map((f: any) => ({
+      id: f.id,
       name: f.name,
       designation: f.designation,
-      linkedinUrl: f.linkedin_url,
+      linkedin: f.linkedin,
       email: f.email,
-      profileImage: f.profile_image?.url || '',
+      bio: f.bio,
+      founderProfilePic: f.founder_profile_pic || '',
     })),
     keyAchievements: (data.key_achievements || []).map((a: any) => ({
-      achievementSummary: a.achievement_summary,
-      achievementImage: a.achievement_image?.url || '',
+      id: a.id,
+      title: a.title,
+      description: a.description,
+      achievementImage: a.achievement_image || '',
     })),
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+    publishedAt: data.published_at,
   };
 };
 
-const fetchStartupDetail = async (documentId: string): Promise<StartupDetail | null> => {
-  if (!API_URL || !AUTH_TOKEN) {
+const fetchStartupDetail = async (slug: string): Promise<StartupDetail | null> => {
+  if (!API_URL) {
     return null;
   }
 
-  const response = await fetch(`${API_URL}/startup2/${documentId}`, {
-    headers: {
-      Authorization: `Bearer ${AUTH_TOKEN}`,
-    },
+  const response = await fetch(`${API_URL}/api/startups/${slug}`, {
     cache: 'no-store',
   });
 
@@ -79,12 +83,12 @@ const fetchStartupDetail = async (documentId: string): Promise<StartupDetail | n
 };
 
 type DetailPageProps = {
-  params: Promise<{ documentId: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 const StartupDetailPage = async ({ params }: DetailPageProps) => {
-  const { documentId } = await params;
-  const detail = await fetchStartupDetail(documentId);
+  const { slug } = await params;
+  const detail = await fetchStartupDetail(slug);
   console.log("Startup Detailed Data", detail);
 
   if (!detail) {
