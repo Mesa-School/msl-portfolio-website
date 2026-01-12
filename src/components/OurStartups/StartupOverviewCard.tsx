@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, Variants } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 
 type Founder = {
   id: number | string;
@@ -28,22 +30,6 @@ type StartupOverviewCardProps = {
   startup: Startup;
   index: number;
   isLoading?: boolean;
-};
-
-const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.98 },
-  visible: (custom: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      delay: custom * 0.05,
-      ease: easing,
-    },
-  }),
 };
 
 const renderInitials = (name: string) =>
@@ -72,6 +58,8 @@ export const StartupOverviewCard = ({
   index,
   isLoading = false,
 }: StartupOverviewCardProps) => {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const router = useRouter();
   const hasLogo = Boolean(startup.logoUrl);
   const summary = startup.summary ?? '';
   const founderNames =
@@ -84,15 +72,16 @@ export const StartupOverviewCard = ({
     : null;
   const gradientClass = getGradientClass(index);
 
-  return (
+  const handleViewDetail = () => {
+    if (detailHref) {
+      setIsNavigating(true);
+      router.push(detailHref);
+    }
+  };
 
-    <motion.article
+  return (
+    <article
       className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/10 text-white transition duration-300 hover:bg-white/10"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ amount: 0.2, once: true }}
-      variants={cardVariants}
-      custom={index}
     >
       <div className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/20 via-transparent to-transparent opacity-0 blur-2xl transition duration-500 group-hover:opacity-80" />
       <div className={`relative flex h-full flex-col ${gradientClass} gap-4 sm:gap-5 rounded-2xl sm:rounded-3xl p-4 sm:p-6`}>
@@ -190,12 +179,20 @@ export const StartupOverviewCard = ({
           {isLoading ? (
             <Skeleton className="h-10 w-full sm:w-32 rounded-full bg-white/10" />
           ) : detailHref ? (
-            <Link
-              href={detailHref}
-              className="w-full sm:w-auto text-center cursor-pointer rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition duration-300 hover:scale-110 bg-white text-[#05070f]"
+            <button
+              onClick={handleViewDetail}
+              disabled={isNavigating}
+              className="w-full sm:w-auto text-center cursor-pointer rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition duration-300 hover:scale-110 bg-white text-[#05070f] disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
-              View Detail
-            </Link>
+              {isNavigating ? (
+                <>
+                  <Spinner className="size-4" />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                'View Detail'
+              )}
+            </button>
           ) : (
             <span className="w-full sm:w-auto text-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs sm:text-sm text-white/60">
               Details unavailable
@@ -203,6 +200,6 @@ export const StartupOverviewCard = ({
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };
