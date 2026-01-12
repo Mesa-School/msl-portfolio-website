@@ -1,1 +1,1 @@
-export const API_URL = process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL;
+export const API_URL = process.env.NEXT_PUBLIC_STRAPI_BACKEND_URL || "https://careers-crm-backend.mesaschool.co.in";
