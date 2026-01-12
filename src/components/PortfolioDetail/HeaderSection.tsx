@@ -23,7 +23,7 @@ type HeaderSectionProps = {
 };
 
 const HeaderSection = ({ detail }: HeaderSectionProps) => {
-  const heroImage = detail.companyHeader || detail.companyLogo;
+  const heroImage = detail.companyHeaderImage || detail.companyLogo;
 
   return (
     <>
@@ -47,9 +47,9 @@ const HeaderSection = ({ detail }: HeaderSectionProps) => {
         animate="visible"
         variants={fadeUpVariants}
         transition={{ delay: 0.2 }}
-        className="relative h-[200px] md:h-[400px] w-full"
+        className="relative w-full aspect-5/2"
       >
-        <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#05070f]" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#05070f] z-10" />
         {heroImage && (
           <ImageWithSkeleton
             src={heroImage}

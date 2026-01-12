@@ -69,16 +69,33 @@ const fetchStartupDetail = async (slug: string): Promise<StartupDetail | null> =
     return null;
   }
 
-  const response = await fetch(`${API_URL}/api/startups/${slug}`, {
+  // First, fetch all startups to find the ID for this slug
+  const listResponse = await fetch(`${API_URL}/api/startups?limit=100`, {
     cache: 'no-store',
   });
 
-  console.log("Fetch the Startup Detailed Data", response);
-  if (!response.ok) {
+  if (!listResponse.ok) {
     return null;
   }
 
-  const payload = await response.json();
+  const listPayload = await listResponse.json();
+  const startup = listPayload.data?.find((s: any) => s.slug === slug);
+
+  if (!startup) {
+    return null;
+  }
+
+  // Now fetch the detailed data using the ID
+  const detailResponse = await fetch(`${API_URL}/api/startups/${startup.id}`, {
+    cache: 'no-store',
+  });
+
+  console.log("Fetch the Startup Detailed Data", detailResponse);
+  if (!detailResponse.ok) {
+    return null;
+  }
+
+  const payload = await detailResponse.json();
   return normalizeStartupDetail(payload);
 };
 

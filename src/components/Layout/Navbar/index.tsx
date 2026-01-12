@@ -84,15 +84,15 @@ const NavbarMainSection = () => {
                     </div> */}
 
                     {/* Right side - Portfolio Button */}
-                    <div className="flex items-center gap-4">
+                    {/* <div className="flex items-center gap-4">
                         <Link
                             href="/portfolio"
                             className="heading-font clip-hover relative inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-6 py-2 text-sm md:text-base font-semibold text-[#27614A] shadow-[0_0_25px_rgba(39,97,74,0.25)] transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_35px_rgba(39,97,74,0.35)]"
                         >
                             <span className='font-black'>Portfolio</span>
                         </Link>
-                        {/* <MenuHeader /> */}
-                    </div>
+                        <MenuHeader />
+                    </div> */}
                 </div>
             </div>
         </div>

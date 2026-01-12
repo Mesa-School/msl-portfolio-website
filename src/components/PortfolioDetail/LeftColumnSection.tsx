@@ -201,7 +201,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
         <div className="grid grid-cols-1 gap-6">
           {detail.keyAchievements.map((achievement, index) => (
             <div
-              key={`${achievement.achievementSummary}-${index}`}
+              key={achievement.id || index}
               className="group relative flex flex-col sm:flex-row gap-5 hover:border-[#27614A]/30 transition-all duration-300"
             >
               {achievement.achievementImage && (
@@ -213,7 +213,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
                     >
                       <ImageWithSkeleton
                         src={achievement.achievementImage}
-                        alt="Achievement preview"
+                        alt={achievement.title || "Achievement preview"}
                         fill
                         className="object-cover cursor-pointer group-hover:scale-105 transition-transform duration-300"
                       />
@@ -228,7 +228,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
                     <div className="relative w-full h-[60vh] md:h-[75vh] rounded-2xl overflow-hidden bg-black">
                       <ImageWithSkeleton
                         src={achievement.achievementImage}
-                        alt="Achievement full preview"
+                        alt={achievement.title || "Achievement full preview"}
                         fill
                         className="object-contain"
                         sizes="(max-width: 768px) 90vw, 60vw"
@@ -239,8 +239,11 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
                 </Dialog>
               )}
               <div className="flex-1">
+                {achievement.title && (
+                  <h3 className="text-lg font-semibold text-white mb-2">{achievement.title}</h3>
+                )}
                 <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-2">
-                  {renderMarkdownText(achievement.achievementSummary, {
+                  {renderMarkdownText(achievement.description, {
                     lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
                   })}
                 </div>

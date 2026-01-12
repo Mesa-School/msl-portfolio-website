@@ -79,8 +79,8 @@ export const StartupOverviewCard = ({
   const displayedFounders = founderNames.slice(0, 2).join(', ');
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
-  const detailHref = startup.documentId
-    ? `/portfolio/${startup.documentId}`
+  const detailHref = startup.slug
+    ? `/portfolio/${startup.slug}`
     : null;
   const gradientClass = getGradientClass(index);
 
