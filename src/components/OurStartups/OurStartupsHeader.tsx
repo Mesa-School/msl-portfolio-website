@@ -35,23 +35,7 @@ const HARDCODED_SECTORS: Sector[] = [
   {
     id: 6,
     name: 'Mobility',
-  },
-  {
-    id: 7,
-    name: 'HealthTech',
-  },
-  {
-    id: 8,
-    name: 'FinTech',
-  },
-  {
-    id: 9,
-    name: 'EdTech',
-  },
-  {
-    id: 10,
-    name: 'Other',
-  },
+  }
 ];
 
 const oswald = Oswald({
