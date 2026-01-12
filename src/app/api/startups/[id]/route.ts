@@ -4,7 +4,7 @@ import { API_URL } from '@/config/apiUrl';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   if (!API_URL) {
     return NextResponse.json(
@@ -13,7 +13,7 @@ export async function GET(
     );
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json(
