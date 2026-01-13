@@ -37,7 +37,7 @@ const NavbarMainSection = () => {
                 )}
             >
                 <div className='w-[95%] md:w-[90%] mx-auto py-2 px-4'>
-                    <p className="text-white/80 text-sm md:text-base text-center font-medium">
+                    <p className="text-white/80 text-xs md:text-base text-center font-medium">
                         The launchpad for India’s next generation of builders
                     </p>
                 </div>
@@ -62,7 +62,7 @@ const NavbarMainSection = () => {
                             alt="logo"
                             width={150}
                             height={100}
-                            className='h-12 w-auto object-contain rounded-md'
+                            className='h-10 md:h-12 w-auto object-contain rounded-md'
                         />
                     </Link>
 

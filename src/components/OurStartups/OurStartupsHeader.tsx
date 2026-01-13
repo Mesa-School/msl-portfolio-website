@@ -132,7 +132,7 @@ export const OurStartupsHeader = () => {
 
   return (
     <motion.section
-      className="relative overflow-hidden my-16 px-4 flex flex-col justify-center items-center sm:my-20"
+      className="relative overflow-hidden my-16 px-4 flex flex-col justify-center items-center sm:mt-20"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
@@ -143,12 +143,12 @@ export const OurStartupsHeader = () => {
 
           {/* Heading */}
           <motion.div
-            className="flex flex-col items-center gap-4"
+            className="flex flex-col items-center gap-2 md:gap-4"
             variants={staggeredFadeVariants}
             custom={0}
           >
             <motion.h1
-              className={`font-bold tracking-tight text-white text-[40px] sm:text-[60px] md:text-[74px] leading-tight`}
+              className={`font-bold tracking-tight text-white text-4xl sm:text-4xl md:text-7xl leading-tight`}
               variants={staggeredFadeVariants}
               custom={0}
             >
@@ -160,7 +160,7 @@ export const OurStartupsHeader = () => {
               variants={staggeredFadeVariants}
               custom={0.5}
             >
-              Find the founders, sectors, and cities shaping the next wave of innovation.
+              Where India’s best founders build conviction.
             </motion.p>
           </motion.div>
 
@@ -214,7 +214,7 @@ export const OurStartupsHeader = () => {
           </motion.div>
 
           {/* Sector Chips */}
-          <motion.div
+          {/* <motion.div
             className="w-full max-w-3xl px-1"
             variants={staggeredFadeVariants}
             custom={2}
@@ -239,7 +239,7 @@ export const OurStartupsHeader = () => {
                 );
               })}
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </motion.section>

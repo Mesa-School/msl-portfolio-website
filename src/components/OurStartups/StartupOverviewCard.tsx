@@ -187,7 +187,7 @@ export const StartupOverviewCard = ({
               {isNavigating ? (
                 <>
                   <Spinner className="size-4" />
-                  <span>Loading...</span>
+                  {/* <span>Loading...</span> */}
                 </>
               ) : (
                 'View Detail'

@@ -49,12 +49,19 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
         </div>
         <div className="space-y-4">
           <div>
-            <p className="text-sm text-white/80">Generating Revenue</p>
+            <p className="text-md text-white">Generating Revenue</p>
             {detail.revenueStatus.revenueDetails && (
               <p className="text-sm text-gray-300 mt-2">
-                {detail.revenueStatus.revenueDetails}
+                {detail.revenueStatus.revenueDetails
+                  .split(", ")
+                  .map((item, index) => (
+                    <span key={index} className="block">
+                      {item}
+                    </span>
+                  ))}
               </p>
             )}
+
           </div>
         </div>
       </motion.div>
@@ -104,7 +111,7 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
                   </DialogTrigger>
                   <DialogContent className="bg-black/95 border border-white/10 w-full max-w-2xl rounded-3xl space-y-6">
                     <DialogTitle className="text-white text-2xl font-semibold text-center">
-                        Founder Details
+                      Founder Details
                     </DialogTitle>
                     <div className="flex flex-col items-center text-center space-y-5">
                       <div className="relative w-full max-w-sm h-72 md:h-80 rounded-2xl overflow-hidden bg-black">
