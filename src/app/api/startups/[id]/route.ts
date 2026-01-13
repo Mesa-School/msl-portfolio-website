@@ -24,9 +24,14 @@ export async function GET(
 
   const endpoint = `${API_URL}/api/startups/${id}`;
 
+  const token = process.env.API_BEARER_TOKEN;
+
   try {
     const response = await fetch(endpoint, {
       cache: 'no-store',
+      headers: {
+        ...(token && { 'Authorization': `Bearer ${token}` }),
+      },
     });
 
     const payload = await response.json();
@@ -36,7 +41,9 @@ export async function GET(
         { error: payload?.error ?? 'Failed to fetch startup.' },
         { status: response.status },
       );
-    }
+    };
+
+    console.log('Fetched startup payload:', payload);
 
     return NextResponse.json(payload);
   } catch (error) {

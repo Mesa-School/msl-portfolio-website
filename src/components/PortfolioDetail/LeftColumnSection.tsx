@@ -28,7 +28,21 @@ type LeftColumnSectionProps = {
   detail: StartupDetail;
 };
 
-const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
+const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
+  // Filter out empty achievements - only keep those with title or description
+  const validAchievements = detail.keyAchievements.filter(
+    (achievement) =>
+      (achievement.title && achievement.title.trim() !== '') ||
+      (achievement.description && achievement.description.trim() !== '')
+  );
+
+  // Check if sections have content
+  const hasProblem = detail.startupProblemGap && detail.startupProblemGap.trim() !== '';
+  const hasSolution = detail.startup10xBetterment && detail.startup10xBetterment.trim() !== '';
+  const hasProblemSolutionSection = hasProblem || hasSolution;
+  const hasFutureVision = detail.futureGrowthVision && detail.futureGrowthVision.trim() !== '';
+
+  return (
   <div className={`lg:col-span-2 space-y-8 ${dmSans.className}`}>
     {/* Hero Section with Company Info */}
     <motion.div
@@ -109,78 +123,86 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
     </motion.div>
 
     {/* Problem & Solution Section */}
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={fadeUpVariants}
-      transition={{ delay: 0.2 }}
-      className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
-    >
-      <div className="flex items-center gap-4 mb-8">
-        <div className="p-3 bg-[#27614A]/10 rounded-xl">
-          <Lightbulb className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
-        </div>
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Problem & Solution</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
-        </div>
-      </div>
-      
-      <div className="space-y-8">
-        <section className="relative pl-2 md:pl-5">
-          
-          <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-[#27614A]" />
-            Problem
-          </h3>
-          <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
-            {renderMarkdownText(detail.startupProblemGap, {
-              lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
-            })}
+    {hasProblemSolutionSection && (
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.2 }}
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+      >
+        <div className="flex items-center gap-4 mb-8">
+          <div className="p-3 bg-[#27614A]/10 rounded-xl">
+            <Lightbulb className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
           </div>
-        </section>
-        
-        <section className="relative pl-2 md:pl-5">
-          
-          <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-[#27614A]" />
-            The Solution
-          </h3>
-          <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
-            {renderMarkdownText(detail.startup10xBetterment, {
-              lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
-            })}
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Problem & Solution</h2>
+            <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
-        </section>
-      </div>
-    </motion.div>
+        </div>
+
+        <div className="space-y-8">
+          {hasProblem && (
+            <section className="relative pl-2 md:pl-5">
+
+              <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <Target className="w-5 h-5 text-[#27614A]" />
+                Problem
+              </h3>
+              <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
+                {renderMarkdownText(detail.startupProblemGap, {
+                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+                })}
+              </div>
+            </section>
+          )}
+
+          {hasSolution && (
+            <section className="relative pl-2 md:pl-5">
+
+              <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <Lightbulb className="w-5 h-5 text-[#27614A]" />
+                The Solution
+              </h3>
+              <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
+                {renderMarkdownText(detail.startup10xBetterment, {
+                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+                })}
+              </div>
+            </section>
+          )}
+        </div>
+      </motion.div>
+    )}
 
     {/* Future Vision Section */}
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={fadeUpVariants}
-      transition={{ delay: 0.3 }}
-      className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
-    >
-      <div className="flex items-center gap-4 mb-6">
-        <div className="p-3 bg-[#27614A]/10 rounded-xl">
-          <Rocket className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
+    {hasFutureVision && (
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUpVariants}
+        transition={{ delay: 0.3 }}
+        className="rounded-3xl bg-[#091414] backdrop-blur-xl p-2 md:p-5 border border-gray-700/30 shadow-xl"
+      >
+        <div className="flex items-center gap-4 mb-6">
+          <div className="p-3 bg-[#27614A]/10 rounded-xl">
+            <Rocket className="w-6 h-6 md:w-7 md:h-7 text-[#27614A]" />
+          </div>
+          <div>
+            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Future Vision</h2>
+            <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Future Vision</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
+        <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
+          {renderMarkdownText(detail.futureGrowthVision, {
+            lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+          })}
         </div>
-      </div>
-      <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
-        {renderMarkdownText(detail.futureGrowthVision, {
-          lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
-        })}
-      </div>
-    </motion.div>
+      </motion.div>
+    )}
 
     {/* Key Achievements Section */}
-    {detail.keyAchievements.length > 0 && (
+    {validAchievements.length > 0 && (
       <motion.div
         initial="hidden"
         animate="visible"
@@ -197,9 +219,9 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
             <div className="h-1 w-16 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 gap-6">
-          {detail.keyAchievements.map((achievement, index) => (
+          {validAchievements.map((achievement, index) => (
             <div
               key={achievement.id || index}
               className="group relative flex flex-col sm:flex-row gap-5 hover:border-[#27614A]/30 transition-all duration-300"
@@ -254,6 +276,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => (
       </motion.div>
     )}
   </div>
-);
+  );
+};
 
 export default LeftColumnSection;
