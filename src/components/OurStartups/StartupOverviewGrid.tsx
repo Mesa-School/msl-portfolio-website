@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 
 import { Startup, StartupOverviewCard } from './StartupOverviewCard';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
+import { reorderStartups } from '@/utils/startupOrdering';
 
 const pickLogoUrl = (source: any, fallback?: any) =>
   source?.company_logo?.url ??
@@ -150,7 +151,8 @@ export const StartupOverviewGrid = () => {
       });
     }
 
-    return filtered;
+    // Apply custom ordering
+    return reorderStartups(filtered);
   }, [startups, searchTerm]);
 
   return (
