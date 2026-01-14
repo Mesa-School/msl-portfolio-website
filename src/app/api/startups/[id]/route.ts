@@ -23,6 +23,7 @@ export async function GET(
   }
 
   const endpoint = `${API_URL}/api/startups/${id}`;
+  console.log("API Endpoint:", endpoint);
 
   const token = process.env.API_BEARER_TOKEN;
 
@@ -35,6 +36,7 @@ export async function GET(
     });
 
     const payload = await response.json();
+    // console.log("Data fetched from API:", payload);
 
     if (!response.ok) {
       return NextResponse.json(
@@ -42,8 +44,6 @@ export async function GET(
         { status: response.status },
       );
     };
-
-    console.log('Fetched startup payload:', payload);
 
     return NextResponse.json(payload);
   } catch (error) {

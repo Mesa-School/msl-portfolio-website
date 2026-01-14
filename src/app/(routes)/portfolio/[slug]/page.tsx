@@ -40,7 +40,7 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
       facebook: data.social_media_links?.facebook,
     },
     revenueStatus: {
-      isGeneratingRevenue: data.revenue_status?.is_generating_revenue || false,
+      currently_generating_revenue: data.revenue_status?.currently_generating_revenue || false,
       revenueDetails: data.revenue_status?.revenue_details || null,
     },
     founders: (data.founder || []).map((f: any) => ({

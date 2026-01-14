@@ -6,6 +6,15 @@ import { motion } from 'framer-motion';
 import { Startup, StartupOverviewCard } from './StartupOverviewCard';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { reorderStartups } from '@/utils/startupOrdering';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 const pickLogoUrl = (source: any, fallback?: any) =>
   source?.company_logo?.url ??
@@ -71,11 +80,25 @@ const normalizeStartups = (payload: any): Startup[] =>
     };
   });
 
+type PaginationData = {
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+};
+
 export const StartupOverviewGrid = () => {
   const { selectedSectors, searchTerm } = usePortfolioFilters();
   const [startups, setStartups] = useState<Startup[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pagination, setPagination] = useState<PaginationData>({
+    total: 0,
+    page: 1,
+    limit: 10,
+    total_pages: 1,
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -86,6 +109,10 @@ export const StartupOverviewGrid = () => {
       try {
         // Build query parameters
         const params = new URLSearchParams();
+
+        // Add pagination
+        params.set('page', currentPage.toString());
+        params.set('limit', '10');
 
         // Add sector filters if any are selected
         if (selectedSectors.length > 0) {
@@ -108,6 +135,9 @@ export const StartupOverviewGrid = () => {
 
         if (isMounted) {
           setStartups(normalizeStartups(payload));
+          if (payload.pagination) {
+            setPagination(payload.pagination);
+          }
           setError(null);
         }
       } catch (err) {
@@ -128,7 +158,12 @@ export const StartupOverviewGrid = () => {
       isMounted = false;
       controller.abort();
     };
-  }, [selectedSectors]);
+  }, [selectedSectors, currentPage]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedSectors, searchTerm]);
 
   // Filter startups based on search term (sectors are filtered on backend)
   const filteredStartups = useMemo(() => {
@@ -224,6 +259,77 @@ export const StartupOverviewGrid = () => {
           <StartupOverviewCard key={startup.documentId ?? `${startup.id}`} startup={startup} index={index} />
         ))}
       </div>
+
+      {/* Pagination */}
+      {!loading && !error && pagination.total_pages > 1 && (
+        <Pagination className="mt-8">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                className={`cursor-pointer transition-colors ${
+                  currentPage === 1
+                    ? 'pointer-events-none opacity-50'
+                    : 'hover:bg-[#27614A] hover:text-white'
+                }`}
+              />
+            </PaginationItem>
+
+            {/* Page Numbers */}
+            {Array.from({ length: pagination.total_pages }, (_, i) => i + 1).map((page) => {
+              // Show first page, last page, current page, and pages around current
+              const showPage =
+                page === 1 ||
+                page === pagination.total_pages ||
+                (page >= currentPage - 1 && page <= currentPage + 1);
+
+              // Show ellipsis
+              const showEllipsisBefore = page === currentPage - 2 && currentPage > 3;
+              const showEllipsisAfter =
+                page === currentPage + 2 && currentPage < pagination.total_pages - 2;
+
+              if (showEllipsisBefore || showEllipsisAfter) {
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+
+              if (!showPage) return null;
+
+              return (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    onClick={() => setCurrentPage(page)}
+                    isActive={currentPage === page}
+                    className={`cursor-pointer transition-colors ${
+                      currentPage === page
+                        ? 'bg-[#27614A] text-white border-[#27614A]'
+                        : 'hover:bg-[#27614A]/20 hover:text-white'
+                    }`}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(pagination.total_pages, prev + 1))
+                }
+                className={`cursor-pointer transition-colors ${
+                  currentPage === pagination.total_pages
+                    ? 'pointer-events-none opacity-50'
+                    : 'hover:bg-[#27614A] hover:text-white'
+                }`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </section>
   );
 };

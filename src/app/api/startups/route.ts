@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
 
   // Set default parameters
   if (!searchParams.has('limit')) {
-    searchParams.set('limit', '20');
+    searchParams.set('limit', '10');
+  }
+  if (!searchParams.has('page')) {
+    searchParams.set('page', '1');
   }
 
   // Add published filter by default unless explicitly overridden
@@ -24,6 +27,7 @@ export async function GET(request: NextRequest) {
 
   const query = searchParams.toString();
   const endpoint = `${API_URL}/api/startups/${query ? `?${query}` : ''}`;
+  console.log("API Endpoint:", endpoint);
 
   const token = process.env.API_BEARER_TOKEN;
 
@@ -42,7 +46,9 @@ export async function GET(request: NextRequest) {
         { error: payload?.error ?? 'Failed to fetch startups.' },
         { status: response.status },
       );
-    }
+    };
+
+    console.log("Fetched Startups Data", payload);
 
     return NextResponse.json(payload);
   } catch (error) {

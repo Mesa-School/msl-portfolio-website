@@ -46,10 +46,10 @@ export const renderMarkdownText = (
   });
 };
 
-export const formatCurrency = (value: string | null | undefined) => {
-  if (!value) return '—';
-  const num = parseFloat(value.replace(/,/g, ''));
-  if (isNaN(num)) return value;
+export const formatCurrency = (value: string | number | null | undefined) => {
+  if (!value && value !== 0) return '—';
+  const num = typeof value === 'number' ? value : parseFloat(value.replace(/,/g, ''));
+  if (isNaN(num)) return typeof value === 'string' ? value : '—';
   return `₹${num.toLocaleString('en-IN')}`;
 };
 

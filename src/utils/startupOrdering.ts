@@ -4,12 +4,14 @@
  * Includes variations to support flexible matching
  */
 export const STARTUP_DISPLAY_ORDER = [
-  'MPC',              // Mumbai Pav Company
+  'MPC',
+  'Everaw',
   'Studojo',
-  'VetQure AI',       // Alternative spellings included in matching logic
+  'VetQure AI',
   'FYN',
+
   'Future Farming',
-  'Thrift Store',     // The Thrift Store
+  'Thrift Store',
   'Sakhi',
   'Miomi',
   'Nazaraa',

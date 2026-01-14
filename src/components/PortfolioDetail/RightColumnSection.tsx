@@ -31,7 +31,7 @@ type RightColumnSectionProps = {
 const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
   <div className={`sticky top-20 self-start space-y-6 ${dmSans.className}`}>
     {/* Revenue Section */}
-    {detail.revenueStatus.isGeneratingRevenue && (
+    {detail.revenueStatus.currently_generating_revenue && detail.revenueStatus.revenueDetails && (
       <motion.div
         initial="hidden"
         animate="visible"
@@ -43,25 +43,22 @@ const RightColumnSection = ({ detail }: RightColumnSectionProps) => (
             <BarChart3 className="w-5 h-5 text-[#27614A]" />
           </div>
           <div>
-            <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Revenue Status</h3>
+            <h3 className="text-lg md:text-xl font-bold text-white tracking-tight">Revenue</h3>
             <div className="h-0.5 w-10 bg-linear-to-r from-[#27614A] to-transparent rounded-full mt-1"></div>
           </div>
         </div>
         <div className="space-y-4">
           <div>
-            <p className="text-md text-white">Generating Revenue</p>
-            {detail.revenueStatus.revenueDetails && (
-              <p className="text-sm text-gray-300 mt-2">
-                {detail.revenueStatus.revenueDetails
-                  .split(", ")
-                  .map((item, index) => (
-                    <span key={index} className="block">
-                      {item}
-                    </span>
-                  ))}
-              </p>
-            )}
-
+            <p className="text-sm text-gray-400">Total Revenue:</p>
+            <p className="text-lg md:text-xl font-semibold text-white mt-1">
+              {formatCurrency(detail.revenueStatus.revenueDetails.total_revenue)}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-400">Monthly Revenue:</p>
+            <p className="text-lg md:text-xl font-semibold text-white mt-1">
+              {formatCurrency(detail.revenueStatus.revenueDetails.monthly_revenue)}
+            </p>
           </div>
         </div>
       </motion.div>

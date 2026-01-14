@@ -30,8 +30,11 @@ export interface StartupDetail {
     facebook?: string | null;
   };
   revenueStatus: {
-    isGeneratingRevenue: boolean;
-    revenueDetails: string | null;
+    currently_generating_revenue: boolean;
+    revenueDetails: {
+      total_revenue: number;
+      monthly_revenue: number;
+    } | null;
   };
   founders: Array<{
     id: number;
