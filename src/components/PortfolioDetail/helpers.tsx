@@ -36,9 +36,11 @@ export const renderMarkdownText = (
           if (!trimmedLine) return null;
 
           return (
-            <p key={lineIdx} className={lineClassName}>
-              {trimmedLine}
-            </p>
+            <div
+              key={lineIdx}
+              className={lineClassName}
+              dangerouslySetInnerHTML={{ __html: trimmedLine }}
+            />
           );
         })}
       </div>

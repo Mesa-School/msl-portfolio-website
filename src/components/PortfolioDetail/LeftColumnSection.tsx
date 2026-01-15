@@ -143,7 +143,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
 
         <div className="space-y-8">
           {hasProblem && (
-            <section className="relative pl-2 md:pl-5">
+            <section className="relative">
 
               <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <Target className="w-5 h-5 text-[#27614A]" />
@@ -158,7 +158,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
           )}
 
           {hasSolution && (
-            <section className="relative pl-2 md:pl-5">
+            <section className="relative">
 
               <h3 className="text-lg md:text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <Lightbulb className="w-5 h-5 text-[#27614A]" />
