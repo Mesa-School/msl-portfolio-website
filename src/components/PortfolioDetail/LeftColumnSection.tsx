@@ -36,11 +36,15 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
       (achievement.description && achievement.description.trim() !== '')
   );
 
+  // Strip HTML tags and entities to check if there's actual visible text
+  const hasVisibleText = (html?: string) =>
+    !!html && html.replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, '').trim() !== '';
+
   // Check if sections have content
-  const hasProblem = detail.startupProblemGap && detail.startupProblemGap.trim() !== '';
-  const hasSolution = detail.startup10xBetterment && detail.startup10xBetterment.trim() !== '';
+  const hasProblem = hasVisibleText(detail.startupProblemGap);
+  const hasSolution = hasVisibleText(detail.startup10xBetterment);
   const hasProblemSolutionSection = hasProblem || hasSolution;
-  const hasFutureVision = detail.futureGrowthVision && detail.futureGrowthVision.trim() !== '';
+  const hasFutureVision = hasVisibleText(detail.futureGrowthVision);
 
   return (
   <div className={`lg:col-span-2 space-y-8 ${dmSans.className}`}>
@@ -117,7 +121,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
       </div>
       <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
         {renderMarkdownText(detail.startupOverview, {
-          lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+          lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed [&_*]:text-inherit',
         })}
       </div>
     </motion.div>
@@ -151,7 +155,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
               </h3>
               <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
                 {renderMarkdownText(detail.startupProblemGap, {
-                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed [&_*]:text-inherit',
                 })}
               </div>
             </section>
@@ -166,7 +170,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
               </h3>
               <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
                 {renderMarkdownText(detail.startup10xBetterment, {
-                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+                  lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed [&_*]:text-inherit',
                 })}
               </div>
             </section>
@@ -195,7 +199,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
         </div>
         <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-3">
           {renderMarkdownText(detail.futureGrowthVision, {
-            lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+            lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed [&_*]:text-inherit',
           })}
         </div>
       </motion.div>
@@ -266,7 +270,7 @@ const LeftColumnSection = ({ detail }: LeftColumnSectionProps) => {
                 )}
                 <div className="text-gray-300 leading-relaxed text-sm md:text-base space-y-2">
                   {renderMarkdownText(achievement.description, {
-                    lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed',
+                    lineClassName: 'text-sm md:text-base text-gray-300 leading-relaxed [&_*]:text-inherit',
                   })}
                 </div>
               </div>

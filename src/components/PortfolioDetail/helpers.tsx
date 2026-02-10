@@ -5,6 +5,10 @@ type MarkdownOptions = {
   lineClassName?: string;
 };
 
+const stripInlineStyles = (html: string): string =>
+  html.replace(/\s*(style|color|font-size|font-family)\s*=\s*"[^"]*"/gi, '')
+      .replace(/\s*(style|color|font-size|font-family)\s*=\s*'[^']*'/gi, '');
+
 export const renderMarkdownText = (
   text?: unknown,
   options: MarkdownOptions = {}
@@ -39,7 +43,7 @@ export const renderMarkdownText = (
             <div
               key={lineIdx}
               className={lineClassName}
-              dangerouslySetInnerHTML={{ __html: trimmedLine }}
+              dangerouslySetInnerHTML={{ __html: stripInlineStyles(trimmedLine) }}
             />
           );
         })}
