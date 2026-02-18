@@ -1,11 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import Tilt from 'react-parallax-tilt';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
+import ImageWithSkeleton from '@/components/ui/ImageWithSkeleton';
 
 type Founder = {
   id: number | string;
@@ -67,9 +66,7 @@ export const StartupOverviewCard = ({
   const displayedFounders = founderNames.slice(0, 2).join(', ');
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
-  const detailHref = startup.slug
-    ? `/portfolio/${startup.slug}`
-    : null;
+  const detailHref = startup.slug ? `/portfolio/${startup.slug}` : null;
   const gradientClass = getGradientClass(index);
 
   const handleViewDetail = () => {
@@ -85,7 +82,8 @@ export const StartupOverviewCard = ({
     >
       <div className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/20 via-transparent to-transparent opacity-0 blur-2xl transition duration-500 group-hover:opacity-80" />
       <div className={`relative flex h-full flex-col ${gradientClass} gap-4 sm:gap-5 rounded-2xl sm:rounded-3xl p-4 sm:p-6`}>
-        {/* Tags - Repositioned for mobile */}
+
+        {/* Sector tag */}
         <div className="flex flex-wrap items-center gap-2 text-xs sm:absolute sm:right-6 sm:top-6 sm:flex-col sm:items-end">
           {isLoading ? (
             <>
@@ -103,25 +101,29 @@ export const StartupOverviewCard = ({
           )}
         </div>
 
-        {/* Logo and Title Section */}
+        {/* Logo and Title */}
         <div className="flex items-center gap-3 sm:gap-4 sm:pr-28">
-          <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl border-2 border-white/20 bg-white/5 shadow-inner shadow-black/20">
+          {/* Logo container — relative + overflow-hidden required for fill Image */}
+          <div className="relative overflow-hidden shrink-0 h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl border-2 border-white/20 bg-white shadow-inner shadow-black/20">
             {isLoading ? (
-              <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white/10" />
+              <Skeleton className="absolute inset-0 rounded-xl sm:rounded-2xl bg-white/10" />
             ) : hasLogo ? (
-              <Image
+              <ImageWithSkeleton
                 src={startup.logoUrl ?? ''}
                 alt={`${startup.name} logo`}
-                width={72}
-                height={72}
-                className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-cover bg-white"
+                fill
+                className="object-contain p-1"
+                skeletonClassName="rounded-xl sm:rounded-2xl"
               />
             ) : (
-              <span className="text-lg sm:text-xl font-semibold text-white/80">
-                {renderInitials(startup.name)}
-              </span>
+              <div className="absolute inset-0 flex items-center justify-center bg-white/5">
+                <span className="text-lg sm:text-xl font-semibold text-white/80">
+                  {renderInitials(startup.name)}
+                </span>
+              </div>
             )}
           </div>
+
           <div className="flex flex-col gap-1 text-left min-w-0 flex-1">
             {isLoading ? (
               <>
@@ -139,7 +141,7 @@ export const StartupOverviewCard = ({
           </div>
         </div>
 
-        {/* Summary Section */}
+        {/* Summary */}
         <div>
           {isLoading ? (
             <div className="flex flex-col gap-2">
@@ -148,13 +150,11 @@ export const StartupOverviewCard = ({
               <Skeleton className="h-3 w-2/3 rounded bg-white/10" />
             </div>
           ) : (
-            <p className="text-xs sm:text-sm text-white/75 line-clamp-3">
-              {summary}
-            </p>
+            <p className="text-xs sm:text-sm text-white/75 line-clamp-3">{summary}</p>
           )}
         </div>
 
-        {/* Footer Section */}
+        {/* Footer */}
         <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 pt-2">
           {isLoading ? (
             <Skeleton className="h-5 w-44 rounded bg-white/10" />
@@ -166,9 +166,7 @@ export const StartupOverviewCard = ({
                     {isSingleFounder ? 'Founder: ' : 'Founders: '}
                   </span>
                   <span className="sm:hidden">👥 </span>
-                  <span className="text-white/90 truncate">
-                    {displayedFounders}
-                  </span>
+                  <span className="text-white/90 truncate">{displayedFounders}</span>
                 </>
               ) : (
                 <span className="text-white/60">—</span>
@@ -183,14 +181,7 @@ export const StartupOverviewCard = ({
               disabled={isNavigating}
               className="w-full sm:w-auto text-center cursor-pointer rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition duration-300 hover:scale-110 bg-white text-[#05070f] disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
-              {isNavigating ? (
-                <>
-                  <Spinner className="size-4" />
-                  {/* <span>Loading...</span> */}
-                </>
-              ) : (
-                'View Detail'
-              )}
+              {isNavigating ? <Spinner className="size-4" /> : 'View Detail'}
             </button>
           ) : (
             <span className="w-full sm:w-auto text-center rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs sm:text-sm text-white/60">

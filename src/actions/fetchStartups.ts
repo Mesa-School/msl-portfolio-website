@@ -19,7 +19,6 @@ export type FetchStartupsResult = {
 
 const DEFAULT_PAGINATION: PaginationData = { total: 0, page: 1, limit: 10, total_pages: 1 };
 
-// ─── normalisation helpers ─────────────────────────────────────────────────────
 
 const pickLogoUrl = (source: any): string | null =>
   source?.company_logo?.url ??
@@ -46,8 +45,6 @@ const pickFounders = (source: any) => {
     };
   });
 };
-
-// ─── server action ─────────────────────────────────────────────────────────────
 
 export async function fetchStartupsAction(
   page: number = 1,
