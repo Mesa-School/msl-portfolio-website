@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { API_URL } from '@/config/apiUrl';
+import { toProxyUrl } from '@/lib/imageProxy';
 import type { StartupDetail } from '@/types/startupDetail';
 import { HeaderSection, LeftColumnSection, RightColumnSection } from '@/components/PortfolioDetail';
 
@@ -21,7 +22,7 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
       ? data.competitors.map((competitor: any) => ({
           id: competitor.id,
           competitor_name: competitor.competitor_name,
-          competitor_image: competitor.competitor_image,
+          competitor_image: toProxyUrl(competitor.competitor_image) ?? competitor.competitor_image,
           competitor_website: competitor.competitor_website,
         }))
       : [],
@@ -31,8 +32,8 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
     sector: {
       name: data.sector?.name || 'N/A',
     },
-    companyLogo: data.company_logo || '',
-    companyHeaderImage: data.company_header_image || '',
+    companyLogo: toProxyUrl(data.company_logo) || '',
+    companyHeaderImage: toProxyUrl(data.company_header_image) || '',
     socialMediaLinks: {
       instagram: data.social_media_links?.instagram,
       linkedin: data.social_media_links?.linkedin,
@@ -50,13 +51,13 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
       linkedin: f.linkedin,
       email: f.email,
       bio: f.bio,
-      founderProfilePic: f.founder_profile_pic || '',
+      founderProfilePic: toProxyUrl(f.founder_profile_pic) || '',
     })),
     keyAchievements: (data.key_achievements || []).map((a: any) => ({
       id: a.id,
       title: a.title,
       description: a.description,
-      achievementImage: a.achievement_image || '',
+      achievementImage: toProxyUrl(a.achievement_image) || '',
     })),
     createdAt: data.created_at,
     updatedAt: data.updated_at,

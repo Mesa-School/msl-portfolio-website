@@ -105,7 +105,7 @@ export const StartupOverviewCard = ({
 
         {/* Logo and Title Section */}
         <div className="flex items-center gap-3 sm:gap-4 sm:pr-28">
-          <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-white/5 shadow-inner shadow-black/20">
+          <div className="flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl border-2 border-white/20 bg-white/5 shadow-inner shadow-black/20">
             {isLoading ? (
               <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white/10" />
             ) : hasLogo ? (
@@ -114,8 +114,7 @@ export const StartupOverviewCard = ({
                 alt={`${startup.name} logo`}
                 width={72}
                 height={72}
-                unoptimized
-                className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-contain bg-white"
+                className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl object-cover bg-white"
               />
             ) : (
               <span className="text-lg sm:text-xl font-semibold text-white/80">

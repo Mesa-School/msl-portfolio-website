@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   output: 'standalone',
   images: {
+    localPatterns: [
+      {
+        pathname: '/api/images',
+        search: '*',
+      },
+      {
+        pathname: '/**',
+      },
+    ],
     remotePatterns: [
       {
         protocol: 'https',

@@ -1,10 +1,7 @@
+"use client";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "Under Maintenance | Mesa Startup Lab",
-  description: "We're currently performing scheduled maintenance. We'll be back shortly.",
-};
 
 export default function MaintenancePage() {
   return (

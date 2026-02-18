@@ -1,6 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { API_URL } from '@/config/apiUrl';
+import { toProxyUrl } from '@/lib/imageProxy';
+
+/** Rewrite all image URL fields inside the startup list payload. */
+function proxyStartupImages(payload: any): any {
+  if (!payload?.data || !Array.isArray(payload.data)) return payload;
+
+  return {
+    ...payload,
+    data: payload.data.map((item: any) => {
+      // company_logo may be a plain string URL or an object with a `url` key
+      if (typeof item.company_logo === 'string') {
+        return { ...item, company_logo: toProxyUrl(item.company_logo) };
+      }
+      if (item.company_logo?.url) {
+        return {
+          ...item,
+          company_logo: { ...item.company_logo, url: toProxyUrl(item.company_logo.url) },
+        };
+      }
+      return item;
+    }),
+  };
+}
 
 export async function GET(request: NextRequest) {
   if (!API_URL) {
@@ -27,7 +50,6 @@ export async function GET(request: NextRequest) {
 
   const query = searchParams.toString();
   const endpoint = `${API_URL}/api/startups/${query ? `?${query}` : ''}`;
-  console.log("API Endpoint:", endpoint);
 
   const token = process.env.API_BEARER_TOKEN;
 
@@ -46,11 +68,9 @@ export async function GET(request: NextRequest) {
         { error: payload?.error ?? 'Failed to fetch startups.' },
         { status: response.status },
       );
-    };
+    }
 
-    console.log("Fetched Startups Data", payload);
-
-    return NextResponse.json(payload);
+    return NextResponse.json(proxyStartupImages(payload));
   } catch (error) {
     return NextResponse.json(
       { error: 'Unable to reach startups endpoint.' },
@@ -58,4 +78,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

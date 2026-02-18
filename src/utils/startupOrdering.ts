@@ -97,8 +97,7 @@ export const reorderStartups = <T extends { name: string }>(
 
   startups.forEach((startup) => {
     const orderIndex = findOrderIndex(startup.name, customOrder);
-    console.log(`[Ordering] "${startup.name}" -> index: ${orderIndex}`);
-    // If not found (-1), use a large number to push to the end
+    // console.log(`[Ordering] "${startup.name}" -> index: ${orderIndex}`);
     startupOrderMap.set(startup, orderIndex === -1 ? Number.MAX_SAFE_INTEGER : orderIndex);
   });
 
@@ -107,10 +106,9 @@ export const reorderStartups = <T extends { name: string }>(
     const orderA = startupOrderMap.get(a) ?? Number.MAX_SAFE_INTEGER;
     const orderB = startupOrderMap.get(b) ?? Number.MAX_SAFE_INTEGER;
 
-    // Simple numeric comparison - lower index comes first
     return orderA - orderB;
   });
 
-  console.log('[Ordering] Final order:', sorted.map(s => s.name));
+  // console.log('[Ordering] Final order:', sorted.map(s => s.name));
   return sorted;
 };

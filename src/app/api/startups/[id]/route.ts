@@ -1,9 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { API_URL } from '@/config/apiUrl';
+import { toProxyUrl } from '@/lib/imageProxy';
+
+/** Rewrite all image URL fields inside a single startup detail payload. */
+function proxyStartupDetailImages(payload: any): any {
+  const data = payload?.data;
+  if (!data) return payload;
+
+  return {
+    ...payload,
+    data: {
+      ...data,
+      company_logo: toProxyUrl(data.company_logo) ?? data.company_logo,
+      company_header_image: toProxyUrl(data.company_header_image) ?? data.company_header_image,
+      founder: Array.isArray(data.founder)
+        ? data.founder.map((f: any) => ({
+            ...f,
+            founder_profile_pic: toProxyUrl(f.founder_profile_pic) ?? f.founder_profile_pic,
+          }))
+        : data.founder,
+      competitors: Array.isArray(data.competitors)
+        ? data.competitors.map((c: any) => ({
+            ...c,
+            competitor_image: toProxyUrl(c.competitor_image) ?? c.competitor_image,
+          }))
+        : data.competitors,
+      key_achievements: Array.isArray(data.key_achievements)
+        ? data.key_achievements.map((a: any) => ({
+            ...a,
+            achievement_image: toProxyUrl(a.achievement_image) ?? a.achievement_image,
+          }))
+        : data.key_achievements,
+    },
+  };
+}
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   if (!API_URL) {
@@ -23,7 +57,6 @@ export async function GET(
   }
 
   const endpoint = `${API_URL}/api/startups/${id}`;
-  console.log("API Endpoint:", endpoint);
 
   const token = process.env.API_BEARER_TOKEN;
 
@@ -36,16 +69,15 @@ export async function GET(
     });
 
     const payload = await response.json();
-    // console.log("Data fetched from API:", payload);
 
     if (!response.ok) {
       return NextResponse.json(
         { error: payload?.error ?? 'Failed to fetch startup.' },
         { status: response.status },
       );
-    };
+    }
 
-    return NextResponse.json(payload);
+    return NextResponse.json(proxyStartupDetailImages(payload));
   } catch (error) {
     return NextResponse.json(
       { error: 'Unable to reach startup endpoint.' },
