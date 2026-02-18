@@ -7,7 +7,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/portfolio');
+    router.replace('/maintenance');
   }, [router]);
 
   return null;
