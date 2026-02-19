@@ -68,11 +68,14 @@ export async function fetchStartupsAction(
       headers: { ...(token && { Authorization: `Bearer ${token}` }) },
     });
 
+    console.log("Fetched Startups", res)
+
     if (!res.ok) {
       return { startups: [], pagination: DEFAULT_PAGINATION, error: 'Failed to fetch startups.' };
     }
 
     const payload = await res.json();
+    console.log("Fetched All Startups", payload);
 
     const startups: Startup[] = (payload?.data ?? []).map((item: any, index: number) => {
       const source = item?.attributes ?? item;
@@ -97,6 +100,8 @@ export async function fetchStartupsAction(
         founders: pickFounders(source),
       };
     });
+
+    console.log("Startups Fetched")
 
     return { startups, pagination: payload?.pagination ?? DEFAULT_PAGINATION };
   } catch {

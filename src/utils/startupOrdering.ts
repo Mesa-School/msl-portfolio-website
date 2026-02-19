@@ -9,7 +9,6 @@ export const STARTUP_DISPLAY_ORDER = [
   'Studojo',
   'VetQure AI',
   'FYN',
-
   'Future Farming',
   'Thrift Store',
   'Sakhi',

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 
 import { Startup, StartupOverviewCard } from './StartupOverviewCard';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
-import { reorderStartups } from '@/utils/startupOrdering';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
 import type { PaginationData } from '@/actions/fetchStartups';
 import {
@@ -95,7 +94,7 @@ export const StartupOverviewGrid = ({
       });
     }
 
-    return reorderStartups(filtered);
+    return filtered;
   }, [startups, searchTerm]);
 
   return (
