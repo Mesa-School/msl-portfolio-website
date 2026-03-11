@@ -1,20 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 
 import { Startup, StartupOverviewCard } from './StartupOverviewCard';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
 import type { PaginationData } from '@/actions/fetchStartups';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 
 const DEFAULT_PAGINATION: PaginationData = { total: 0, page: 1, limit: 10, total_pages: 1 };
 
@@ -30,13 +21,15 @@ export const StartupOverviewGrid = ({
   const { selectedSectors, searchTerm } = usePortfolioFilters();
   const [startups, setStartups] = useState<Startup[]>(initialStartups);
   const [loading, setLoading] = useState(initialStartups.length === 0);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pagination, setPagination] = useState<PaginationData>(initialPagination);
+  const [currentPage, setCurrentPage] = useState(initialPagination.page);
+  const [hasMore, setHasMore] = useState(initialPagination.page < initialPagination.total_pages);
 
-  // Skip the very first effect run when SSR data covers it (page 1, no filters)
+  const sentinelRef = useRef<HTMLDivElement>(null);
   const skipFirstFetch = useRef(initialStartups.length > 0);
 
+  // Reset everything when filters change
   useEffect(() => {
     if (skipFirstFetch.current) {
       skipFirstFetch.current = false;
@@ -47,15 +40,15 @@ export const StartupOverviewGrid = ({
 
     const load = async () => {
       setLoading(true);
+      setStartups([]);
+      setCurrentPage(1);
       try {
-        // Server action — runs on the server, no /api/startups request in the browser
-        const result = await fetchStartupsAction(currentPage, selectedSectors);
-
+        const result = await fetchStartupsAction(1, selectedSectors);
         if (result.error) throw new Error(result.error);
-
         if (isMounted) {
           setStartups(result.startups);
-          setPagination(result.pagination);
+          setHasMore(result.pagination.page < result.pagination.total_pages);
+          setCurrentPage(result.pagination.page);
           setError(null);
         }
       } catch (err) {
@@ -69,14 +62,52 @@ export const StartupOverviewGrid = ({
 
     load();
     return () => { isMounted = false; };
-  }, [selectedSectors, currentPage]);
+  }, [selectedSectors]);
 
-  // Reset to page 1 when filters change
+  // Load next page (append)
+  const loadNextPage = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+
+    const nextPage = currentPage + 1;
+    setLoadingMore(true);
+
+    try {
+      const result = await fetchStartupsAction(nextPage, selectedSectors);
+      if (result.error) throw new Error(result.error);
+
+      setStartups((prev) => {
+        const existingIds = new Set(prev.map((s) => s.documentId));
+        const newStartups = result.startups.filter((s) => !existingIds.has(s.documentId));
+        return [...prev, ...newStartups];
+      });
+      setCurrentPage(result.pagination.page);
+      setHasMore(result.pagination.page < result.pagination.total_pages);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to fetch more startups.');
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [currentPage, selectedSectors, loadingMore, hasMore]);
+
+  // Intersection Observer for infinite scroll
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedSectors, searchTerm]);
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
 
-  // Client-side search filter (sectors are filtered on the server)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loading) {
+          loadNextPage();
+        }
+      },
+      { rootMargin: '200px' },
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore, loading, loadNextPage]);
+
+  // Client-side search filter
   const filteredStartups = useMemo(() => {
     let filtered = [...startups];
 
@@ -148,67 +179,33 @@ export const StartupOverviewGrid = ({
         ))}
       </div>
 
-      {/* Pagination */}
-      {!loading && !error && pagination.total_pages > 1 && (
-        <Pagination className="mt-8">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                className={`cursor-pointer transition-colors ${
-                  currentPage === 1
-                    ? 'pointer-events-none opacity-50'
-                    : 'hover:bg-[#27614A] hover:text-white'
-                }`}
-              />
-            </PaginationItem>
-
-            {Array.from({ length: pagination.total_pages }, (_, i) => i + 1).map((page) => {
-              const showPage =
-                page === 1 ||
-                page === pagination.total_pages ||
-                (page >= currentPage - 1 && page <= currentPage + 1);
-
-              const showEllipsisBefore = page === currentPage - 2 && currentPage > 3;
-              const showEllipsisAfter =
-                page === currentPage + 2 && currentPage < pagination.total_pages - 2;
-
-              if (showEllipsisBefore || showEllipsisAfter) {
-                return <PaginationItem key={page}><PaginationEllipsis /></PaginationItem>;
-              }
-
-              if (!showPage) return null;
-
-              return (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    onClick={() => setCurrentPage(page)}
-                    isActive={currentPage === page}
-                    className={`cursor-pointer transition-colors ${
-                      currentPage === page
-                        ? 'bg-[#27614A] text-white border-[#27614A]'
-                        : 'hover:bg-[#27614A]/20 hover:text-white'
-                    }`}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(pagination.total_pages, prev + 1))}
-                className={`cursor-pointer transition-colors ${
-                  currentPage === pagination.total_pages
-                    ? 'pointer-events-none opacity-50'
-                    : 'hover:bg-[#27614A] hover:text-white'
-                }`}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      {/* Loading more indicator */}
+      {loadingMore && (
+        <div className="relative grid gap-6 md:grid-cols-2">
+          {Array.from({ length: 2 }).map((_, idx) => (
+            <StartupOverviewCard
+              key={`loading-more-skeleton-${idx}`}
+              index={idx}
+              isLoading
+              startup={{
+                id: idx,
+                documentId: `skeleton-more-${idx}`,
+                slug: null,
+                name: '',
+                summary: '',
+                location: '',
+                cohort: '',
+                sectorName: '',
+                logoUrl: null,
+                founders: [],
+              }}
+            />
+          ))}
+        </div>
       )}
+
+      {/* Sentinel element for infinite scroll trigger */}
+      <div ref={sentinelRef} className="h-1" />
     </section>
   );
 };
