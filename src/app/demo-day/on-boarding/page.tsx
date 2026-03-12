@@ -140,67 +140,113 @@ export default function DemoDayOnboardingPage() {
         {/* Cards - centered in remaining space */}
         <div className="flex-1 min-h-0 flex items-center justify-center w-full">
           {loading ? (
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 lg:gap-5 w-full max-w-5xl">
-              {VC_Data.map((_, i) => (
-                <div key={i} className="aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" style={{ width: "calc(25% - 12px)" }} />
-              ))}
+            <div className="w-full max-w-5xl space-y-3 sm:space-y-4 lg:space-y-5">
+              <div className="grid grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                {VC_Data.slice(0, 4).map((_, i) => (
+                  <div key={i} className="aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" />
+                ))}
+              </div>
+              <div className="flex justify-center gap-3 sm:gap-4 lg:gap-5">
+                {VC_Data.slice(4).map((_, i) => (
+                  <div key={i} className="w-[calc(25%-10px)] aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" />
+                ))}
+              </div>
             </div>
           ) : (
             <motion.div
-              className="flex flex-wrap justify-center gap-3 sm:gap-4 lg:gap-5 w-full max-w-5xl"
+              className="w-full max-w-5xl space-y-3 sm:space-y-4 lg:space-y-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.25 }}
             >
-              {VC_Data.map((card, index) => {
-                const isSelected = selectedName === card.name;
-                return (
-                  <motion.button
-                    key={card.id}
-                    onClick={() => handleSelect(card.name)}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
-                    className={`group relative rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ${
-                      isSelected
-                        ? ""
-                        : "ring-transparent"
-                    } ${selectedName && !isSelected ? "opacity-40" : ""}`}
-                    style={{ width: "calc(25% - 12px)" }}
-                  >
-                    {/* Checkmark badge */}
-                    <AnimatePresence>
-                      {isSelected && (
-                        <motion.div
-                          initial={{ scale: 0, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute z-10 flex h-6 w-6 right-0 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white shadow-lg shadow-emerald-500/30"
-                        >
-                          <Check className="h-2 w-2 sm:h-3 sm:w-3 text-emerald-600" strokeWidth={3} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Card Image */}
-                    <div className="overflow-hidden rounded-lg sm:rounded-xl">
-                      <Image
-                        src={card.image}
-                        alt={card.name}
-                        width={400}
-                        height={500}
-                        className={`w-full h-auto object-contain transition-all duration-300 ${
-                          isSelected
-                            ? "grayscale-0"
-                            : "grayscale hover:grayscale-0"
-                        }`}
-                        priority={index < 4}
-                      />
-                    </div>
-                  </motion.button>
-                );
-              })}
+              {/* First row - 4 cards */}
+              <div className="grid grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                {VC_Data.slice(0, 4).map((card, index) => {
+                  const isSelected = selectedName === card.name;
+                  return (
+                    <motion.button
+                      key={card.id}
+                      onClick={() => handleSelect(card.name)}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
+                      className={`group relative rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ring-2 ${
+                        isSelected ? "scale-[0.97] ring-emerald-400" : "ring-transparent"
+                      } ${selectedName && !isSelected ? "opacity-40" : ""}`}
+                    >
+                      <AnimatePresence>
+                        {isSelected && (
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white shadow-lg shadow-emerald-500/30"
+                          >
+                            <Check className="h-2 w-2 sm:h-3 sm:w-3 text-emerald-600" strokeWidth={3} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <div className="overflow-hidden rounded-lg sm:rounded-xl">
+                        <Image
+                          src={card.image}
+                          alt={card.name}
+                          width={400}
+                          height={500}
+                          className={`w-full h-auto object-contain transition-all duration-300 ${
+                            isSelected ? "grayscale-0" : "grayscale hover:grayscale-0"
+                          }`}
+                          priority
+                        />
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+              {/* Second row - remaining cards, centered */}
+              <div className="flex justify-center gap-3 sm:gap-4 lg:gap-5">
+                {VC_Data.slice(4).map((card, index) => {
+                  const isSelected = selectedName === card.name;
+                  return (
+                    <motion.button
+                      key={card.id}
+                      onClick={() => handleSelect(card.name)}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.25 + (index + 4) * 0.05 }}
+                      className={`group relative w-[calc(25%-10px)] rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ring-2 ${
+                        isSelected ? "scale-[0.97] ring-emerald-400" : "ring-transparent"
+                      } ${selectedName && !isSelected ? "opacity-40" : ""}`}
+                    >
+                      <AnimatePresence>
+                        {isSelected && (
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white shadow-lg shadow-emerald-500/30"
+                          >
+                            <Check className="h-2 w-2 sm:h-3 sm:w-3 text-emerald-600" strokeWidth={3} />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <div className="overflow-hidden rounded-lg sm:rounded-xl">
+                        <Image
+                          src={card.image}
+                          alt={card.name}
+                          width={400}
+                          height={500}
+                          className={`w-full h-auto object-contain transition-all duration-300 ${
+                            isSelected ? "grayscale-0" : "grayscale hover:grayscale-0"
+                          }`}
+                          priority={false}
+                        />
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
             </motion.div>
           )}
         </div>
