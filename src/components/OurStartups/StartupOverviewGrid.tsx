@@ -7,7 +7,12 @@ import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
 import type { PaginationData } from '@/actions/fetchStartups';
 
-const DEFAULT_PAGINATION: PaginationData = { total: 0, page: 1, limit: 10, total_pages: 1 };
+const DEFAULT_PAGINATION: PaginationData = { 
+  total: 0, 
+  page: 1, 
+  limit: 10, 
+  total_pages: 1 
+};
 
 type Props = {
   initialStartups?: Startup[];
