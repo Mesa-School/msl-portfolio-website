@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Clock, ThumbsUp, ThumbsDown, CalendarCheck, LogOut, MapPin, Check, X, Linkedin } from "lucide-react";
 import { socket } from "@/lib/socket";
 
-const API_BASE = process.env.NEXT_PUBLIC_DEMO_DAY_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_DEMO_DAY_API_URL || "https://careers-crm-backend.mesaschool.co.in";
 
 interface VCData {
   _id: string;
