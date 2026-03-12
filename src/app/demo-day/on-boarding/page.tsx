@@ -38,6 +38,7 @@ export default function DemoDayOnboardingPage() {
   const [vcs, setVcs] = useState<VCData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedName, setSelectedName] = useState<string | null>(null);
+  const [navigating, setNavigating] = useState(false);
 
   const fetchVCs = useCallback(async () => {
     setLoading(true);
@@ -70,7 +71,8 @@ export default function DemoDayOnboardingPage() {
   };
 
   const handleContinue = () => {
-    if (!selectedName) return;
+    if (!selectedName || navigating) return;
+    setNavigating(true);
 
     const vc = vcs.find(
       (v) => v.name.toLowerCase() === selectedName.toLowerCase()
@@ -264,10 +266,20 @@ export default function DemoDayOnboardingPage() {
           >
             <button
               onClick={handleContinue}
-              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-[#0b3d30] shadow-xl shadow-black/20 transition-all duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer"
+              disabled={navigating}
+              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 sm:px-7 sm:py-3.5 text-sm sm:text-base font-semibold text-[#0b3d30] shadow-xl shadow-black/20 transition-all duration-200 hover:scale-105 hover:shadow-2xl cursor-pointer disabled:opacity-70 disabled:hover:scale-100"
             >
-              Continue
-              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+              {navigating ? (
+                <>
+                  <div className="h-4 w-4 sm:h-5 sm:w-5 animate-spin rounded-full border-2 border-[#0b3d30] border-t-transparent" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  Continue
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                </>
+              )}
             </button>
           </motion.div>
         )}

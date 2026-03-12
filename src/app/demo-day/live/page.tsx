@@ -351,8 +351,12 @@ export default function DemoDayLivePage() {
                             <div className="absolute inset-0 bg-linear-to-r from-emerald-600/20 via-emerald-500/10 to-emerald-600/5" />
                             <div className="absolute inset-0 bg-linear-to-b from-white/3 to-transparent" />
                             <div className="absolute inset-0 bg-linear-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            <ThumbsUp className="h-[1.1rem] w-[1.1rem] relative z-10" />
-                            <span className="relative z-10">Yes, I&apos;m Interested</span>
+                            {submitting ? (
+                              <div className="h-[1.1rem] w-[1.1rem] animate-spin rounded-full border-2 border-emerald-300 border-t-transparent relative z-10" />
+                            ) : (
+                              <ThumbsUp className="h-[1.1rem] w-[1.1rem] relative z-10" />
+                            )}
+                            <span className="relative z-10">{submitting ? "Submitting..." : "Yes, I\u0027m Interested"}</span>
                           </button>
                           <button
                             onClick={() => castVote("no")}
@@ -362,8 +366,12 @@ export default function DemoDayLivePage() {
                             <div className="absolute inset-0 bg-linear-to-r from-red-600/10 via-red-500/5 to-transparent" />
                             <div className="absolute inset-0 bg-linear-to-b from-white/2 to-transparent" />
                             <div className="absolute inset-0 bg-linear-to-r from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                            <ThumbsDown className="h-[1.1rem] w-[1.1rem] relative z-10" />
-                            <span className="relative z-10">Pass</span>
+                            {submitting ? (
+                              <div className="h-[1.1rem] w-[1.1rem] animate-spin rounded-full border-2 border-red-300/70 border-t-transparent relative z-10" />
+                            ) : (
+                              <ThumbsDown className="h-[1.1rem] w-[1.1rem] relative z-10" />
+                            )}
+                            <span className="relative z-10">{submitting ? "Submitting..." : "Pass"}</span>
                           </button>
                         </div>
                       ) : (

@@ -19,6 +19,7 @@ interface VCData {
 export default function DemoDayPage() {
     const router = useRouter();
     const [vc, setVc] = useState<VCData | null>(null);
+    const [navigating, setNavigating] = useState(false);
 
     useEffect(() => {
         const vcCookie = Cookies.get("demo_day_vc");
@@ -161,11 +162,21 @@ export default function DemoDayPage() {
                         transition={{ duration: 0.7, delay: 0.7 }}
                     >
                         <button
-                            onClick={() => router.push("/demo-day/live")}
-                            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10"
+                            onClick={() => { setNavigating(true); router.push("/demo-day/live"); }}
+                            disabled={navigating}
+                            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 disabled:opacity-70 disabled:hover:scale-100"
                         >
-                            Get Started
-                            <ArrowRight className="w-5 h-5" />
+                            {navigating ? (
+                                <>
+                                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent" />
+                                    Loading...
+                                </>
+                            ) : (
+                                <>
+                                    Get Started
+                                    <ArrowRight className="w-5 h-5" />
+                                </>
+                            )}
                         </button>
                     </motion.div>
 
