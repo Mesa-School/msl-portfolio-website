@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_DEMO_DAY_API_URL || "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_DEMO_DAY_API_URL || "https://careers-crm-backend.mesaschool.co.in";
 
 console.log("[Socket] Connecting to:", BACKEND_URL);
 
