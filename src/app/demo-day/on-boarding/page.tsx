@@ -121,7 +121,7 @@ export default function DemoDayOnboardingPage() {
       </motion.div>
 
       {/* Full layout */}
-      <div className="relative z-10 flex h-dvh flex-col items-center px-4 sm:px-8 lg:px-12 pt-16 sm:pt-20 pb-20 sm:pb-24">
+      <div className="relative z-10 flex flex-col items-center px-6 sm:px-10 lg:px-16 sm:pt-20 pb-10 sm:pb-16">
         {/* Header */}
         <motion.div
           className="text-center mb-5 sm:mb-8 shrink-0"
@@ -138,29 +138,29 @@ export default function DemoDayOnboardingPage() {
         </motion.div>
 
         {/* Cards - centered in remaining space */}
-        <div className="flex-1 min-h-0 flex items-center justify-center w-full">
+        <div className="flex-1 min-h-0 mt-0 flex items-center justify-center w-full">
           {loading ? (
-            <div className="w-full max-w-5xl space-y-3 sm:space-y-4 lg:space-y-5">
-              <div className="grid grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+            <div className="w-full max-w-2xl lg:max-w-3xl flex flex-col gap-2 sm:gap-3 h-full max-h-full justify-center">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
                 {VC_Data.slice(0, 4).map((_, i) => (
                   <div key={i} className="aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" />
                 ))}
               </div>
-              <div className="flex justify-center gap-3 sm:gap-4 lg:gap-5">
+              <div className="flex justify-center gap-2 sm:gap-3">
                 {VC_Data.slice(4).map((_, i) => (
-                  <div key={i} className="w-[calc(25%-10px)] aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" />
+                  <div key={i} className="w-[calc(25%-6px)] aspect-3/4 animate-pulse rounded-lg sm:rounded-xl bg-white/10" />
                 ))}
               </div>
             </div>
           ) : (
             <motion.div
-              className="w-full max-w-5xl space-y-3 sm:space-y-4 lg:space-y-5"
+              className="w-full max-w-2xl lg:max-w-3xl flex flex-col gap-2 sm:gap-3 max-h-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.25 }}
             >
               {/* First row - 4 cards */}
-              <div className="grid grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
                 {VC_Data.slice(0, 4).map((card, index) => {
                   const isSelected = selectedName === card.name;
                   return (
@@ -193,7 +193,7 @@ export default function DemoDayOnboardingPage() {
                           alt={card.name}
                           width={400}
                           height={500}
-                          className={`w-full h-auto object-contain transition-all duration-300 ${
+                          className={`w-full h-full object-cover transition-all duration-300 ${
                             isSelected ? "grayscale-0" : "grayscale hover:grayscale-0"
                           }`}
                           priority
@@ -204,7 +204,7 @@ export default function DemoDayOnboardingPage() {
                 })}
               </div>
               {/* Second row - remaining cards, centered */}
-              <div className="flex justify-center gap-3 sm:gap-4 lg:gap-5">
+              <div className="flex justify-center gap-2 sm:gap-3">
                 {VC_Data.slice(4).map((card, index) => {
                   const isSelected = selectedName === card.name;
                   return (
@@ -214,7 +214,7 @@ export default function DemoDayOnboardingPage() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.25 + (index + 4) * 0.05 }}
-                      className={`group relative w-[calc(25%-10px)] rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ${
+                      className={`group relative w-[calc(25%-6px)] rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ${
                         isSelected ? "scale-105" : "ring-transparent"
                       } ${selectedName && !isSelected ? "opacity-40" : ""}`}
                     >
@@ -237,7 +237,7 @@ export default function DemoDayOnboardingPage() {
                           alt={card.name}
                           width={400}
                           height={500}
-                          className={`w-full h-auto object-contain transition-all duration-300 ${
+                          className={`w-full h-full object-cover transition-all duration-300 ${
                             isSelected ? "grayscale-0" : "grayscale hover:grayscale-0"
                           }`}
                           priority={false}
