@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -64,10 +64,14 @@ export default function DemoDayLivePage() {
     }
   }, [router]);
 
+  const latestRequestRef = useRef(0);
+
   const fetchActivePitch = useCallback(async () => {
+    const requestId = ++latestRequestRef.current;
     try {
       const res = await fetch(`${API_BASE}/api/demo-day-vc/active-pitch`);
       const result = await res.json();
+      if (requestId !== latestRequestRef.current) return; // stale response
       if (result.success && result.data) {
         setCurrentStartup(result.data);
       } else {
@@ -76,7 +80,9 @@ export default function DemoDayLivePage() {
     } catch (err) {
       console.error("Failed to fetch active pitch:", err);
     } finally {
-      setLoadingPitch(false);
+      if (requestId === latestRequestRef.current) {
+        setLoadingPitch(false);
+      }
     }
   }, []);
 
@@ -85,21 +91,29 @@ export default function DemoDayLivePage() {
     socket.emit("vc_join", { vc_id: vc._id });
     fetchActivePitch();
 
-    socket.on("pitch_start", () => {
+    const onPitchStart = (data: { startup_id?: string; startup_name?: string } = {}) => {
+      console.log("[Socket] pitch_start received:", data);
       setVote(null);
       setBookMeeting(null);
+      setLoadingPitch(true);
       fetchActivePitch();
-    });
+    };
 
-    socket.on("pitch_end", () => {
+    const onPitchEnd = () => {
+      console.log("[Socket] pitch_end received");
+      latestRequestRef.current++;
       setCurrentStartup(null);
       setVote(null);
       setBookMeeting(null);
-    });
+      setLoadingPitch(false);
+    };
+
+    socket.on("pitch_start", onPitchStart);
+    socket.on("pitch_end", onPitchEnd);
 
     return () => {
-      socket.off("pitch_start");
-      socket.off("pitch_end");
+      socket.off("pitch_start", onPitchStart);
+      socket.off("pitch_end", onPitchEnd);
     };
   }, [vc, fetchActivePitch]);
 
