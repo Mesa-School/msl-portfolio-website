@@ -170,8 +170,8 @@ export default function DemoDayOnboardingPage() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
-                      className={`group relative rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ring-2 ${
-                        isSelected ? "scale-[0.97] ring-emerald-400" : "ring-transparent"
+                      className={`group relative rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ${
+                        isSelected ? "scale-105" : "ring-transparent"
                       } ${selectedName && !isSelected ? "opacity-40" : ""}`}
                     >
                       <AnimatePresence>
@@ -214,8 +214,8 @@ export default function DemoDayOnboardingPage() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: 0.25 + (index + 4) * 0.05 }}
-                      className={`group relative w-[calc(25%-10px)] rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ring-2 ${
-                        isSelected ? "scale-[0.97] ring-emerald-400" : "ring-transparent"
+                      className={`group relative w-[calc(25%-10px)] rounded-lg sm:rounded-xl transition-all duration-300 cursor-pointer ${
+                        isSelected ? "scale-105" : "ring-transparent"
                       } ${selectedName && !isSelected ? "opacity-40" : ""}`}
                     >
                       <AnimatePresence>
