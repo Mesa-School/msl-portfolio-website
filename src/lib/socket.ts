@@ -1,16 +1,21 @@
+"use client";
+
 import { io, Socket } from "socket.io-client";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_DEMO_DAY_API_URL ||
   "https://careers-crm-backend.mesaschool.co.in";
 
-function createSocket(): Socket {
+let _socket: Socket | null = null;
+
+export function getSocket(): Socket {
+  if (_socket) return _socket;
+
   const ts = () => new Date().toISOString();
 
   console.log(`[Socket][${ts()}] Creating socket to: ${BACKEND_URL}`);
-  console.log(`[Socket][${ts()}] Environment: ${typeof window === "undefined" ? "SERVER (SSR)" : "CLIENT (Browser)"}`);
 
-  const s = io(BACKEND_URL, {
+  _socket = io(BACKEND_URL, {
     transports: ["websocket", "polling"],
     reconnection: true,
     reconnectionAttempts: Infinity,
@@ -18,63 +23,59 @@ function createSocket(): Socket {
     reconnectionDelayMax: 5000,
     timeout: 10000,
     withCredentials: false,
-    autoConnect: typeof window !== "undefined", // only auto-connect on client
   });
 
-  s.on("connect", () => {
+  _socket.on("connect", () => {
     console.log(
-      `[Socket][${ts()}] CONNECTED | id=${s.id} | transport=${s.io.engine?.transport?.name}`
+      `[Socket][${ts()}] CONNECTED | id=${_socket!.id} | transport=${_socket!.io.engine?.transport?.name}`
     );
   });
 
-  s.on("connect_error", (err) => {
+  _socket.on("connect_error", (err) => {
     console.error(
-      `[Socket][${ts()}] CONNECTION ERROR | message=${err.message} | transport=${s.io.engine?.transport?.name} | readyState=${s.io.engine?.readyState}`
+      `[Socket][${ts()}] CONNECTION ERROR | message=${err.message} | transport=${_socket!.io.engine?.transport?.name} | readyState=${_socket!.io.engine?.readyState}`
     );
   });
 
-  s.on("disconnect", (reason) => {
+  _socket.on("disconnect", (reason) => {
     console.warn(
-      `[Socket][${ts()}] DISCONNECTED | reason=${reason} | wasConnected=${s.connected}`
+      `[Socket][${ts()}] DISCONNECTED | reason=${reason}`
     );
     if (reason === "io server disconnect") {
-      console.warn(`[Socket][${ts()}] Server forced disconnect — will attempt manual reconnect`);
-      s.connect();
+      console.warn(`[Socket][${ts()}] Server forced disconnect — reconnecting manually`);
+      _socket!.connect();
     }
   });
 
-  s.on("reconnect_attempt", (attempt) => {
+  _socket.on("reconnect_attempt" as any, (attempt: number) => {
     console.log(`[Socket][${ts()}] RECONNECT ATTEMPT #${attempt}`);
   });
 
-  s.on("reconnect", (attempt) => {
-    console.log(`[Socket][${ts()}] RECONNECTED after ${attempt} attempts | id=${s.id}`);
+  _socket.on("reconnect" as any, (attempt: number) => {
+    console.log(`[Socket][${ts()}] RECONNECTED after ${attempt} attempts | id=${_socket!.id}`);
   });
 
-  s.on("reconnect_failed", () => {
+  _socket.on("reconnect_failed" as any, () => {
     console.error(`[Socket][${ts()}] RECONNECT FAILED — all attempts exhausted`);
   });
 
-  s.io.on("error", (err) => {
+  _socket.io.on("error", (err) => {
     console.error(`[Socket][${ts()}] MANAGER ERROR:`, err);
   });
 
-  // Log ALL incoming events for debugging
-  s.onAny((eventName, ...args) => {
+  _socket.onAny((eventName, ...args) => {
     console.log(
-      `[Socket][${ts()}] EVENT RECEIVED: "${eventName}" | connected=${s.connected} | id=${s.id} | data=`,
+      `[Socket][${ts()}] EVENT RECEIVED: "${eventName}" | connected=${_socket!.connected} | id=${_socket!.id} | data=`,
       JSON.stringify(args).slice(0, 500)
     );
   });
 
-  s.onAnyOutgoing((eventName, ...args) => {
+  _socket.onAnyOutgoing((eventName, ...args) => {
     console.log(
-      `[Socket][${ts()}] EVENT SENT: "${eventName}" | connected=${s.connected} | id=${s.id} | data=`,
+      `[Socket][${ts()}] EVENT SENT: "${eventName}" | connected=${_socket!.connected} | id=${_socket!.id} | data=`,
       JSON.stringify(args).slice(0, 500)
     );
   });
 
-  return s;
+  return _socket;
 }
-
-export const socket = createSocket();

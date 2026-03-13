@@ -5,7 +5,8 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Clock, ThumbsUp, ThumbsDown, CalendarCheck, LogOut, MapPin, Check, X, Linkedin } from "lucide-react";
-import { socket } from "@/lib/socket";
+import { getSocket } from "@/lib/socket";
+import type { Socket } from "socket.io-client";
 
 const API_BASE = process.env.NEXT_PUBLIC_DEMO_DAY_API_URL || "https://careers-crm-backend.mesaschool.co.in";
 
@@ -48,11 +49,38 @@ export default function DemoDayLivePage() {
   const [bookMeeting, setBookMeeting] = useState<boolean | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [loadingPitch, setLoadingPitch] = useState(true);
-  const [socketStatus, setSocketStatus] = useState<"connecting" | "connected" | "disconnected">(
-    socket.connected ? "connected" : "connecting"
-  );
+  const [socketStatus, setSocketStatus] = useState<"connecting" | "connected" | "disconnected">("connecting");
   const [lastEvent, setLastEvent] = useState<string>("");
   const [reconnectCount, setReconnectCount] = useState(0);
+
+  // Socket ref — only created on client
+  const socketRef = useRef<Socket | null>(null);
+
+  // Initialize socket once on client mount
+  useEffect(() => {
+    const s = getSocket();
+    socketRef.current = s;
+    setSocketStatus(s.connected ? "connected" : "connecting");
+
+    console.log(`[Live] Socket initialized on client | connected=${s.connected} | id=${s.id}`);
+
+    const onConnect = () => {
+      setSocketStatus("connected");
+      setReconnectCount((c) => c + 1);
+    };
+    const onDisconnect = () => setSocketStatus("disconnected");
+    const onConnectError = () => setSocketStatus("disconnected");
+
+    s.on("connect", onConnect);
+    s.on("disconnect", onDisconnect);
+    s.on("connect_error", onConnectError);
+
+    return () => {
+      s.off("connect", onConnect);
+      s.off("disconnect", onDisconnect);
+      s.off("connect_error", onConnectError);
+    };
+  }, []);
 
   useEffect(() => {
     const vcCookie = Cookies.get("demo_day_vc");
@@ -70,32 +98,6 @@ export default function DemoDayLivePage() {
   }, [router]);
 
   const latestRequestRef = useRef(0);
-  const vcIdRef = useRef<string | null>(null);
-
-  // Keep vcIdRef in sync for use in socket reconnect handler
-  useEffect(() => {
-    vcIdRef.current = vc?._id ?? null;
-  }, [vc]);
-
-  // Track socket connection status for the debug badge
-  useEffect(() => {
-    const onConnect = () => {
-      setSocketStatus("connected");
-      setReconnectCount((c) => c + 1);
-    };
-    const onDisconnect = () => setSocketStatus("disconnected");
-    const onConnectError = () => setSocketStatus("disconnected");
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on("connect_error", onConnectError);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off("connect_error", onConnectError);
-    };
-  }, []);
 
   const fetchActivePitch = useCallback(async (reason: string = "unknown") => {
     const requestId = ++latestRequestRef.current;
@@ -126,18 +128,19 @@ export default function DemoDayLivePage() {
   }, []);
 
   useEffect(() => {
-    if (!vc?._id) return;
+    const s = socketRef.current;
+    if (!vc?._id || !s) return;
     const ts = () => new Date().toISOString();
 
-    console.log(`[Live][${ts()}] Setting up socket listeners | vc=${vc._id} | socketConnected=${socket.connected} | socketId=${socket.id}`);
+    console.log(`[Live][${ts()}] Setting up socket listeners | vc=${vc._id} | connected=${s.connected} | id=${s.id}`);
 
-    // Emit vc_join — if not connected yet, socket.io queues it
-    socket.emit("vc_join", { vc_id: vc._id });
+    // Emit vc_join — if not connected yet, socket.io queues it until connected
+    s.emit("vc_join", { vc_id: vc._id });
     fetchActivePitch("initial_mount");
 
     const onPitchStart = (data: { startup_id?: string; startup_name?: string } = {}) => {
       console.log(
-        `[Live][${ts()}] pitch_start RECEIVED | data=${JSON.stringify(data)} | socketId=${socket.id} | connected=${socket.connected}`
+        `[Live][${ts()}] pitch_start RECEIVED | data=${JSON.stringify(data)} | id=${s.id} | connected=${s.connected}`
       );
       setVote(null);
       setBookMeeting(null);
@@ -148,7 +151,7 @@ export default function DemoDayLivePage() {
 
     const onPitchEnd = () => {
       console.log(
-        `[Live][${ts()}] pitch_end RECEIVED | socketId=${socket.id} | connected=${socket.connected}`
+        `[Live][${ts()}] pitch_end RECEIVED | id=${s.id} | connected=${s.connected}`
       );
       latestRequestRef.current++;
       setCurrentStartup(null);
@@ -162,47 +165,38 @@ export default function DemoDayLivePage() {
     // Without this, the server doesn't know we're listening after a reconnect
     const onReconnect = () => {
       console.log(
-        `[Live][${ts()}] RECONNECTED — re-emitting vc_join and re-fetching | vc=${vc._id} | newSocketId=${socket.id}`
+        `[Live][${ts()}] RECONNECTED — re-emitting vc_join and re-fetching | vc=${vc._id} | newId=${s.id}`
       );
-      socket.emit("vc_join", { vc_id: vc._id });
+      s.emit("vc_join", { vc_id: vc._id });
       setLoadingPitch(true);
       fetchActivePitch("socket_reconnect");
     };
 
-    // Also handle the connect event (covers first connection + reconnections)
-    const onConnect = () => {
-      console.log(
-        `[Live][${ts()}] socket "connect" fired | id=${socket.id} | transport=${socket.io.engine?.transport?.name}`
-      );
-    };
-
     const onDisconnect = (reason: string) => {
       console.warn(
-        `[Live][${ts()}] socket "disconnect" in Live page | reason=${reason}`
+        `[Live][${ts()}] socket DISCONNECTED | reason=${reason}`
       );
     };
 
-    socket.on("pitch_start", onPitchStart);
-    socket.on("pitch_end", onPitchEnd);
-    socket.on("connect", onReconnect);
-    socket.on("disconnect", onDisconnect);
+    s.on("pitch_start", onPitchStart);
+    s.on("pitch_end", onPitchEnd);
+    s.on("connect", onReconnect);
+    s.on("disconnect", onDisconnect);
 
-    // If socket is already connected but we just mounted (e.g. navigated back),
-    // make sure we're in the room
-    if (socket.connected) {
-      console.log(`[Live][${ts()}] Socket already connected on mount — ensuring vc_join`);
+    // If socket is already connected but we just mounted (e.g. navigated back)
+    if (s.connected) {
+      console.log(`[Live][${ts()}] Socket already connected on mount`);
     } else {
-      console.log(`[Live][${ts()}] Socket NOT connected on mount — waiting for connection...`);
-      // Force connect if somehow disconnected
-      socket.connect();
+      console.log(`[Live][${ts()}] Socket NOT connected on mount — forcing connect`);
+      s.connect();
     }
 
     return () => {
       console.log(`[Live][${ts()}] Cleaning up socket listeners`);
-      socket.off("pitch_start", onPitchStart);
-      socket.off("pitch_end", onPitchEnd);
-      socket.off("connect", onReconnect);
-      socket.off("disconnect", onDisconnect);
+      s.off("pitch_start", onPitchStart);
+      s.off("pitch_end", onPitchEnd);
+      s.off("connect", onReconnect);
+      s.off("disconnect", onDisconnect);
     };
   }, [vc?._id, fetchActivePitch]);
 
@@ -257,6 +251,8 @@ export default function DemoDayLivePage() {
       </div>
     );
   }
+
+  const s = socketRef.current;
 
   return (
     <div className="relative h-dvh w-full overflow-hidden bg-[#060e0b]">
@@ -376,11 +372,6 @@ export default function DemoDayLivePage() {
                               {currentStartup.location}
                             </span>
                           )}
-                          {/* {currentStartup.cohort && (
-                            <span className="inline-flex items-center rounded-full bg-white/8 border border-white/10 px-3 py-1 text-xs text-white/60">
-                              {currentStartup.cohort}
-                            </span>
-                          )} */}
                         </div>
                       </div>
                     </div>
@@ -591,14 +582,14 @@ export default function DemoDayLivePage() {
             }`}
           />
           <span>
-            {socketStatus.toUpperCase()} | id: {socket.id?.slice(-6) ?? "none"} | rc: {reconnectCount}
+            {socketStatus.toUpperCase()} | id: {s?.id?.slice(-6) ?? "none"} | rc: {reconnectCount}
           </span>
         </div>
         {lastEvent && (
           <div className="text-white/40 truncate">Last: {lastEvent}</div>
         )}
         <div className="text-white/30 truncate">
-          transport: {socket.io.engine?.transport?.name ?? "none"} | startup: {currentStartup?.startup_name ?? "none"}
+          transport: {s?.io.engine?.transport?.name ?? "none"} | startup: {currentStartup?.startup_name ?? "none"}
         </div>
       </div>
     </div>
