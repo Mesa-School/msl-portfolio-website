@@ -442,7 +442,7 @@ export default function DemoDayLivePage() {
                             ) : (
                               <ThumbsDown className="h-[1.1rem] w-[1.1rem] relative z-10" />
                             )}
-                            <span className="relative z-10">{submitting ? "Submitting..." : "Not Right Now"}</span>
+                            <span className="relative z-10">{submitting ? "Submitting..." : "Pass"}</span>
                           </button>
                         </div>
                       ) : (
