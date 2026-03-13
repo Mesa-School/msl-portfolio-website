@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, ThumbsUp, ThumbsDown, CalendarCheck, LogOut, MapPin, Check, X, Linkedin } from "lucide-react";
+import { Clock, ThumbsUp, ThumbsDown, LogOut, MapPin, Check, X, Linkedin } from "lucide-react";
 import { getSocket } from "@/lib/socket";
 import type { Socket } from "socket.io-client";
 
@@ -45,7 +45,6 @@ export default function DemoDayLivePage() {
   const router = useRouter();
   const [vc, setVc] = useState<VCData | null>(null);
   const [currentStartup, setCurrentStartup] = useState<Startup | null>(null);
-  const [vote, setVote] = useState<string | null>(null);
   const [bookMeeting, setBookMeeting] = useState<boolean | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [loadingPitch, setLoadingPitch] = useState(true);
@@ -142,7 +141,6 @@ export default function DemoDayLivePage() {
       console.log(
         `[Live][${ts()}] pitch_start RECEIVED | data=${JSON.stringify(data)} | id=${s.id} | connected=${s.connected}`
       );
-      setVote(null);
       setBookMeeting(null);
       setLoadingPitch(true);
       setLastEvent(`pitch_start @ ${ts()}`);
@@ -155,7 +153,6 @@ export default function DemoDayLivePage() {
       );
       latestRequestRef.current++;
       setCurrentStartup(null);
-      setVote(null);
       setBookMeeting(null);
       setLoadingPitch(false);
       setLastEvent(`pitch_end @ ${ts()}`);
@@ -200,47 +197,27 @@ export default function DemoDayLivePage() {
     };
   }, [vc?._id, fetchActivePitch]);
 
-  const sendVote = async (consent: string, meeting: boolean | null) => {
-    if (!vc?._id || !currentStartup?._id) return;
-    const feedback = meeting === true
-      ? "Meeting requested"
-      : meeting === false
-        ? "No meeting"
-        : undefined;
-
-    await fetch(`${API_BASE}/api/demo-day-vc/vote`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        vc_id: vc._id,
-        startup_id: currentStartup._id,
-        consent,
-        ...(feedback && { feedback }),
-      }),
-    });
-  };
-
-  const castVote = async (consent: string) => {
+  const handleBookMeeting = async (wantsMeeting: boolean) => {
     if (!vc?._id || !currentStartup?._id || submitting) return;
     setSubmitting(true);
     try {
-      await sendVote(consent, bookMeeting);
-      setVote(consent);
+      const consent = wantsMeeting ? "yes" : "no";
+      const feedback = wantsMeeting ? "Meeting requested" : "No meeting";
+      await fetch(`${API_BASE}/api/demo-day-vc/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vc_id: vc._id,
+          startup_id: currentStartup._id,
+          consent,
+          feedback,
+        }),
+      });
+      setBookMeeting(wantsMeeting);
     } catch (err) {
-      console.error("Failed to cast vote:", err);
+      console.error("Failed to book meeting:", err);
     } finally {
       setSubmitting(false);
-    }
-  };
-
-  const handleBookMeeting = async (wantsMeeting: boolean) => {
-    setBookMeeting(wantsMeeting);
-    if (vote) {
-      try {
-        await sendVote(vote, wantsMeeting);
-      } catch (err) {
-        console.error("Failed to update meeting preference:", err);
-      }
     }
   };
 
@@ -429,16 +406,16 @@ export default function DemoDayLivePage() {
 
                   {/* Right - Actions panel with frosted glass */}
                   <div className="lg:w-[310px] xl:w-[330px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/8 bg-black/20 backdrop-blur-xl p-7 sm:p-8 lg:p-9 flex flex-col justify-center gap-7">
-                    {/* Vote Section */}
+                    {/* Book a Meeting Section */}
                     <div>
                       <div className="flex items-center gap-2.5 mb-4">
                         <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
-                        <h3 className="text-[0.7rem] font-bold text-white/45 uppercase tracking-[0.18em]">Cast Your Vote</h3>
+                        <h3 className="text-[0.7rem] font-bold text-white/45 uppercase tracking-[0.18em]">Book a Meeting</h3>
                       </div>
-                      {!vote ? (
+                      {bookMeeting === null ? (
                         <div className="flex flex-col gap-3">
                           <button
-                            onClick={() => castVote("yes")}
+                            onClick={() => handleBookMeeting(true)}
                             disabled={submitting}
                             className="group relative flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-sm font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer overflow-hidden border border-emerald-500/30 text-emerald-300 hover:border-emerald-400/50 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(16,185,129,0.12),inset_0_1px_0_rgba(255,255,255,0.05)]"
                           >
@@ -453,7 +430,7 @@ export default function DemoDayLivePage() {
                             <span className="relative z-10">{submitting ? "Submitting..." : "Yes, I\u0027m Interested"}</span>
                           </button>
                           <button
-                            onClick={() => castVote("no")}
+                            onClick={() => handleBookMeeting(false)}
                             disabled={submitting}
                             className="group relative flex items-center justify-center gap-3 rounded-2xl px-5 py-4 text-sm font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer overflow-hidden border border-red-500/20 text-red-300/70 hover:border-red-400/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] hover:shadow-[0_0_30px_rgba(239,68,68,0.08),inset_0_1px_0_rgba(255,255,255,0.03)]"
                           >
@@ -465,70 +442,7 @@ export default function DemoDayLivePage() {
                             ) : (
                               <ThumbsDown className="h-[1.1rem] w-[1.1rem] relative z-10" />
                             )}
-                            <span className="relative z-10">{submitting ? "Submitting..." : "Pass"}</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <motion.div
-                          initial={{ scale: 0.9, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                          className={`flex items-center gap-4 rounded-2xl px-5 py-4 backdrop-blur-sm ${
-                            vote === "yes"
-                              ? "bg-emerald-500/10 border border-emerald-500/25"
-                              : "bg-red-500/10 border border-red-500/20"
-                          }`}
-                        >
-                          <div className={`flex h-10 w-10 items-center justify-center rounded-full shrink-0 ${
-                            vote === "yes" ? "bg-emerald-500/25" : "bg-red-500/20"
-                          }`}>
-                            {vote === "yes" ? (
-                              <Check className="h-5 w-5 text-emerald-400" />
-                            ) : (
-                              <X className="h-5 w-5 text-red-400" />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <p className={`text-sm font-semibold ${vote === "yes" ? "text-emerald-300" : "text-red-300/80"}`}>
-                              {vote === "yes" ? "Voted Yes!" : "Passed"}
-                            </p>
-                            <button
-                              onClick={() => { setVote(null); setBookMeeting(null); }}
-                              className="text-xs text-white/25 hover:text-white/50 transition-colors mt-0.5"
-                            >
-                              Change vote
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </div>
-
-                    {/* Divider */}
-                    <div className="h-px bg-linear-to-r from-transparent via-white/8 to-transparent" />
-
-                    {/* Book Meeting Section */}
-                    <div>
-                      <div className="flex items-center gap-2.5 mb-4">
-                        <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
-                        <h3 className="text-[0.7rem] font-bold text-white/45 uppercase tracking-[0.18em]">Book a Meeting</h3>
-                      </div>
-                      {bookMeeting === null ? (
-                        <div className="flex gap-3">
-                          <button
-                            onClick={() => handleBookMeeting(true)}
-                            className="group flex-1 relative flex items-center justify-center gap-2 rounded-2xl px-4 py-3.5 text-sm font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer overflow-hidden border border-white/12 text-white/70 hover:border-white/20 hover:text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                          >
-                            <div className="absolute inset-0 bg-white/4" />
-                            <div className="absolute inset-0 bg-linear-to-b from-white/3 to-transparent" />
-                            <CalendarCheck className="h-4 w-4 relative z-10" />
-                            <span className="relative z-10">Yes</span>
-                          </button>
-                          <button
-                            onClick={() => handleBookMeeting(false)}
-                            className="group flex-1 relative flex items-center justify-center gap-2 rounded-2xl px-4 py-3.5 text-sm font-bold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer overflow-hidden border border-white/[0.07] text-white/40 hover:border-white/15 hover:text-white/60"
-                          >
-                            <div className="absolute inset-0 bg-white/2" />
-                            <span className="relative z-10">No Thanks</span>
+                            <span className="relative z-10">{submitting ? "Submitting..." : "Not Right Now"}</span>
                           </button>
                         </div>
                       ) : (
@@ -538,18 +452,22 @@ export default function DemoDayLivePage() {
                           transition={{ type: "spring", stiffness: 300, damping: 20 }}
                           className={`flex items-center gap-4 rounded-2xl px-5 py-4 backdrop-blur-sm ${
                             bookMeeting
-                              ? "bg-emerald-500/8 border border-emerald-500/20"
-                              : "bg-white/3 border border-white/[0.07]"
+                              ? "bg-emerald-500/10 border border-emerald-500/25"
+                              : "bg-red-500/10 border border-red-500/20"
                           }`}
                         >
                           <div className={`flex h-10 w-10 items-center justify-center rounded-full shrink-0 ${
-                            bookMeeting ? "bg-emerald-500/20" : "bg-white/5"
+                            bookMeeting ? "bg-emerald-500/25" : "bg-red-500/20"
                           }`}>
-                            <CalendarCheck className={`h-5 w-5 ${bookMeeting ? "text-emerald-400" : "text-white/30"}`} />
+                            {bookMeeting ? (
+                              <Check className="h-5 w-5 text-emerald-400" />
+                            ) : (
+                              <X className="h-5 w-5 text-red-400" />
+                            )}
                           </div>
                           <div className="flex-1">
-                            <p className={`text-sm font-semibold ${bookMeeting ? "text-emerald-300" : "text-white/50"}`}>
-                              {bookMeeting ? "Meeting Requested" : "No Meeting"}
+                            <p className={`text-sm font-semibold ${bookMeeting ? "text-emerald-300" : "text-red-300/80"}`}>
+                              {bookMeeting ? "Meeting Booked!" : "Passed"}
                             </p>
                             <button
                               onClick={() => setBookMeeting(null)}
@@ -561,6 +479,8 @@ export default function DemoDayLivePage() {
                         </motion.div>
                       )}
                     </div>
+
+                    {/* Old Book Meeting section removed — functionality now in the section above */}
                   </div>
                 </div>
               </div>
@@ -585,12 +505,12 @@ export default function DemoDayLivePage() {
             {socketStatus.toUpperCase()} | id: {s?.id?.slice(-6) ?? "none"} | rc: {reconnectCount}
           </span>
         </div>
-        {lastEvent && (
+        {/* {lastEvent && (
           <div className="text-white/40 truncate">Last: {lastEvent}</div>
-        )}
-        <div className="text-white/30 truncate">
+        )} */}
+        {/* <div className="text-white/30 truncate">
           transport: {s?.io.engine?.transport?.name ?? "none"} | startup: {currentStartup?.startup_name ?? "none"}
-        </div>
+        </div> */}
       </div>
     </div>
   );
