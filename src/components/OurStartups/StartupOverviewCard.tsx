@@ -29,6 +29,7 @@ type StartupOverviewCardProps = {
   startup: Startup;
   index: number;
   isLoading?: boolean;
+  basePath?: string;
 };
 
 const renderInitials = (name: string) =>
@@ -38,8 +39,20 @@ const renderInitials = (name: string) =>
     .slice(0, 2)
     .join('');
 
-const getGradientClass = (index: number): string => {
+const getGradientClass = (index: number, basePath: string): string => {
   const gradientIndex = index % 3;
+  if (basePath === '/ignite') {
+    switch (gradientIndex) {
+      case 0:
+        return 'bg-gradient-to-br from-[#162848] to-[#2F5FB3]/90';
+      case 1:
+        return 'bg-gradient-to-br from-[#1A2D46] to-[#1B4377]/90';
+      case 2:
+        return 'bg-gradient-to-br from-[#0f1f3a] to-[#3461a8]/90';
+      default:
+        return 'bg-gradient-to-br from-[#162848] to-[#2F5FB3]/90';
+    }
+  }
   switch (gradientIndex) {
     case 0:
       return 'bg-gradient-to-br from-[#12422D] to-[#27614A]/90';
@@ -56,6 +69,7 @@ export const StartupOverviewCard = ({
   startup,
   index,
   isLoading = false,
+  basePath = '/portfolio',
 }: StartupOverviewCardProps) => {
   const [isNavigating, setIsNavigating] = useState(false);
   const router = useRouter();
@@ -66,8 +80,8 @@ export const StartupOverviewCard = ({
   const displayedFounders = founderNames.slice(0, 2).join(', ');
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
-  const detailHref = startup.slug ? `/portfolio/${startup.slug}` : null;
-  const gradientClass = getGradientClass(index);
+  const detailHref = startup.slug ? `${basePath}/${startup.slug}` : null;
+  const gradientClass = getGradientClass(index, basePath);
 
   const handleViewDetail = () => {
     if (detailHref) {

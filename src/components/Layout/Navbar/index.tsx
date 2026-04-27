@@ -3,11 +3,21 @@ import React, { useState, useEffect, useRef } from 'react'
 import MenuHeader from './MenuHeader'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const NavbarMainSection = () => {
 
     const [isScrolled, setIsScrolled] = useState(false);
+    const pathname = usePathname();
+
+    const isIgniteRoute = pathname?.startsWith('/ignite') ?? false;
+
+    const logoHref = isIgniteRoute
+        ? '/ignite'
+        : pathname?.startsWith('/portfolio')
+            ? '/portfolio'
+            : '/';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,12 +37,15 @@ const NavbarMainSection = () => {
 
     return (
         <div
-            className="fixed top-0 left-0 z-50 w-full transition-all duration-300"
+            className={cn(
+                "fixed top-0 left-0 z-50 w-full transition-all duration-300",
+                isIgniteRoute && "theme-ignite"
+            )}
         >
             {/* Tagline Header - Hidden on scroll */}
             <div
                 className={cn(
-                    "w-full bg-[#091414] backdrop-blur-sm transition-all duration-300 overflow-hidden",
+                    "w-full bg-msl-card backdrop-blur-sm transition-all duration-300 overflow-hidden",
                     isScrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
                 )}
             >
@@ -56,7 +69,7 @@ const NavbarMainSection = () => {
             >
                 <div className='w-[95%] md:w-[90%] mx-auto flex justify-between items-center gap-4'>
 
-                    <Link href="/">
+                    <Link href={logoHref}>
                         <Image
                             src="/logo-mesa.png"
                             alt="logo"

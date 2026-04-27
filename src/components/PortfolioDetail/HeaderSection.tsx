@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { motion, type Variants } from 'framer-motion';
 
@@ -24,6 +25,8 @@ type HeaderSectionProps = {
 
 const HeaderSection = ({ detail }: HeaderSectionProps) => {
   const heroImage = detail.companyHeaderImage || detail.companyLogo;
+  const pathname = usePathname();
+  const backHref = pathname?.startsWith('/ignite') ? '/ignite' : '/portfolio';
 
   return (
     <>
@@ -34,7 +37,7 @@ const HeaderSection = ({ detail }: HeaderSectionProps) => {
         className="container mx-auto py-4 md:py-6"
       >
         <Link
-          href="/portfolio"
+          href={backHref}
           className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4 md:w-6 md:h-6" />

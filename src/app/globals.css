@@ -3,6 +3,18 @@
 
 /* @custom-variant dark (&:is(.dark *)); */
 
+@theme {
+  --color-msl-accent: #27614A;
+  --color-msl-card: #091414;
+  --color-msl-page: #0b1818;
+}
+
+.theme-ignite {
+  --color-msl-accent: #2F5FB3;
+  --color-msl-card: #0d1a2c;
+  --color-msl-page: #0a1322;
+}
+
 body {
   background-color: #0b1818;
   font-family: var(--font-manrope), "Manrope", sans-serif;
