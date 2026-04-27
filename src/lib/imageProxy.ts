@@ -6,8 +6,22 @@
  * Only absolute http/https URLs are proxied; relative paths or empty
  * values are returned unchanged.
  */
+const LEGACY_PROXY_PREFIX = '/api/image-proxy?url=';
+
+function unwrapLegacyProxy(url: string): string {
+  let current = url;
+  let depth = 0;
+  while (current.startsWith(LEGACY_PROXY_PREFIX) && depth < 25) {
+    current = decodeURIComponent(current.slice(LEGACY_PROXY_PREFIX.length));
+    depth += 1;
+  }
+  return current;
+}
+
 export function toProxyUrl(url: string | null | undefined): string | null | undefined {
-  if (!url || !url.startsWith('http')) return url;
-  const encoded = Buffer.from(url).toString('base64url');
+  if (!url) return url;
+  const unwrapped = unwrapLegacyProxy(url);
+  if (!unwrapped.startsWith('http')) return unwrapped;
+  const encoded = Buffer.from(unwrapped).toString('base64url');
   return `/api/images?url=${encoded}`;
 }
