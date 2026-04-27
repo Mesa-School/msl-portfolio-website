@@ -1,7 +1,29 @@
+import type { Metadata } from 'next';
+
 import { OurStartupsHeader } from '@/components/OurStartups/OurStartupsHeader';
 import { StartupOverviewGrid } from '@/components/OurStartups/StartupOverviewGrid';
 import { PortfolioFilterProvider } from '@/contexts/PortfolioFilterContext';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
+
+const PORTFOLIO_DESCRIPTION =
+  'Explore the Mesa Startup Lab portfolio — student- and early-stage founders building across D2C, AI, services and more.';
+
+export const metadata: Metadata = {
+  title: 'Portfolio',
+  description: PORTFOLIO_DESCRIPTION,
+  alternates: { canonical: '/portfolio' },
+  openGraph: {
+    title: 'MSL Portfolio',
+    description: PORTFOLIO_DESCRIPTION,
+    url: '/portfolio',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'MSL Portfolio',
+    description: PORTFOLIO_DESCRIPTION,
+  },
+};
 
 const OurStartupsPage = async () => {
   const { startups, pagination } = await fetchStartupsAction(1, []);

@@ -1,3 +1,5 @@
+import { cache } from 'react';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { API_URL } from '@/config/apiUrl';
@@ -65,7 +67,7 @@ const normalizeStartupDetail = (payload: any): StartupDetail => {
   };
 };
 
-const fetchStartupDetail = async (slug: string): Promise<StartupDetail | null> => {
+const fetchStartupDetail = cache(async (slug: string): Promise<StartupDetail | null> => {
   if (!API_URL) {
     return null;
   }
@@ -91,11 +93,46 @@ const fetchStartupDetail = async (slug: string): Promise<StartupDetail | null> =
     console.error('Error fetching ignite startup detail:', error);
     return null;
   }
-};
+});
 
 type DetailPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: DetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const detail = await fetchStartupDetail(slug);
+
+  if (!detail) {
+    return {
+      title: 'Ignite startup not found',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = detail.startupSummary?.trim() || `${detail.startupName} — Mesa Startup Lab Ignite founder.`;
+  const ogImage = detail.companyHeaderImage || detail.companyLogo || undefined;
+  const canonical = `/ignite/${detail.slug ?? slug}`;
+
+  return {
+    title: `${detail.startupName} — Ignite`,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title: `${detail.startupName} — MSL Ignite`,
+      description,
+      url: canonical,
+      type: 'article',
+      ...(ogImage && { images: [{ url: ogImage, alt: detail.startupName }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${detail.startupName} — MSL Ignite`,
+      description,
+      ...(ogImage && { images: [ogImage] }),
+    },
+  };
+}
 
 const IgniteStartupDetailPage = async ({ params }: DetailPageProps) => {
   const { slug } = await params;
