@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(if \\($env:GEMINI_API_KEY\\) { \"GEMINI_API_KEY is set, length=$\\($env:GEMINI_API_KEY.Length\\), prefix=$\\($env:GEMINI_API_KEY.Substring\\(0,6\\)\\)...\" } else { \"GEMINI_API_KEY is NOT set in this session\" })",
+      "Bash(python -c \"import PIL; print\\('Pillow', PIL.__version__\\)\")",
+      "Bash(python -m pip install --quiet Pillow)",
+      "Bash(python *)"
+    ]
+  }
+}

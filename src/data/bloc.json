@@ -1,0 +1,121 @@
+{
+  "__todo": [
+    "company_logo — upload HD transparent PNG to /public/bloc/logo.png",
+    "company_header_image — generate 5:1 banner via prompt, save to /public/bloc/bloc_image.jpg",
+    "location — confirm with founders",
+    "sector_excitement.india_market — verify India pest control market size",
+    "sector_excitement.cagr — verify global pest control CAGR (~5-yr)",
+    "founders[].email — collect from founders",
+    "founder_video — request 90s Loom or MP4 pitch",
+    "social_media_links — collect IG / X handles (LinkedIn already on company)"
+  ],
+
+  "id": "bloc-001",
+  "slug": "bloc",
+  "startup_name": "Bloc",
+  "brand": {
+    "primary": "#27614A",
+    "accent": "#6BBF95",
+    "surface_deep": "#0b1818",
+    "surface_mid": "#091414",
+    "ink": "#F5F8FF"
+  },
+  "keywords": ["Non-toxic", "Design-first", "Insect control", "Hospitality", "Consumer brand", "Made in India"],
+
+  "startup_website": "https://www.blocinsects.com",
+  "company_logo": "/bloc/logo.jpg",
+  "company_header_image": "/bloc/bloc-banner-2500x500.png",
+  "sector": { "name": "D2C" },
+  "cohort": "Cohort 3",
+  "location": "[TODO: location]",
+
+  "two_liner": "Bloc is building design-first, non-toxic insect control products for homes and hospitality spaces.",
+
+  "tagline": "Dyson meets insect control.",
+
+  "brief_description": "Mosquitoes and insects remain a massive everyday problem across homes, restaurants, and outdoor spaces, yet most existing solutions rely on harmful chemicals or poor user experience. Bloc is building aesthetic, non-toxic insect control products powered by smart product design — their first SKU, a UV light + fan mosquito trap, is already being adopted by restaurants and commercial spaces.",
+
+  "key_metrics": [
+    {
+      "id": 1,
+      "value": "₹16.5L",
+      "label": "MRR",
+      "description": "Monthly recurring revenue across D2C and hospitality channels."
+    },
+    {
+      "id": 2,
+      "value": "20x",
+      "label": "ROAS",
+      "description": "Return on ad spend — best-in-class performance marketing."
+    },
+    {
+      "id": 3,
+      "value": "30%",
+      "label": "Net margin",
+      "description": "Premium positioning translates to healthy unit economics."
+    },
+    {
+      "id": 4,
+      "value": "₹2Cr",
+      "label": "ARR run-rate",
+      "description": "Annualized from current MRR · scaling B2B installs."
+    }
+  ],
+
+  "sector_excitement": {
+    "paragraph": "The global pest control market is expected to cross $40B+ in the coming years, driven by increasing urbanisation, hygiene awareness, and climate-related insect problems. India alone represents a massive underserved market where consumers are still dependent on outdated chemical-heavy solutions — Bloc sees an opportunity to build a global consumer brand from India in this category.",
+    "india_market": { "value": "TBD", "label": "[TODO] India market" },
+    "global_market": { "value": "$40B", "label": "Global pest control" },
+    "cagr": { "value": "TBD", "label": "[TODO] CAGR · 5-yr" }
+  },
+
+  "product_excitement": "Unlike traditional mosquito repellents and sprays, Bloc's products are non-toxic, design-first, and built for modern spaces. The company combines functionality with aesthetics, making insect control feel like a premium consumer product rather than a utility purchase.",
+
+  "why_now": "Consumers today are actively moving towards safer, chemical-free lifestyle products, while hospitality and premium spaces are looking for aesthetic solutions that fit modern environments. Despite being a massive category, insect control has seen very little product innovation — creating the perfect timing for a brand like Bloc.",
+
+  "founders": [
+    {
+      "id": 1,
+      "name": "Arnav Gupta",
+      "designation": "CEO & Growth",
+      "linkedin": "https://www.linkedin.com/in/arnav-gupta26/",
+      "email": null,
+      "founder_profile_pic": "/bloc/arnav.jpg",
+      "description": "Previously built Agency Mart and developed deep experience in growth and distribution. Passionate about building large consumer brands from India."
+    },
+    {
+      "id": 2,
+      "name": "Rishabh Agarwal",
+      "designation": "Product & Operations",
+      "linkedin": "https://www.linkedin.com/in/rishabhagarwal123",
+      "email": null,
+      "founder_profile_pic": "/bloc/rishabh.jpg",
+      "description": "Previously built Unplugged and brings strong operational and execution capabilities. Focused on product innovation and scaling manufacturing."
+    }
+  ],
+
+  "founder_gallery": {
+    "images": [
+      { "id": 1, "url": "/bloc/3_3e6cf6bd-664d-43a3-901f-2c7f11fd6cd5.webp", "caption": "Breaks the breeding cycle · launch creative" },
+      { "id": 2, "url": "/bloc/7_b9403864-7325-426d-a238-b86073c2923e.webp", "caption": "Insect Trap Pro · packaging" },
+      { "id": 3, "url": "/bloc/1771965312991.jpg", "caption": "Founders × product review at Mesa" },
+      { "id": 4, "url": "/bloc/4_89da3a29-7efe-4277-899e-9f3bded24a89.webp", "caption": "Three-step usage · plug, run, empty" },
+      { "id": 5, "url": "/bloc/1766762303813.jpg", "caption": "Whiteboard sessions · GTM planning" },
+      { "id": 6, "url": "/bloc/1767068415649.jpg", "caption": "Research trip · history of pest control" }
+    ],
+    "testimonials": []
+  },
+
+  "founder_video": null,
+
+  "social_media_links": {
+    "instagram": null,
+    "linkedin": null,
+    "twitter": null,
+    "facebook": null
+  },
+
+  "created_at": "2026-02-10T00:00:00.000000",
+  "updated_at": "2026-05-11T00:00:00.000000",
+  "published_at": "2026-02-10T00:00:00.000000"
+}

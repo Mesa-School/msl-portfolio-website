@@ -24,7 +24,7 @@
   "keywords": ["Bioavailability", "Spirulina", "Daily ritual", "Cellular health", "Functional wellness", "India D2C"],
   "startup_website": "https://www.fynwellness.com/",
   "company_logo": "/api/images?url=aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21lc2FfdGVjaF9hc3NldHMvbWFzdGVyX2NybV9kYXRhL0ZZTl9Mb2dvXzFfU2hyZXlfRG9zaGlfOThlZTBjNTk4OS9GWU5fTG9nb18xX1NocmV5X0Rvc2hpXzk4ZWUwYzU5ODkucG5nP0V4cGlyZXM9NDEwMjQ0NDc5OSZHb29nbGVBY2Nlc3NJZD1zdHJhcGktc3RvcmFnZS1zZXJ2aWNlJTQwbWVzYS1zdGFydHVwLWxhYi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSZTaWduYXR1cmU9UUZ4bEZFVERDUHc0SlRyT0VmZkZ1SzFpNWRYaFF1Sm11Znk3WSUyRjFtNDMlMkYyWkE0OWdSV3lDa1Z2YWs1UmswSWlIWGtuQmlmenpxbWpocG0lMkJ5SmQxWjFXNVVHVmJrMTZCdUZ6MkJwUTlrQjZzZnRYZFF1cFB6MmNHa3lVVmw4SXJua0dFb05odWt1WDVPYyUyRnlFOEg0bXRDOWlPOEZRNG5aS0RlSndrNENJTjdMekNEeFh2WUFidFElMkZJWjFnVlklMkZBbFp3dE5JVm5FZ2ZKMkRDb1RMUG5kOGZRbXV5d2JzOTVYN2lDVThRSklPMGl0JTJCMHpDalp1VXNYUzNMc0piTkNyNmhkYU82aEdGd2Q1dmNmJTJCd29SeGVaMWRzTmZSUzVDMzZXc2ZBOVdNN08lMkI5dXZ0YmpTSHh1NzFLOVZpUTlRY016MWJ1Yk5FMFFUY2d4blNEYUtuUHJ3JTNEJTNE",
-  "company_header_image": "/api/images?url=aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21lc2FfdGVjaF9hc3NldHMvbWFzdGVyX2NybV9kYXRhL2NhcmVlcnMtZGF0YS9jcm9wcGVkX2ltYWdlXzIwMjYwMTEzXzAyMTQwNl9hNGMzNDQzOS5qcGc_RXhwaXJlcz00MTAyNDQ0Nzk5Jkdvb2dsZUFjY2Vzc0lkPXN0cmFwaS1zdG9yYWdlLXNlcnZpY2UlNDBtZXNhLXN0YXJ0dXAtbGFiLmlhbS5nc2VydmljZWFjY291bnQuY29tJlNpZ25hdHVyZT1WdW40dFlMd2lHRlIzR3hJZTFaME12WFhNMHBuTXltcFdab2hGJTJGc1lBQUdiakolMkJGenkyR3olMkJNSHV1U1ZFRkFKWnZ3VTNmQ2JRVktrMnl2SEIyNU5ubkZyWXJrNVU4RFdid1huYXBLV2FRMHJaSlpTcmdDNmJJQ3kyMmNIQTlsTk9MeFJ4bkxRUmk3ZXQlMkYwNW91cTFKcVhaSmFNc3FLaU5QQ3dMRlJPYjFHcFFEbjlCY3UyVUNoaVZOS003U0dsZXZNeVE4VlNLb2FKV2lxTFElMkZEZjlaZUsyRVpBSnNzd084JTJCNlpDQjBkZiUyQiUyRmVzRXVwQ2ZDZXMyazJSJTJCVjI0JTJGa0NRRmtXWDlyNXNzTG1UcnFTZWl6WURMWnZ3MyUyRnppUHpLJTJCQmlDbjklMkJHJTJGdlclMkJ5VmFaUXhxNlpXdmhwQ3UzcFJxUU1uQWJ3QkVQeE1OOUN0alMwNGNRMFElM0QlM0Q",
+  "company_header_image": "/fyn/fyn_image.jpg",
   "sector": {
     "name": "D2C"
   },
@@ -88,7 +88,14 @@
   ],
 
   "founder_gallery": {
-    "images": [],
+    "images": [
+      { "id": 1, "url": "/fyn/header.jpg", "caption": "FYNERGY launch creative" },
+      { "id": 2, "url": "/fyn/Hero.webp", "caption": "Hydra · studio shot" },
+      { "id": 3, "url": "/fyn/1771970664127.jpg", "caption": "Core team of 5" },
+      { "id": 4, "url": "/fyn/3.webp", "caption": "Antioxidant powerhouse" },
+      { "id": 5, "url": "/fyn/1766041668219.jpg", "caption": "Pitch at Mesa" },
+      { "id": 6, "url": "/fyn/1769460530070.jpg", "caption": "GTM in the wild" }
+    ],
     "testimonials": []
   },
 
