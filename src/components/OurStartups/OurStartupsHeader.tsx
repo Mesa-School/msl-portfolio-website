@@ -196,7 +196,7 @@ export const OurStartupsHeader = () => {
 
               {/* Sector Suggestions Dropdown */}
               {showSuggestions && filteredSectors.length > 0 && (
-                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/15 bg-[#091414] backdrop-blur-xl shadow-[0_25px_60px_rgba(2,6,23,0.65)] overflow-hidden">
+                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/15 bg-msl-card backdrop-blur-xl shadow-[0_25px_60px_rgba(2,6,23,0.65)] overflow-hidden">
                   <div className="max-h-64 overflow-y-auto p-2">
                     {filteredSectors.map((sector) => (
                       <button

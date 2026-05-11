@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function MaintenancePage() {
   return (
-    <div className="min-h-[90vh] bg-[#0b1818] flex flex-col items-center justify-center px-6 text-white">
+    <div className="min-h-[90vh] bg-msl-page flex flex-col items-center justify-center px-6 text-white">
       {/* Logo */}
       <div className="mb-12">
         <Image

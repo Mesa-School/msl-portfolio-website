@@ -88,3 +88,43 @@ body {
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
 } */
+
+/* ─── Editorial portfolio detail (test route) ─── */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+.font-body {
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), "SF Mono", "JetBrains Mono", Consolas, monospace;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@keyframes carousel-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pause carousel auto-scroll when hovered (so users can read captions) */
+.group:hover [style*="carousel-scroll"] {
+  animation-play-state: paused !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Drop cap for editorial paragraphs — color picked up from --brand-accent */
+.editorial-dropcap::first-letter {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  font-size: 110px;
+  line-height: 0.85;
+  float: left;
+  margin: 0.5rem 1rem 0 0;
+  color: var(--brand-accent, currentColor);
+}

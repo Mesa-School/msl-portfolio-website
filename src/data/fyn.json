@@ -1,0 +1,112 @@
+{
+  "__todo": [
+    "tagline — confirm or replace draft below",
+    "key_metrics — pre-revenue, verify numbers/wording with founder",
+    "sector_excitement.india_market_size / global_market_size / cagr — verify with real research",
+    "why_now — confirm draft narrative with founder",
+    "founders[0].description — replace draft with founder's real 2-line bio",
+    "founder_gallery.images[] — add real photos + captions",
+    "founder_gallery.testimonials[] — collect real quotes",
+    "founder_video — add MP4 URL when available (currently null)",
+    "startup_website — currently empty in source data, ask founder"
+  ],
+
+  "id": "69653d26677886c982df81a5",
+  "slug": "fyn",
+  "startup_name": "FYN",
+  "brand": {
+    "primary": "#27614A",
+    "accent": "#6BBF95",
+    "surface_deep": "#0b1818",
+    "surface_mid": "#091414",
+    "ink": "#F5F8FF"
+  },
+  "keywords": ["Bioavailability", "Spirulina", "Daily ritual", "Cellular health", "Functional wellness", "India D2C"],
+  "startup_website": "https://www.fynwellness.com/",
+  "company_logo": "/api/images?url=aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21lc2FfdGVjaF9hc3NldHMvbWFzdGVyX2NybV9kYXRhL0ZZTl9Mb2dvXzFfU2hyZXlfRG9zaGlfOThlZTBjNTk4OS9GWU5fTG9nb18xX1NocmV5X0Rvc2hpXzk4ZWUwYzU5ODkucG5nP0V4cGlyZXM9NDEwMjQ0NDc5OSZHb29nbGVBY2Nlc3NJZD1zdHJhcGktc3RvcmFnZS1zZXJ2aWNlJTQwbWVzYS1zdGFydHVwLWxhYi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSZTaWduYXR1cmU9UUZ4bEZFVERDUHc0SlRyT0VmZkZ1SzFpNWRYaFF1Sm11Znk3WSUyRjFtNDMlMkYyWkE0OWdSV3lDa1Z2YWs1UmswSWlIWGtuQmlmenpxbWpocG0lMkJ5SmQxWjFXNVVHVmJrMTZCdUZ6MkJwUTlrQjZzZnRYZFF1cFB6MmNHa3lVVmw4SXJua0dFb05odWt1WDVPYyUyRnlFOEg0bXRDOWlPOEZRNG5aS0RlSndrNENJTjdMekNEeFh2WUFidFElMkZJWjFnVlklMkZBbFp3dE5JVm5FZ2ZKMkRDb1RMUG5kOGZRbXV5d2JzOTVYN2lDVThRSklPMGl0JTJCMHpDalp1VXNYUzNMc0piTkNyNmhkYU82aEdGd2Q1dmNmJTJCd29SeGVaMWRzTmZSUzVDMzZXc2ZBOVdNN08lMkI5dXZ0YmpTSHh1NzFLOVZpUTlRY016MWJ1Yk5FMFFUY2d4blNEYUtuUHJ3JTNEJTNE",
+  "company_header_image": "/api/images?url=aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21lc2FfdGVjaF9hc3NldHMvbWFzdGVyX2NybV9kYXRhL2NhcmVlcnMtZGF0YS9jcm9wcGVkX2ltYWdlXzIwMjYwMTEzXzAyMTQwNl9hNGMzNDQzOS5qcGc_RXhwaXJlcz00MTAyNDQ0Nzk5Jkdvb2dsZUFjY2Vzc0lkPXN0cmFwaS1zdG9yYWdlLXNlcnZpY2UlNDBtZXNhLXN0YXJ0dXAtbGFiLmlhbS5nc2VydmljZWFjY291bnQuY29tJlNpZ25hdHVyZT1WdW40dFlMd2lHRlIzR3hJZTFaME12WFhNMHBuTXltcFdab2hGJTJGc1lBQUdiakolMkJGenkyR3olMkJNSHV1U1ZFRkFKWnZ3VTNmQ2JRVktrMnl2SEIyNU5ubkZyWXJrNVU4RFdid1huYXBLV2FRMHJaSlpTcmdDNmJJQ3kyMmNIQTlsTk9MeFJ4bkxRUmk3ZXQlMkYwNW91cTFKcVhaSmFNc3FLaU5QQ3dMRlJPYjFHcFFEbjlCY3UyVUNoaVZOS003U0dsZXZNeVE4VlNLb2FKV2lxTFElMkZEZjlaZUsyRVpBSnNzd084JTJCNlpDQjBkZiUyQiUyRmVzRXVwQ2ZDZXMyazJSJTJCVjI0JTJGa0NRRmtXWDlyNXNzTG1UcnFTZWl6WURMWnZ3MyUyRnppUHpLJTJCQmlDbjklMkJHJTJGdlclMkJ5VmFaUXhxNlpXdmhwQ3UzcFJxUU1uQWJ3QkVQeE1OOUN0alMwNGNRMFElM0QlM0Q",
+  "sector": {
+    "name": "D2C"
+  },
+  "cohort": "Cohort 3",
+  "location": "Bengaluru",
+
+  "two_liner": "FYN (Fuel Your Nutrition) brings the world's most powerful superfood, spirulina, into your daily routine — improving nutrient absorption, cellular health and whole-body wellness with simple, delicious blends.",
+
+  "tagline": "[TODO: tagline] Fuel your nutrition. Daily.",
+
+  "brief_description": "India faces a double nutrition gap — low intake and poor absorption — and most supplements fail because weak gut health and genetics limit cellular uptake, leaving people stuck in a loop of products that don't work. FYN closes the gap with spirulina, the most bioavailable natural superfood, engineered into delicious blends built for habit and consistency. We're not another bottle on a cluttered shelf — we're India's first spirulina-first, routine-driven nutrition system. Daily, naturally, effectively.",
+
+  "key_metrics": [
+    {
+      "id": 1,
+      "value": "Live",
+      "label": "Pilot launched",
+      "description": "Blue Spirulina pilot SKU shipping to early customers in Bengaluru."
+    },
+    {
+      "id": 2,
+      "value": "3 mo",
+      "label": "Concept to shelf",
+      "description": "Built first product end-to-end — formulation, brand, GTM, website."
+    },
+    {
+      "id": 3,
+      "value": "1st",
+      "label": "Spirulina-first D2C in India",
+      "description": "First brand making spirulina the daily-routine hero, not a side ingredient."
+    },
+    {
+      "id": 4,
+      "value": "5",
+      "label": "Core team",
+      "description": "Cross-functional team across design, GTM, content and partnerships."
+    }
+  ],
+
+  "sector_excitement": {
+    "paragraph": "India's nutraceuticals and functional-food market is one of the fastest-growing globally, driven by urban health-consciousness, post-pandemic immunity demand, and a generational shift from generic supplements to ingredient-led wellness. Spirulina sits at the intersection of two booming categories — superfoods and functional beverages — and the bioavailability conversation that's gone mainstream in the US (Erewhon's blue spirulina drinks sell out daily) is now landing in India.",
+    "india_market": { "value": "$10B", "label": "India nutraceuticals" },
+    "global_market": { "value": "$700B", "label": "Global wellness" },
+    "cagr": { "value": "22%", "label": "CAGR · 5-yr" }
+  },
+
+  "product_excitement": "Most wellness brands sell ingredients. FYN sells consistency. Supplements fail when they're badly absorbed and inconsistently taken — so we built around the most bioavailable natural superfood (spirulina) and engineered every blend for habit, taste and repeatability. We're not another bottle on a cluttered shelf; we're the first spirulina-first, routine-driven nutrition system in India, built to make wellness visually exciting, culturally relevant and behaviourally easy.",
+
+  "why_now": "[TODO: confirm with founder] India's wellness category is at an inflection point — post-COVID health awareness, rising metro disposable income, and a generation that finally questions 'why doesn't my supplement actually work?'. The bioavailability conversation has gone mainstream globally and India is 18–24 months behind the curve. No spirulina-first brand owns the daily-routine wedge in India yet. The window to plant the flag is now.",
+
+  "founders": [
+    {
+      "id": 1,
+      "name": "Shrey Doshi",
+      "designation": "Founder & CEO",
+      "linkedin": "https://www.linkedin.com/in/shrey-doshi-49aa10b0/",
+      "email": "shrey_doshi96@pg26.mesaschool.co",
+      "founder_profile_pic": "/api/images?url=aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL21lc2FfdGVjaF9hc3NldHMvbWFzdGVyX2NybV9kYXRhL0lNR18yNDkyX1NocmV5X0Rvc2hpXzgxOTVkNDgzZTMvSU1HXzI0OTJfU2hyZXlfRG9zaGlfODE5NWQ0ODNlMy5wbmc_RXhwaXJlcz00MTAyNDQ0Nzk5Jkdvb2dsZUFjY2Vzc0lkPXN0cmFwaS1zdG9yYWdlLXNlcnZpY2UlNDBtZXNhLXN0YXJ0dXAtbGFiLmlhbS5nc2VydmljZWFjY291bnQuY29tJlNpZ25hdHVyZT1RdktRZldVZFdDM1clMkJpdyUyQllWTlkxbkdmZFpOdyUyQkxWOHpGN0xDbFZod041UlU2SGlMaE00UFdWbjBsSTJFVEpGTkJPMU0lMkJsdURlWkVBN1VPaHpQRzNPUzQ4WXRxWDNwdTdlSXdBWVFUeFpPQUhhSkglMkJRTGtkSHNjZGpoTTF6b3BJTFJJZnJsRjQzSWZMYjZOQkxGeU8yc3ZTNGpsdm94SGdrVDQxdFNwcjJ3UGljWFg0JTJCendkVTRrTW8zMTFMaFdiTUdKSVBrb3Y1cUklMkZhQ1RRZ3Fnb3JCRTEyVFRiTUMxZ00zbGJ5ZXNiY2NrdGFzY1BMTWpIY2wlMkZLeHR1QVVoWXNkVWZyUGxBWFFRSXl0azUyTEhiN1RValE4ZWxyJTJGMXBITGFXc0dnVE80Ym04b3Q0JTJGTEk2NFFRaEtZZjZuZVJRM2NoREUxNGFtYzhsak9VT005cm5tUSUzRCUzRA",
+      "description": "[TODO: founder bio] Product-obsessed builder who spent 3 months going from blank page to FYN's first Blue Spirulina SKU. Driven by the conviction that wellness only works when it becomes a daily ritual, not another bottle."
+    }
+  ],
+
+  "founder_gallery": {
+    "images": [],
+    "testimonials": []
+  },
+
+  "founder_video": {
+    "url": "https://www.loom.com/share/f06262c323824b81afc1d74126b31e89",
+    "embed_url": "https://www.loom.com/embed/f06262c323824b81afc1d74126b31e89",
+    "title": "FYN — 90-second founder pitch",
+    "duration_seconds": 90
+  },
+
+  "social_media_links": {
+    "instagram": "https://www.instagram.com/fynwellness/",
+    "linkedin": "https://www.linkedin.com/company/fyn-wellness/",
+    "twitter": null,
+    "facebook": null
+  },
+
+  "created_at": "2026-01-12T18:27:50.371000",
+  "updated_at": "2026-04-14T05:57:35.305000",
+  "published_at": "2026-01-12T18:27:50.371000"
+}

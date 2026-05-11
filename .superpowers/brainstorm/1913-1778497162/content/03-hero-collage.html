@@ -1,0 +1,109 @@
+<h2>Hero treatment — master image + collage</h2>
+<p class="subtitle">Three ways to compose <code>company_header_image</code> + supporting <code>founder_gallery.images[]</code> shots. Pick one, then we lock body direction (A/B/C from previous screen).</p>
+
+<div class="cards">
+
+  <!-- ─────────── HERO 1 ─────────── -->
+  <div class="card" data-choice="hero-asymmetric" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">H1 — Asymmetric Editorial</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:12px">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:6px;height:140px">
+            <div style="background:linear-gradient(135deg,#1a3a2a,#2d6a4f);border-radius:10px;display:flex;align-items:flex-end;padding:10px;color:#fff;font-size:9px">MASTER · product hero</div>
+            <div style="display:grid;grid-template-rows:1fr 1fr 1fr;gap:6px">
+              <div style="background:linear-gradient(135deg,#2d4a3e,#52796f);border-radius:8px"></div>
+              <div style="background:linear-gradient(135deg,#3a5a4a,#74a786);border-radius:8px"></div>
+              <div style="background:linear-gradient(135deg,#1f3a2c,#3d6650);border-radius:8px"></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;color:#fff">
+            <div style="font-size:9px;opacity:.5;letter-spacing:.18em;text-transform:uppercase">D2C · Cohort 3 · Bengaluru</div>
+            <div style="font-size:22px;font-weight:700;margin-top:4px">FYN</div>
+            <div style="font-size:11px;opacity:.7;margin-top:2px">Fuel your nutrition. Daily.</div>
+            <div style="font-size:10px;opacity:.6;margin-top:6px;line-height:1.4">Spirulina-first, routine-driven nutrition system for India.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>H1 · Asymmetric Editorial</h3>
+      <p>Big master image (left, ~66%) + 3 stacked thumbnails (right, ~33%). Logo / tagline / 2-liner sit cleanly <b>below</b> the image block. Lookbook / museum feel.</p>
+      <p class="label" style="margin-top:6px"><b>Best for:</b> brands with strong product photography (D2C, food, fashion). Pairs well with body C or A.</p>
+    </div>
+  </div>
+
+  <!-- ─────────── HERO 2 ─────────── -->
+  <div class="card" data-choice="hero-overlay" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">H2 — Magazine Cover Overlay</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:12px">
+          <div style="position:relative;background:linear-gradient(180deg,#1a3a2a 0%,#0b1f15 100%);border-radius:10px;height:200px;overflow:hidden">
+            <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(116,167,134,.4),transparent 60%)"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.85) 100%)"></div>
+
+            <!-- Top-right meta -->
+            <div style="position:absolute;top:10px;right:12px;color:#fff;font-size:8px;opacity:.7;letter-spacing:.15em;text-transform:uppercase">D2C · Cohort 3</div>
+
+            <!-- Bottom-left identity -->
+            <div style="position:absolute;left:12px;bottom:10px;color:#fff">
+              <div style="font-size:24px;font-weight:700;line-height:1">FYN</div>
+              <div style="font-size:11px;opacity:.85;margin-top:2px">Fuel your nutrition. Daily.</div>
+              <div style="font-size:9px;opacity:.6;margin-top:4px;max-width:180px;line-height:1.4">Spirulina-first nutrition system, engineered for daily ritual.</div>
+            </div>
+
+            <!-- Bottom-right floating thumb strip -->
+            <div style="position:absolute;right:12px;bottom:10px;display:flex;gap:4px">
+              <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#52796f,#74a786);border:1.5px solid rgba(255,255,255,.3)"></div>
+              <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#3a5a4a,#558869);border:1.5px solid rgba(255,255,255,.3)"></div>
+              <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#1f3a2c,#3d6650);border:1.5px solid rgba(255,255,255,.3)"></div>
+              <div style="width:34px;height:34px;border-radius:6px;background:#000;border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>H2 · Magazine Cover Overlay</h3>
+      <p>Full-bleed master image as a "magazine cover." Logo + tagline overlay bottom-left, floating thumbnail strip + video thumb bottom-right. The most <b>immersive</b> and brand-forward option.</p>
+      <p class="label" style="margin-top:6px"><b>Best for:</b> visually-strong brands. Saves vertical space (everything is in one image block). Pairs well with body B or C.</p>
+    </div>
+  </div>
+
+  <!-- ─────────── HERO 3 ─────────── -->
+  <div class="card" data-choice="hero-mosaic" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">H3 — Mosaic / Bento Hero</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:12px">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,60px);gap:5px">
+            <!-- Master spans 2x2 -->
+            <div style="grid-column:span 2;grid-row:span 2;background:linear-gradient(135deg,#1a3a2a,#52796f);border-radius:8px;padding:8px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff">
+              <div style="font-size:18px;font-weight:700">FYN</div>
+              <div style="font-size:9px;opacity:.85">Fuel your nutrition.</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#2d4a3e,#52796f);border-radius:8px"></div>
+            <div style="background:linear-gradient(135deg,#3a5a4a,#74a786);border-radius:8px"></div>
+            <div style="background:linear-gradient(135deg,#1f3a2c,#3d6650);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px">▶</div>
+            <div style="background:linear-gradient(135deg,#2a4a38,#558869);border-radius:8px"></div>
+          </div>
+          <div style="margin-top:10px;color:#fff">
+            <div style="font-size:9px;opacity:.5;letter-spacing:.18em;text-transform:uppercase">D2C · Cohort 3 · Bengaluru</div>
+            <div style="font-size:11px;opacity:.7;margin-top:4px;line-height:1.4">Spirulina-first, routine-driven nutrition system for India. Closing the double nutrition gap.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>H3 · Mosaic Bento Hero</h3>
+      <p>5-cell mosaic — master spans 2×2, surrounded by 4 supporting tiles (1 reserved for the founder video thumb). Most "<b>cool startup</b>" energy. Pairs naturally with body B (bento).</p>
+      <p class="label" style="margin-top:6px"><b>Best for:</b> startups with multiple lifestyle/product/team shots. Eats the most vertical space — ~80vh hero alone.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px"><b>My recommendation:</b> <b>H2 (Magazine Cover Overlay)</b> + body direction <b>C (Investor One-Pager)</b>. The overlay hero is the most premium / accelerator-grade and saves vertical space, leaving the 2-page budget intact for the dense body. H3 is a strong second if you want to lean lookbook.</p>
+
+<p class="subtitle" style="margin-top:8px;font-size:11px;opacity:.6">Note: in mockups the image gradients are placeholders — real photos will be much stronger. <code>founder_gallery.images[]</code> is empty in fyn.json today; we'll need 3–5 real photos per startup for these treatments to land.</p>

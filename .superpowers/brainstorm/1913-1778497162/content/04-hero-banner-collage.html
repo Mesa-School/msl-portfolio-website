@@ -1,0 +1,112 @@
+<h2>Hero — 5:2 banner + collage (no full-bleed)</h2>
+<p class="subtitle">Keeps the current <code>aspect-5/2</code> header image ratio. The collage is integrated <i>around</i> the master, not replacing it.</p>
+
+<div class="cards">
+
+  <!-- ─────────── HERO B1 ─────────── -->
+  <div class="card" data-choice="banner-strip-below" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">B1 — Banner + Collage Strip Below</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:14px">
+          <!-- Master 5:2 banner -->
+          <div style="width:100%;aspect-ratio:5/2;background:linear-gradient(135deg,#1a3a2a,#52796f 60%,#74a786);border-radius:10px;position:relative">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.3) 100%);border-radius:10px"></div>
+          </div>
+          <!-- Collage strip overlapping -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:-22px 24px 0 24px;position:relative;z-index:2">
+            <div style="aspect-ratio:1;background:linear-gradient(135deg,#2d4a3e,#52796f);border-radius:8px;border:2px solid #0b0b0d"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg,#3a5a4a,#74a786);border-radius:8px;border:2px solid #0b0b0d"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg,#1f3a2c,#3d6650);border-radius:8px;border:2px solid #0b0b0d"></div>
+            <div style="aspect-ratio:1;background:#1a1a1f;border-radius:8px;border:2px solid #0b0b0d;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px">▶</div>
+          </div>
+          <!-- Identity below -->
+          <div style="margin-top:14px;color:#fff">
+            <div style="font-size:9px;opacity:.5;letter-spacing:.18em;text-transform:uppercase">D2C · Cohort 3 · Bengaluru</div>
+            <div style="font-size:22px;font-weight:700;margin-top:4px">FYN</div>
+            <div style="font-size:11px;opacity:.7;margin-top:2px">Fuel your nutrition. Daily.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B1 · Strip Below Banner</h3>
+      <p>5:2 master banner stays exactly as today. A 4-thumb collage strip floats <b>over the bottom edge</b> of the banner (–22px overlap), with the last thumb being the founder video. Identity sits below.</p>
+      <p class="label" style="margin-top:6px"><b>Pros:</b> respects banner ratio · keeps brand image dominant · clear video CTA · doesn't crowd identity</p>
+    </div>
+  </div>
+
+  <!-- ─────────── HERO B2 ─────────── -->
+  <div class="card" data-choice="banner-side-rail" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">B2 — Banner with Side-Rail Collage</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:14px">
+          <div style="display:grid;grid-template-columns:1fr 90px;gap:8px">
+            <!-- Master 5:2 banner -->
+            <div style="aspect-ratio:5/2;background:linear-gradient(135deg,#1a3a2a,#52796f 60%,#74a786);border-radius:10px"></div>
+            <!-- Vertical collage rail (matches banner height) -->
+            <div style="display:grid;grid-template-rows:repeat(3,1fr);gap:6px">
+              <div style="background:linear-gradient(135deg,#2d4a3e,#52796f);border-radius:6px"></div>
+              <div style="background:linear-gradient(135deg,#3a5a4a,#74a786);border-radius:6px"></div>
+              <div style="background:#1a1a1f;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px">▶</div>
+            </div>
+          </div>
+          <!-- Identity below -->
+          <div style="margin-top:14px;color:#fff">
+            <div style="font-size:9px;opacity:.5;letter-spacing:.18em;text-transform:uppercase">D2C · Cohort 3 · Bengaluru</div>
+            <div style="font-size:22px;font-weight:700;margin-top:4px">FYN</div>
+            <div style="font-size:11px;opacity:.7;margin-top:2px">Fuel your nutrition. Daily.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B2 · Side-Rail Collage</h3>
+      <p>Banner becomes asymmetric: master image (left, ~85%) + vertical 3-cell rail (right, ~15%) at the same height. Last rail cell is the video. Effectively still 5:2-ish total ratio.</p>
+      <p class="label" style="margin-top:6px"><b>Pros:</b> tight, contained · everything visible at-a-glance · feels like a curated dossier</p>
+    </div>
+  </div>
+
+  <!-- ─────────── HERO B3 ─────────── -->
+  <div class="card" data-choice="banner-floating-frames" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup" style="margin:0">
+        <div class="mockup-header">B3 — Banner + Floating Polaroids</div>
+        <div class="mockup-body" style="background:#0b0b0d;padding:14px">
+          <div style="position:relative">
+            <!-- Master 5:2 banner -->
+            <div style="width:100%;aspect-ratio:5/2;background:linear-gradient(135deg,#1a3a2a,#52796f 60%,#74a786);border-radius:10px"></div>
+            <!-- Floating tilted "polaroid" frames bottom-right -->
+            <div style="position:absolute;bottom:-18px;right:14px;display:flex;gap:-6px">
+              <div style="width:48px;height:60px;background:#fff;padding:3px;border-radius:3px;transform:rotate(-6deg);box-shadow:0 6px 14px rgba(0,0,0,.5);margin-right:-10px">
+                <div style="width:100%;height:100%;background:linear-gradient(135deg,#2d4a3e,#52796f);border-radius:2px"></div>
+              </div>
+              <div style="width:48px;height:60px;background:#fff;padding:3px;border-radius:3px;transform:rotate(3deg);box-shadow:0 6px 14px rgba(0,0,0,.5);margin-right:-10px">
+                <div style="width:100%;height:100%;background:linear-gradient(135deg,#3a5a4a,#74a786);border-radius:2px"></div>
+              </div>
+              <div style="width:48px;height:60px;background:#fff;padding:3px;border-radius:3px;transform:rotate(-2deg);box-shadow:0 6px 14px rgba(0,0,0,.5)">
+                <div style="width:100%;height:100%;background:#1a1a1f;border-radius:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px">▶</div>
+              </div>
+            </div>
+          </div>
+          <!-- Identity below (with extra top padding for polaroid overlap) -->
+          <div style="margin-top:30px;color:#fff">
+            <div style="font-size:9px;opacity:.5;letter-spacing:.18em;text-transform:uppercase">D2C · Cohort 3 · Bengaluru</div>
+            <div style="font-size:22px;font-weight:700;margin-top:4px">FYN</div>
+            <div style="font-size:11px;opacity:.7;margin-top:2px">Fuel your nutrition. Daily.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B3 · Floating Polaroid Frames</h3>
+      <p>5:2 master banner unchanged. 3 small "polaroid" frames tilted slightly, floating off the bottom-right corner. Adds personality / craft / behind-the-scenes feel. Last frame is the video.</p>
+      <p class="label" style="margin-top:6px"><b>Pros:</b> distinctive · founder-personal · stands apart from corporate templates · most "human"</p>
+      <p class="label" style="margin-top:4px;color:#aa6"><b>Watch out:</b> can feel scrappy if photos aren't curated; needs strong photography</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px"><b>My recommendation:</b> <b>B1 (Strip Below Banner)</b>. Keeps the banner exactly as today, adds collage cleanly without competing with the master image, and the 4-cell strip naturally accommodates 3 photos + 1 video thumb. Most production-friendly. <br/>B3 if you want to lean human / founder-personal. B2 if you want the most compact dossier feel.</p>
