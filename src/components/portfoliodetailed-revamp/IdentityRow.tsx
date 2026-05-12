@@ -72,7 +72,7 @@ export const IdentityRow = ({
                 pointerEvents: startupWebsite ? 'auto' : 'none',
               }}
             >
-              <span className="font-mono text-[10px] tracking-[0.18em] uppercase">
+              <span className="font-bold text-[10px] tracking-[0.18em] uppercase">
                 {startupWebsite ? 'Visit site' : 'Site soon'}
               </span>
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

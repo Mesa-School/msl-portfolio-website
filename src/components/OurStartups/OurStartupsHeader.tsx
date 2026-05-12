@@ -47,6 +47,7 @@ export const OurStartupsHeader = () => {
   const handleTabClick = (tab: TrackTab) => {
     setSelectedTracks(tab.value ? [tab.value] : []);
   };
+
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -114,19 +115,24 @@ export const OurStartupsHeader = () => {
 
   return (
     <motion.section
-      className={`${fontVariables} relative mt-16 sm:mt-20 px-4 flex flex-col items-center font-body`}
+      className={`${fontVariables} relative isolate pt-16 sm:pt-24 px-4 pb-2 flex flex-col items-center font-body`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
       variants={containerVariants}
     >
-      <div className="w-full max-w-4xl flex flex-col items-center text-center gap-8">
+ 
+      <div className="relative w-full max-w-4xl flex flex-col items-center text-center gap-8">
         <motion.div
-          className="font-mono text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-white/45"
+          className="flex items-center gap-4"
           variants={staggeredFadeVariants}
           custom={0}
         >
-          Startup Portfolio
+          <span className="h-px w-8 bg-linear-to-r from-transparent to-white/35" />
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.34em] uppercase text-white/60">
+            Startup Portfolio
+          </span>
+          <span className="h-px w-8 bg-linear-to-l from-transparent to-white/35" />
         </motion.div>
 
         <motion.div
@@ -135,14 +141,32 @@ export const OurStartupsHeader = () => {
           custom={0.4}
         >
           <motion.h1
-            className=" font-bold leading-[0.95] tracking-[-0.025em] text-white text-[clamp(44px,8vw,88px)]"
+            className="relative leading-[0.95] tracking-[-0.03em] text-[clamp(44px,8vw,92px)]"
+            style={{ filter: 'drop-shadow(0 12px 40px rgba(0,0,0,0.55))' }}
             variants={staggeredFadeVariants}
             custom={0.6}
           >
-            Mesa Startup Lab
+            <span
+              className="font-body font-semibold bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  'linear-gradient(180deg, #ffffff 0%, #e8efe9 100%)',
+              }}
+            >
+              Mesa Startup
+            </span>{' '}
+            <span
+              className="font-body font-bold bg-clip-text tracking-[-0.01em]"
+              // style={{
+              //   backgroundImage:
+              //     'linear-gradient(180deg, #cfe1d5 0%, #6c9784 60%, #4d7a64 100%)',
+              // }}
+            >
+              Lab
+            </span>
           </motion.h1>
           <motion.p
-            className="font-display font-light italic text-[clamp(16px,1.6vw,22px)] leading-normal text-white/65 max-w-xl"
+            className="font-display font-light italic text-[clamp(16px,1.6vw,22px)] leading-normal text-white/70 max-w-xl"
             variants={staggeredFadeVariants}
             custom={0.8}
           >
@@ -157,21 +181,21 @@ export const OurStartupsHeader = () => {
           ref={searchRef}
         >
           <div className="relative">
-            <div className="flex items-center gap-3 rounded-full border border-white/12 bg-white/3 px-5 py-3 sm:py-3.5 backdrop-blur transition-colors focus-within:border-white/25 focus-within:bg-white/5">
-              <Search className="h-4 w-4 text-white/40 shrink-0" />
+            <div className="group/search relative flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.035] px-5 py-3 sm:py-3.5 backdrop-blur-md transition-colors focus-within:border-white/25 focus-within:bg-white/6">
+              <Search className="relative h-4 w-4 text-white/45 shrink-0" />
               <input
                 value={searchTerm}
                 onChange={(event) => handleSearchChange(event.target.value)}
                 onFocus={() => setShowSuggestions(searchTerm.length > 0)}
-                placeholder="Search for startups"
-                className="flex-1 bg-transparent text-sm sm:text-[15px] text-white placeholder:text-white/35 focus:outline-none"
+                placeholder="Search for startups, sectors, themes…"
+                className="relative flex-1 bg-transparent text-sm sm:text-[15px] text-white placeholder:text-white/40 focus:outline-none"
               />
               {(searchTerm ||
                 selectedSectors.length > 0 ||
                 selectedTracks.length > 0) && (
                 <button
                   onClick={clearFilters}
-                  className="rounded-full p-1 hover:bg-white/10 transition"
+                  className="relative rounded-full p-1 hover:bg-white/10 transition"
                   aria-label="Clear filters"
                 >
                   <X className="h-4 w-4 text-white/60" />
@@ -202,19 +226,25 @@ export const OurStartupsHeader = () => {
           variants={staggeredFadeVariants}
           custom={1.3}
         >
-          <div className="relative inline-flex items-center rounded-full border border-white/12 bg-white/3 p-1 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+          <div className="relative inline-flex items-center rounded-full border border-white/12 bg-white/[0.035] backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
             {TRACK_TABS.map((tab) => {
               const isSelected = activeTabId === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => handleTabClick(tab)}
-                  className="relative px-4 sm:px-5 py-1.5 text-[13px] sm:text-sm cursor-pointer"
+                  className="relative px-4 sm:px-5 py-2 text-[13px] sm:text-sm cursor-pointer"
                 >
                   {isSelected && (
                     <motion.span
                       layoutId="track-tab-bg"
-                      className="absolute inset-0 rounded-full bg-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background:
+                          'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 100%)',
+                        boxShadow:
+                          'inset 0 1px 0 rgba(255,255,255,0.18), 0 6px 22px rgba(39,97,74,0.30)',
+                      }}
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   )}

@@ -1,6 +1,33 @@
+'use client';
+
+import { motion, type Variants } from 'framer-motion';
+import CountUp from '@/components/animated/Countup';
 import type { Brand, MarketStat } from './types';
 import { SectionLabel } from './SectionLabel';
-import { isPresent } from './utils';
+import { isPresent, parseMetricValue } from './utils';
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export const OpportunitySection = ({
   paragraph,
@@ -24,71 +51,93 @@ export const OpportunitySection = ({
   if (stats.length === 0 && !isPresent(paragraph)) return null;
 
   return (
-    <section className="mt-14">
-      <SectionLabel number="01" eyebrow="Market" title="The opportunity" brand={brand} />
+    <motion.section
+      className="mt-14"
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.25 }}
+    >
+      <motion.div variants={itemVariants}>
+        <SectionLabel number="01" eyebrow="Market" title="The opportunity" brand={brand} />
+      </motion.div>
 
       <div className="mt-7 grid grid-cols-12 gap-6 lg:gap-10 items-start">
         {stats.length > 0 && (
-        <div className="col-span-12 lg:col-span-5 rounded-2xl border border-white/[0.07] overflow-hidden divide-y divide-white/[0.07]">
-          {stats.map((stat, i) => {
-            const m = stat.value.match(/^(\D*)([\d.,]+)(.*)$/) || ['', '', stat.value, ''];
-            const prefix = m[1];
-            const main = m[2];
-            const suffix = m[3];
+          <motion.div
+            className="col-span-12 lg:col-span-5 rounded-2xl overflow-hidden backdrop-blur-md border divide-y divide-white/10"
+            style={{
+              background: `radial-gradient(circle at top left, ${brand.primary}1a 0%, transparent 38%), radial-gradient(circle at bottom right, ${brand.primary}14 0%, transparent 38%), rgba(255, 255, 255, 0.05)`,
+              borderColor: `${brand.primary}33`,
+            }}
+            variants={itemVariants}
+          >
+            {stats.map((stat, i) => {
+              const { prefix, number, suffix, hasGrouping } = parseMetricValue(stat.value);
 
-            return (
-              <div
-                key={i}
-                className="group relative px-4 py-3 transition-colors"
-                style={{ background: 'var(--color-msl-card)' }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="font-mono text-[8.5px] tracking-[0.22em] uppercase text-white/30 w-6 shrink-0">
-                    /0{i + 1}
-                  </div>
-
-                  <div className="font-display font-light leading-none tracking-[-0.03em] text-[clamp(22px,2.4vw,28px)] tabular-nums shrink-0 min-w-[76px]">
-                    {prefix && (
-                      <span style={{ color: brand.accent }} className="opacity-90">
-                        {prefix}
-                      </span>
-                    )}
-                    <span className="text-white">{main}</span>
-                    {suffix && (
-                      <span style={{ color: brand.accent }} className="opacity-90">
-                        {suffix}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0 pl-3 border-l border-white/10">
-                    <div
-                      className="font-mono text-[9.5px] tracking-[0.16em] uppercase leading-tight"
-                      style={{ color: brand.accent }}
-                    >
-                      {stat.label}
+              return (
+                <div
+                  key={i}
+                  className="group relative px-4 py-3 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="font-mono text-[8.5px] tracking-[0.22em] uppercase text-white/30 w-6 shrink-0">
+                      /0{i + 1}
                     </div>
-                    <p className="mt-0.5 text-[11px] leading-[1.4] text-white/55">
-                      {stat.blurb}
-                    </p>
+
+                    <div className="font-display font-light leading-none tracking-[-0.03em] text-[clamp(22px,2.4vw,28px)] tabular-nums shrink-0 min-w-[76px]">
+                      {prefix && (
+                        <span style={{ color: brand.accent }} className="opacity-90">
+                          {prefix}
+                        </span>
+                      )}
+                      {number !== null ? (
+                        <span className="text-white">
+                          <CountUp
+                            to={number}
+                            duration={1.5}
+                            separator={hasGrouping ? ',' : ''}
+                          />
+                        </span>
+                      ) : (
+                        <span className="text-white">{stat.value}</span>
+                      )}
+                      {suffix && (
+                        <span style={{ color: brand.accent }} className="opacity-90">
+                          {suffix}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0 pl-3">
+                      <div
+                        className="font-mono text-[9.5px] tracking-[0.16em] uppercase leading-tight"
+                        style={{ color: brand.accent }}
+                      >
+                        {stat.label}
+                      </div>
+                      <p className="mt-0.5 text-[11px] leading-[1.4] text-white/55">
+                        {stat.blurb}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </motion.div>
         )}
 
-        <div
+        <motion.div
           className={`${
             stats.length > 0 ? 'col-span-12 lg:col-span-7' : 'col-span-12'
           } lg:pt-1`}
+          variants={itemVariants}
         >
           <p className="text-[14.5px] leading-[1.7] text-white/80 font-light text-justify hyphens-auto">
             {paragraph}
           </p>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };

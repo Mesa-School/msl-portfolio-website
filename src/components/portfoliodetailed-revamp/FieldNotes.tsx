@@ -1,4 +1,7 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 import type { Brand, GalleryImage } from './types';
 import { SectionLabel } from './SectionLabel';
 
@@ -11,14 +14,27 @@ export const FieldNotes = ({
   startupName: string;
   brand: Brand;
 }) => {
+  const [brokenIds, setBrokenIds] = useState<Set<number>>(new Set());
+
   if (!images || images.length === 0) return null;
+
+  const validImages = images.filter((img) => !brokenIds.has(img.id));
+  if (validImages.length === 0) return null;
+
+  const markBroken = (id: number) =>
+    setBrokenIds((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
 
   return (
     <section className="mt-9 pt-9 border-t border-white/6">
       <div className="flex items-end justify-between gap-4">
         <SectionLabel number="07" eyebrow="Archive" title="Founder Gallery" brand={brand} />
         <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/40 pb-1.5">
-          {images.length} frames →
+          {validImages.length} frames →
         </span>
       </div>
       <div className="mt-5 relative overflow-hidden -mx-4 sm:-mx-8 lg:-mx-1 group">
@@ -30,10 +46,11 @@ export const FieldNotes = ({
           style={{ animation: 'carousel-scroll 50s linear infinite' }}
         >
           {[...Array(2)].flatMap((_, dup) =>
-            images.map((shot, i) => (
+            validImages.map((shot, i) => (
               <div
                 key={`${dup}-${shot.url}-${i}`}
                 className="relative shrink-0 w-[300px] h-[200px] rounded-xl overflow-hidden group/card"
+                style={{ background: 'var(--color-msl-card)' }}
               >
                 <Image
                   src={shot.url}
@@ -41,6 +58,7 @@ export const FieldNotes = ({
                   fill
                   className="object-cover transition-transform duration-700 group-hover/card:scale-105"
                   sizes="300px"
+                  onError={() => markBroken(shot.id)}
                 />
                 <div
                   className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity"
@@ -63,7 +81,7 @@ export const FieldNotes = ({
                   </div>
                 )}
               </div>
-            ))
+            )),
           )}
         </div>
       </div>

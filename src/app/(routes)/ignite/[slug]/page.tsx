@@ -134,6 +134,73 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
   };
 }
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.mesaschool.co';
+
+const buildIgniteJsonLd = (detail: StartupDetail, slug: string) => {
+  const canonical = `${SITE_URL}/ignite/${detail.slug ?? slug}`;
+  const sameAs = [
+    detail.socialMediaLinks?.linkedin,
+    detail.socialMediaLinks?.twitter,
+    detail.socialMediaLinks?.instagram,
+    detail.socialMediaLinks?.facebook,
+  ].filter((u): u is string => typeof u === 'string' && u.length > 0);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: detail.startupName,
+    url: detail.startupWebsite || canonical,
+    description:
+      detail.startupSummary?.trim() ||
+      `${detail.startupName} — Mesa Startup Lab Ignite founder.`,
+    ...(detail.companyLogo && { logo: detail.companyLogo }),
+    ...(detail.companyHeaderImage && { image: detail.companyHeaderImage }),
+    ...(detail.location && {
+      address: { '@type': 'PostalAddress', addressLocality: detail.location },
+    }),
+    ...(sameAs.length && { sameAs }),
+    ...(detail.founders?.length && {
+      founder: detail.founders.map((f) => ({
+        '@type': 'Person',
+        name: f.name,
+        ...(f.designation && { jobTitle: f.designation }),
+        ...(f.linkedin && { sameAs: [f.linkedin] }),
+      })),
+    }),
+    memberOf: {
+      '@type': 'Organization',
+      name: 'Mesa Startup Lab — Ignite',
+      url: `${SITE_URL}/ignite`,
+    },
+  };
+};
+
+const buildIgniteBreadcrumbJsonLd = (detail: StartupDetail, slug: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Ignite',
+      item: `${SITE_URL}/ignite`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: detail.startupName,
+      item: `${SITE_URL}/ignite/${detail.slug ?? slug}`,
+    },
+  ],
+});
+
 const IgniteStartupDetailPage = async ({ params }: DetailPageProps) => {
   const { slug } = await params;
   const detail = await fetchStartupDetail(slug);
@@ -142,8 +209,13 @@ const IgniteStartupDetailPage = async ({ params }: DetailPageProps) => {
     notFound();
   }
 
+  const orgJsonLd = buildIgniteJsonLd(detail, slug);
+  const breadcrumbJsonLd = buildIgniteBreadcrumbJsonLd(detail, slug);
+
   return (
     <div className="theme-ignite bg-msl-page min-h-screen">
+      <script type="application/ld+json">{JSON.stringify(orgJsonLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
       <div className="relative  w-full md:w-[75%] mx-auto min-h-screen pt-12 md:pt-20 text-white">
         <HeaderSection detail={detail} />
 

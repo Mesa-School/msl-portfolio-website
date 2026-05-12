@@ -1,8 +1,9 @@
-"use client";
-
+import type { Metadata } from "next";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default function MaintenancePage() {
   return (

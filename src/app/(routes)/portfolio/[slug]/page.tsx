@@ -42,12 +42,6 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
   const { slug } = await params;
   const detail = await fetchStartup(slug);
 
-  console.log('Detailed Data:\n' + JSON.stringify(detail, null, 2));
-  console.log('Founders:\n' + JSON.stringify(detail?.founders, null, 2));
-  console.log('Social media links:\n' + JSON.stringify(detail?.social_media_links, null, 2));
-  console.log('Sector excitement:\n' + JSON.stringify(detail?.sector_excitement, null, 2));
-  console.log('Founder gallery:\n' + JSON.stringify(detail?.founder_gallery, null, 2));
-
   if (!detail) {
     return {
       title: 'Startup not found',
@@ -82,13 +76,91 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
   };
 }
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.mesaschool.co';
+
+const buildStartupJsonLd = (detail: StartupData, slug: string) => {
+  const canonical = `${SITE_URL}/portfolio/${detail.slug ?? slug}`;
+  const sameAs = [
+    detail.social_media_links?.linkedin,
+    detail.social_media_links?.twitter,
+    detail.social_media_links?.instagram,
+    detail.social_media_links?.facebook,
+  ].filter((u): u is string => typeof u === 'string' && u.length > 0);
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: detail.startup_name,
+    url: detail.startup_website || canonical,
+    description:
+      detail.two_liner?.trim() ||
+      detail.brief_description?.trim() ||
+      `${detail.startup_name} — part of the Mesa Startup Lab portfolio.`,
+    ...(detail.company_logo && { logo: detail.company_logo }),
+    ...(detail.company_header_image && { image: detail.company_header_image }),
+    ...(detail.location && {
+      address: { '@type': 'PostalAddress', addressLocality: detail.location },
+    }),
+    ...(detail.keywords?.length && { keywords: detail.keywords.join(', ') }),
+    ...(sameAs.length && { sameAs }),
+    ...(detail.founders?.length && {
+      founder: detail.founders.map((f) => ({
+        '@type': 'Person',
+        name: f.name,
+        ...(f.designation && { jobTitle: f.designation }),
+        ...(f.linkedin && { sameAs: [f.linkedin] }),
+      })),
+    }),
+    memberOf: {
+      '@type': 'Organization',
+      name: 'Mesa Startup Lab',
+      url: SITE_URL,
+    },
+  };
+};
+
+const buildBreadcrumbJsonLd = (detail: StartupData, slug: string) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Portfolio',
+      item: `${SITE_URL}/portfolio`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: detail.startup_name,
+      item: `${SITE_URL}/portfolio/${detail.slug ?? slug}`,
+    },
+  ],
+});
+
 const StartupDetailPage = async ({ params }: DetailPageProps) => {
   const { slug } = await params;
   const detail = await fetchStartup(slug);
 
   if (!detail) notFound();
 
-  return <PortfolioDetailRevamp data={detail} />;
+  const orgJsonLd = buildStartupJsonLd(detail, slug);
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(detail, slug);
+
+  return (
+    <>
+      <script type="application/ld+json">{JSON.stringify(orgJsonLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      <PortfolioDetailRevamp data={detail} />
+    </>
+  );
 };
 
 export default StartupDetailPage;

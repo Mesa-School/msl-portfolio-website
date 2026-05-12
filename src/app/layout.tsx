@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Manrope } from "next/font/google";
 
@@ -57,10 +57,56 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#060a0a" },
+    { color: "#060a0a" },
+  ],
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  alternateName: "MSL",
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo-mesa.png`,
+  description: DEFAULT_DESCRIPTION,
+  foundingLocation: {
+    "@type": "Place",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "IN",
+    },
+  },
+  sameAs: [
+    "https://www.linkedin.com/company/mesa-school-of-business",
+    "https://www.instagram.com/mesaschool",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: DEFAULT_DESCRIPTION,
+  inLanguage: "en-IN",
+  publisher: {
+    "@type": "Organization",
+    name: SITE_NAME,
+    logo: `${SITE_URL}/logo-mesa.png`,
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${manrope.variable}`}>
       <body className="bg-black text-white antialiased">
+        <script type="application/ld+json">{JSON.stringify(organizationJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
         {children}
       </body>
     </html>

@@ -1,27 +1,5 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace('/portfolio');
-  }, [router]);
-
-  return null;
+  redirect('/portfolio');
 }
-
-// return (
-//   <div className="">
-//     <HeroSection />
-//     <StatsSection />
-//     <WhyMslSection />
-//     <MslJourneySection />
-//     <WhatYouGetSection />
-//     <SuccessStoriesSection />
-//     {/* <StartupLogosSection /> */}
-//     {/* <MeetOurTeam /> */}
-//   </div>
-// );

@@ -6,7 +6,10 @@
       "Bash(python -m pip install --quiet Pillow)",
       "Bash(python *)",
       "Read(//c/Users/DELL/.claude/skills/playwright-skill/**)",
-      "Bash(node run.js \"C:\\\\\\\\Users\\\\\\\\DELL\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\forge-deep-audit.js\")"
+      "Bash(node run.js \"C:\\\\\\\\Users\\\\\\\\DELL\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\forge-deep-audit.js\")",
+      "Bash(curl -s \"https://web.archive.org/web/20260317004959/https://mesaschool.co/forge/\" -o forge-wayback-mar17.html)",
+      "Bash(curl -s \"https://web.archive.org/cdx/search/cdx?url=mesaschool.co/forge&from=20250101&to=20251231&output=json&limit=10\")",
+      "Bash(curl -s \"https://web.archive.org/cdx/search/cdx?url=mesaschool.co/*&matchType=domain&filter=mimetype:application/pdf&output=json&limit=50\")"
     ]
   }
 }
