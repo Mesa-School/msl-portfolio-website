@@ -1,0 +1,106 @@
+{
+  "slug": "bloc",
+  "startup_name": "Bloc",
+  "brand": {
+    "primary": "#27614A",
+    "accent": "#6BBF95",
+    "surface_deep": "#0b1818",
+    "surface_mid": "#091414",
+    "ink": "#F5F8FF"
+  },
+  "keywords": [
+    "Non-toxic",
+    "Design-first",
+    "Insect control",
+    "Hospitality",
+    "Consumer brand",
+    "Made in India"
+  ],
+  "startup_website": "https://www.blocinsects.com",
+  "company_logo": "/bloc/logo.jpg",
+  "company_header_image": "/bloc/bloc-banner-2500x500.png",
+  "sector": { "name": "D2C" },
+  "cohort": "Cohort 3",
+  "location": "Bengaluru, India",
+  "two_liner": "Bloc is building design-first, non-toxic insect control products for homes and hospitality spaces.",
+  "tagline": "Dyson meets insect control.",
+  "brief_description": "Mosquitoes and insects remain a massive everyday problem across homes, restaurants, and outdoor spaces, yet most existing solutions rely on harmful chemicals or poor user experience. Bloc is building aesthetic, non-toxic insect control products powered by smart product design.",
+  "key_metrics": [
+    {
+      "id": 1,
+      "value": "₹16.5L",
+      "label": "MRR",
+      "description": "Monthly recurring revenue across D2C and hospitality channels."
+    },
+    {
+      "id": 2,
+      "value": "20x",
+      "label": "ROAS",
+      "description": "Return on ad spend — best-in-class performance marketing."
+    },
+    {
+      "id": 3,
+      "value": "30%",
+      "label": "Net margin",
+      "description": "Premium positioning translates to healthy unit economics."
+    },
+    {
+      "id": 4,
+      "value": "₹2Cr",
+      "label": "ARR run-rate",
+      "description": "Annualized from current MRR · scaling B2B installs."
+    }
+  ],
+  "sector_excitement": {
+    "paragraph": "The global pest control market is expected to cross $40B+ in the coming years, driven by urbanisation, hygiene awareness, and climate-related insect problems. India alone represents a massive underserved market.",
+    "india_market": { "value": "$2.5B", "label": "India pest control" },
+    "global_market": { "value": "$40B", "label": "Global pest control" },
+    "cagr": { "value": "5.4%", "label": "CAGR · 5-yr" }
+  },
+  "product_excitement": "Unlike traditional mosquito repellents and sprays, Bloc's products are non-toxic, design-first, and built for modern spaces. The company combines functionality with aesthetics, making insect control feel like a premium consumer product rather than a utility purchase.",
+  "why_now": "Consumers today are actively moving towards safer, chemical-free lifestyle products, while hospitality and premium spaces are looking for aesthetic solutions that fit modern environments. Despite being a massive category, insect control has seen very little product innovation.",
+  "founders": [
+    {
+      "id": 1,
+      "name": "Arnav Gupta",
+      "designation": "CEO & Growth",
+      "linkedin": "https://www.linkedin.com/in/arnav-gupta26/",
+      "email": "arnav@blocinsects.com",
+      "founder_profile_pic": "/bloc/arnav.jpg",
+      "description": "Previously built Agency Mart and developed deep experience in growth and distribution. Passionate about building large consumer brands from India."
+    },
+    {
+      "id": 2,
+      "name": "Rishabh Agarwal",
+      "designation": "Product & Operations",
+      "linkedin": "https://www.linkedin.com/in/rishabhagarwal123",
+      "email": "rishabh@blocinsects.com",
+      "founder_profile_pic": "/bloc/rishabh.jpg",
+      "description": "Previously built Unplugged and brings strong operational and execution capabilities. Focused on product innovation and scaling manufacturing."
+    }
+  ],
+  "founder_gallery": {
+    "images": [
+      { "id": 1, "url": "/bloc/launch-creative.webp", "caption": "Breaks the breeding cycle · launch creative" },
+      { "id": 2, "url": "/bloc/insect-trap-pro.webp", "caption": "Insect Trap Pro · packaging" },
+      { "id": 3, "url": "/bloc/founders-mesa.jpg", "caption": "Founders × product review at Mesa" },
+      { "id": 4, "url": "/bloc/three-step-usage.webp", "caption": "Three-step usage · plug, run, empty" },
+      { "id": 5, "url": "/bloc/whiteboard-gtm.jpg", "caption": "Whiteboard sessions · GTM planning" },
+      { "id": 6, "url": "/bloc/research-trip.jpg", "caption": "Research trip · history of pest control" }
+    ],
+    "testimonials": []
+  },
+  "founder_video": {
+    "url": "https://www.loom.com/share/abc123",
+    "embed_url": "https://www.loom.com/embed/abc123",
+    "title": "Bloc · 90s founder pitch",
+    "duration_seconds": 92
+  },
+  "social_media_links": {
+    "instagram": "https://instagram.com/blocinsects",
+    "linkedin": "https://www.linkedin.com/company/blocinsects",
+    "twitter": null,
+    "facebook": null
+  },
+  "published": true
+}
