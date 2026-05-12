@@ -40,7 +40,7 @@ export const BriefAndEdge = ({
             >
               &ldquo;
             </span>
-            <blockquote className="font-display font-normal text-[clamp(20px,2vw,26px)] leading-tight tracking-[-0.015em] pl-7 lg:pl-10 text-white">
+            <blockquote className="font-display font-normal text-[clamp(16px,1.5vw,20px)] leading-snug tracking-[-0.01em] pl-7 lg:pl-10 text-white">
               {pullQuote}
             </blockquote>
             {isPresent(pullQuoteRest) && (

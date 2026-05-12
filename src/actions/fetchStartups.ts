@@ -17,33 +17,32 @@ export type FetchStartupsResult = {
   error?: string;
 };
 
-const DEFAULT_PAGINATION: PaginationData = { total: 0, page: 1, limit: 10, total_pages: 1 };
+const DEFAULT_PAGINATION: PaginationData = {
+  total: 0,
+  page: 1,
+  limit: 10,
+  total_pages: 1,
+};
 
+type V2ListItem = {
+  id: string;
+  slug: string;
+  startup_name: string;
+  tagline: string;
+  two_liner: string;
+  location: string;
+  cohort: string;
+  sector_name: string | null;
+  company_logo: string | null;
+  founders: string[];
+  published: boolean;
+  published_at: string | null;
+};
 
-const pickLogoUrl = (source: any): string | null =>
-  source?.company_logo?.url ??
-  source?.company_logo?.data?.attributes?.url ??
-  source?.company_logo?.data?.attributes?.formats?.thumbnail?.url ??
-  (typeof source?.company_logo === 'string' ? source.company_logo : null);
-
-const pickFounders = (source: any) => {
-  const collection = Array.isArray(source?.founder?.data)
-    ? source.founder.data
-    : Array.isArray(source?.founder)
-      ? source.founder
-      : Array.isArray(source?.founders)
-        ? source.founders
-        : [];
-
-  return collection.map((entry: any, index: number) => {
-    if (typeof entry === 'string') return { id: index, name: entry, designation: null };
-    const node = entry?.attributes ?? entry;
-    return {
-      id: node?.id ?? entry?.id ?? index,
-      name: node?.name ?? 'Founder',
-      designation: node?.designation ?? null,
-    };
-  });
+type V2ListPayload = {
+  success: boolean;
+  data: V2ListItem[];
+  pagination: PaginationData;
 };
 
 export async function fetchStartupsAction(
@@ -51,7 +50,11 @@ export async function fetchStartupsAction(
   sectors: string[] = [],
 ): Promise<FetchStartupsResult> {
   if (!API_URL) {
-    return { startups: [], pagination: DEFAULT_PAGINATION, error: 'API configuration is missing.' };
+    return {
+      startups: [],
+      pagination: DEFAULT_PAGINATION,
+      error: 'API configuration is missing.',
+    };
   }
 
   const token = process.env.API_BEARER_TOKEN;
@@ -63,48 +66,55 @@ export async function fetchStartupsAction(
   sectors.forEach((s) => params.append('sector', s));
 
   try {
-    const res = await fetch(`${API_URL}/api/startups/?${params.toString()}`, {
+    const res = await fetch(`${API_URL}/api/v2/startups/?${params.toString()}`, {
       cache: 'no-store',
       headers: { ...(token && { Authorization: `Bearer ${token}` }) },
     });
 
-    console.log("Fetched Startups", res)
-
     if (!res.ok) {
-      return { startups: [], pagination: DEFAULT_PAGINATION, error: 'Failed to fetch startups.' };
+      return {
+        startups: [],
+        pagination: DEFAULT_PAGINATION,
+        error: 'Failed to fetch startups.',
+      };
     }
 
-    const payload = await res.json();
-    console.log("Fetched All Startups", payload);
+    const payload = (await res.json()) as V2ListPayload;
 
-    const startups: Startup[] = (payload?.data ?? []).map((item: any, index: number) => {
-      const source = item?.attributes ?? item;
-      const rawLogo = pickLogoUrl(source);
-
+    if (!payload?.success || !Array.isArray(payload.data)) {
       return {
-        id: item?.id ?? index,
-        documentId: item?.documentId ?? `${item?.id ?? index}`,
-        slug: item?.slug ?? source?.slug ?? null,
-        name: source?.startup_name ?? 'Untitled Startup',
-        summary: source?.startup_summary ?? '',
-        location: source?.location ?? null,
-        cohort: source?.cohort ?? null,
-        sectorName:
-          source?.sector?.name ??
-          source?.sector?.data?.attributes?.name ??
-          item?.sector?.name ??
-          source?.sector_name ??
-          item?.sector_name ??
-          null,
-        logoUrl: (toProxyUrl(rawLogo) ?? rawLogo) as string | null,
-        founders: pickFounders(source),
+        startups: [],
+        pagination: DEFAULT_PAGINATION,
+        error: 'Invalid response shape.',
       };
-    });
+    }
 
-    console.log("Startups Fetched")
+    const startups: Startup[] = payload.data.map((item) => ({
+      id: item.id,
+      documentId: item.id,
+      slug: item.slug ?? null,
+      name: item.startup_name ?? 'Untitled Startup',
+      summary: item.two_liner ?? item.tagline ?? '',
+      location: item.location ?? null,
+      cohort: item.cohort ?? null,
+      sectorName: item.sector_name ?? null,
+      logoUrl: (toProxyUrl(item.company_logo) ?? item.company_logo) as string | null,
+      founders: (item.founders ?? []).map((name, index) => ({
+        id: index,
+        name,
+        designation: null,
+      })),
+    }));
 
-    return { startups, pagination: payload?.pagination ?? DEFAULT_PAGINATION };
+    return {
+      startups,
+      pagination: payload.pagination ?? DEFAULT_PAGINATION,
+    };
   } catch {
-    return { startups: [], pagination: DEFAULT_PAGINATION, error: 'Unable to reach startups endpoint.' };
+    return {
+      startups: [],
+      pagination: DEFAULT_PAGINATION,
+      error: 'Unable to reach startups endpoint.',
+    };
   }
 }

@@ -71,12 +71,12 @@ export const BannerCard = ({
       </div>
       <div>
         <div
-          className="font-mono text-[11px] font-semibold tracking-[0.22em] uppercase mb-1.5"
+          className="font-mono text-[11px] font-semibold tracking-[0.22em] uppercase mb-1.5 [text-shadow:0_1px_3px_rgba(0,0,0,0.6),0_2px_8px_rgba(0,0,0,0.4)]"
           style={{ color: brand.accent }}
         >
           {sectorName}
         </div>
-        <h1 className="font-display font-medium text-[28px] md:text-[36px] leading-none tracking-[-0.02em]">
+        <h1 className="font-display font-medium text-[28px] md:text-[36px] leading-none tracking-[-0.02em] [text-shadow:0_2px_6px_rgba(0,0,0,0.7),0_4px_16px_rgba(0,0,0,0.5)]">
           {startupName}
         </h1>
       </div>

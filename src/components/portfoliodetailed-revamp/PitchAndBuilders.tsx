@@ -60,14 +60,14 @@ export const PitchAndBuilders = ({
 
           {!hasVideo && founders.length > 1 ? (
             <div
-              className={`mt-5 grid gap-3 ${
+              className={`mt-5 grid gap-4 ${
                 founders.length === 2
                   ? 'grid-cols-1 md:grid-cols-2'
                   : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
               }`}
             >
               {founders.map((founder) => (
-                <FounderCard key={founder.id} founder={founder} brand={brand} layout="row" />
+                <FounderCard key={founder.id} founder={founder} brand={brand} layout="card" />
               ))}
             </div>
           ) : (

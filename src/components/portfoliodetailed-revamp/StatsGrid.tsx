@@ -7,8 +7,24 @@ export const StatsGrid = ({
 }: {
   metrics: KeyMetric[];
   brand: Brand;
-}) => (
-  <div className="mt-7 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.07] rounded-2xl overflow-hidden border border-white/[0.07]">
+}) => {
+  const gridCols = (() => {
+    switch (metrics.length) {
+      case 1:
+        return 'grid-cols-1';
+      case 2:
+        return 'grid-cols-1 sm:grid-cols-2';
+      case 3:
+        return 'grid-cols-1 sm:grid-cols-3';
+      default:
+        return 'grid-cols-2 lg:grid-cols-4';
+    }
+  })();
+
+  return (
+    <div
+      className={`mt-7 grid ${gridCols} gap-px bg-white/[0.07] rounded-2xl overflow-hidden border border-white/[0.07]`}
+    >
     {metrics.map((metric) => (
       <div
         key={metric.id}
@@ -33,6 +49,7 @@ export const StatsGrid = ({
           </p>
         )}
       </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
+};

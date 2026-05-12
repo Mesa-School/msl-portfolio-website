@@ -1,6 +1,20 @@
 import { toProxyUrl } from '@/lib/imageProxy';
 import type { StartupData } from '@/components/portfoliodetailed-revamp';
 
+const ensureReadable = (hex: string, minLuminance = 0.45): string => {
+  const m = /^#([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return hex;
+  const r = parseInt(m[1].slice(0, 2), 16);
+  const g = parseInt(m[1].slice(2, 4), 16);
+  const b = parseInt(m[1].slice(4, 6), 16);
+  const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  if (lum >= minLuminance) return hex;
+  const t = Math.min(1, ((minLuminance - lum) / (1 - lum)) * 1.4);
+  const lift = (c: number) => Math.min(255, Math.round(c + (255 - c) * t));
+  const toHex = (n: number) => n.toString(16).padStart(2, '0');
+  return `#${toHex(lift(r))}${toHex(lift(g))}${toHex(lift(b))}`;
+};
+
 type V2Brand = {
   primary: string;
   accent: string;
@@ -89,7 +103,7 @@ export const normalizeStartupV2 = (payload: V2Envelope): StartupData => {
     startup_name: d.startup_name,
     brand: {
       primary: d.brand.primary,
-      accent: d.brand.accent,
+      accent: ensureReadable(d.brand.accent),
       ink: d.brand.ink,
     },
     keywords: d.keywords ?? [],

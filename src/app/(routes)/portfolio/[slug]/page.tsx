@@ -39,7 +39,11 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
   const { slug } = await params;
   const detail = await fetchStartup(slug);
 
-  console.log("Detailed Data", detail)
+  console.log('Detailed Data:\n' + JSON.stringify(detail, null, 2));
+  console.log('Founders:\n' + JSON.stringify(detail?.founders, null, 2));
+  console.log('Social media links:\n' + JSON.stringify(detail?.social_media_links, null, 2));
+  console.log('Sector excitement:\n' + JSON.stringify(detail?.sector_excitement, null, 2));
+  console.log('Founder gallery:\n' + JSON.stringify(detail?.founder_gallery, null, 2));
 
   if (!detail) {
     return {

@@ -27,7 +27,7 @@ export const FounderCard = ({
   const portrait = (
     <div
       className={`relative shrink-0 overflow-hidden rounded-xl ${
-        layout === 'row' ? 'h-28 w-28' : 'aspect-4/5 w-full'
+        layout === 'row' ? 'h-36 w-36' : 'aspect-4/5 w-full'
       }`}
       style={{
         background: founder.founder_profile_pic
@@ -40,8 +40,10 @@ export const FounderCard = ({
           src={founder.founder_profile_pic}
           alt={founder.name}
           fill
+          priority
+          quality={92}
           className="object-cover"
-          sizes={layout === 'row' ? '80px' : '240px'}
+          sizes={layout === 'row' ? '(min-width: 1024px) 192px, 160px' : '(min-width: 1024px) 360px, (min-width: 768px) 33vw, 50vw'}
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -49,7 +51,7 @@ export const FounderCard = ({
             className="font-display font-light tracking-[-0.03em]"
             style={{
               color: brand.accent,
-              fontSize: layout === 'row' ? '40px' : '56px',
+              fontSize: layout === 'row' ? '52px' : '64px',
             }}
           >
             {initials || '?'}
@@ -63,43 +65,48 @@ export const FounderCard = ({
     </div>
   );
 
+  const hasSocial = Boolean(founder.linkedin || founder.email);
+  const headerPad = hasSocial ? 'pr-24' : '';
+
   const bio = (
     <div className="min-w-0 flex-1 relative">
-      <div className="absolute top-0 right-0 flex gap-1.5">
-        {founder.linkedin && (
-          <Link
-            href={founder.linkedin}
-            target="_blank"
-            aria-label="LinkedIn"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/12 bg-white/3 hover:bg-white/[0.07] transition-colors"
-            style={{ color: brand.accent }}
-          >
-            <Linkedin className="h-3 w-3" />
-          </Link>
-        )}
-        {founder.email && (
-          <Link
-            href={`mailto:${founder.email}`}
-            aria-label="Email"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/12 bg-white/3 hover:bg-white/[0.07] transition-colors"
-            style={{ color: brand.accent }}
-          >
-            <Mail className="h-3 w-3" />
-          </Link>
-        )}
-      </div>
+      {hasSocial && (
+        <div className="absolute top-0 right-0 flex gap-1.5">
+          {founder.linkedin && (
+            <Link
+              href={founder.linkedin}
+              target="_blank"
+              aria-label="LinkedIn"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/3 hover:bg-white/[0.07] transition-colors"
+              style={{ color: brand.accent }}
+            >
+              <Linkedin className="h-3.5 w-3.5" />
+            </Link>
+          )}
+          {founder.email && (
+            <Link
+              href={`mailto:${founder.email}`}
+              aria-label="Email"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/3 hover:bg-white/[0.07] transition-colors"
+              style={{ color: brand.accent }}
+            >
+              <Mail className="h-3.5 w-3.5" />
+            </Link>
+          )}
+        </div>
+      )}
 
       <div
-        className="font-mono text-[9px] tracking-[0.22em] uppercase mb-1 pr-20"
+        className={`font-mono text-[10px] font-semibold tracking-[0.22em] uppercase mb-2 ${headerPad}`}
         style={{ color: brand.accent }}
       >
         {founder.designation}
       </div>
-      <h3 className="font-display font-normal leading-none tracking-[-0.02em] text-white text-[18px] pr-20">
+      <h3 className={`font-display font-normal leading-tight tracking-[-0.02em] text-white text-[22px] md:text-[24px] ${headerPad}`}>
         {founder.name}
       </h3>
       {isPresent(stripTodo(founder.description)) && (
-        <p className="mt-2 font-display font-light text-[12.5px] leading-normal tracking-[-0.005em] text-white/75 line-clamp-3">
+        <p className="mt-3 font-display font-light text-[14px] leading-[1.6] tracking-[-0.005em] text-white/75 line-clamp-3">
           &ldquo;{stripTodo(founder.description)}&rdquo;
         </p>
       )}
@@ -108,8 +115,8 @@ export const FounderCard = ({
 
   return (
     <div
-      className={`rounded-2xl border border-white/[0.07] p-4 ${
-        layout === 'row' ? 'flex items-start gap-4' : 'flex flex-col gap-4'
+      className={`rounded-2xl border border-white/[0.07] p-5 ${
+        layout === 'row' ? 'flex items-start gap-5' : 'flex flex-col gap-5'
       }`}
       style={{ background: 'var(--color-msl-card)' }}
     >

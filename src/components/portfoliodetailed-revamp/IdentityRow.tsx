@@ -34,7 +34,7 @@ export const IdentityRow = ({
         <Link
           href={startupWebsite || '#'}
           target="_blank"
-          className="group inline-flex items-center justify-between gap-3 w-full lg:w-auto px-4 py-2.5 rounded-full transition-transform hover:scale-[1.02]"
+          className="group inline-flex items-center justify-between gap-3 w-full lg:w-auto px-4 py-2.5 rounded-full border border-white/15 transition-transform hover:scale-[1.02]"
           style={{
             background: brand.primary,
             color: brand.ink,

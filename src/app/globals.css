@@ -5,8 +5,8 @@
 
 @theme {
   --color-msl-accent: #27614A;
-  --color-msl-card: #091414;
-  --color-msl-page: #0b1818;
+  --color-msl-card: #0a1010;
+  --color-msl-page: #060a0a;
 }
 
 .theme-ignite {
@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: #0b1818;
+  background-color: #060a0a;
   font-family: var(--font-manrope), "Manrope", sans-serif;
   overflow-x: hidden;
 }
