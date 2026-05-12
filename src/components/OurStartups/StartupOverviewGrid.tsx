@@ -23,7 +23,7 @@ export const StartupOverviewGrid = ({
   initialStartups = [],
   initialPagination = DEFAULT_PAGINATION,
 }: Props) => {
-  const { selectedSectors, searchTerm } = usePortfolioFilters();
+  const { selectedSectors, selectedTracks, searchTerm } = usePortfolioFilters();
   const [startups, setStartups] = useState<Startup[]>(initialStartups);
   const [loading, setLoading] = useState(initialStartups.length === 0);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -48,7 +48,7 @@ export const StartupOverviewGrid = ({
       setStartups([]);
       setCurrentPage(1);
       try {
-        const result = await fetchStartupsAction(1, selectedSectors);
+        const result = await fetchStartupsAction(1, selectedSectors, selectedTracks);
         if (result.error) throw new Error(result.error);
         if (isMounted) {
           setStartups(result.startups);
@@ -67,7 +67,7 @@ export const StartupOverviewGrid = ({
 
     load();
     return () => { isMounted = false; };
-  }, [selectedSectors]);
+  }, [selectedSectors, selectedTracks]);
 
   // Load next page (append)
   const loadNextPage = useCallback(async () => {
@@ -77,7 +77,7 @@ export const StartupOverviewGrid = ({
     setLoadingMore(true);
 
     try {
-      const result = await fetchStartupsAction(nextPage, selectedSectors);
+      const result = await fetchStartupsAction(nextPage, selectedSectors, selectedTracks);
       if (result.error) throw new Error(result.error);
 
       setStartups((prev) => {
@@ -92,7 +92,7 @@ export const StartupOverviewGrid = ({
     } finally {
       setLoadingMore(false);
     }
-  }, [currentPage, selectedSectors, loadingMore, hasMore]);
+  }, [currentPage, selectedSectors, selectedTracks, loadingMore, hasMore]);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {

@@ -1,0 +1,26 @@
+{
+  "requestsAfterSubmit": [
+    {
+      "url": "https://analytics.google.com/g/collect?v=2&tid=G-PQDQDWDP1M&gtm=45je6581v9104899201z89111096679za20gzb9111096679zd9111096679&_p=1778621855031&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQC&are=1&cid=1851885857.1778621859&frm=0&lps=1&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Not%252FA)Brand%3B99.0.0.0%7CChromium%3B148.0.7778.96&uam=&uamb=0&uap=Windows&uapv=19.0.0&uaw=0&ul=en-us&gaf=2&_s=2&tag_exp=0~115616985~115938465~115938468~118463261~118719171&sid=1778621858&sct=1&seg=0&dl=https%3A%2F%2Fwww.mesaschool.co%2Fforge%2F%3Fgad_campaignid%3D54823799896%26gad_source%3D5%26gclid%3Dtest_gclid%26utm_source%3Daudit3&dt=Build%20%26%20Launch%20Startups%20-%20Mesa%27s%20Venture%20Builder%20Program%20for%20Freshers&_tu=CA&en=link_click&gap.plf=5&ep.btn_text=ENQUIRE%20NOW&ep.btn_click_url=https%3A%2F%2Fwww.mesaschool.co%2Fforge%2F%3Fgad_campaignid%3D54823799896%26gad_source%3D5%26gclid%3Dtest_gclid%26utm_source%3Daudit3%23&_et=1151&tfd=10577",
+      "method": "POST"
+    },
+    {
+      "url": "https://l.clarity.ms/collect",
+      "method": "POST"
+    },
+    {
+      "url": "https://l.clarity.ms/collect",
+      "method": "POST"
+    },
+    {
+      "url": "https://l.clarity.ms/collect",
+      "method": "POST"
+    }
+  ],
+  "interestingPostSubmit": [],
+  "finalFiles": [],
+  "externalLinks": [],
+  "downloads": [],
+  "popups": [],
+  "finalUrl": "https://www.mesaschool.co/forge/?gad_campaignid=54823799896&gad_source=5&gclid=test_gclid&utm_source=audit3"
+}

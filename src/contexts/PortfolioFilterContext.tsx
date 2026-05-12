@@ -4,10 +4,13 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 type PortfolioFilterContextType = {
   selectedSectors: string[];
+  selectedTracks: string[];
   searchTerm: string;
   setSelectedSectors: (sectors: string[]) => void;
+  setSelectedTracks: (tracks: string[]) => void;
   setSearchTerm: (term: string) => void;
   toggleSector: (sectorName: string) => void;
+  toggleTrack: (trackName: string) => void;
   clearFilters: () => void;
 };
 
@@ -15,6 +18,7 @@ const PortfolioFilterContext = createContext<PortfolioFilterContextType | undefi
 
 export const PortfolioFilterProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
+  const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   const toggleSector = (sectorName: string) => {
@@ -25,8 +29,17 @@ export const PortfolioFilterProvider = ({ children }: { children: ReactNode }) =
     );
   };
 
+  const toggleTrack = (trackName: string) => {
+    setSelectedTracks((prev) =>
+      prev.includes(trackName)
+        ? prev.filter((t) => t !== trackName)
+        : [...prev, trackName]
+    );
+  };
+
   const clearFilters = () => {
     setSelectedSectors([]);
+    setSelectedTracks([]);
     setSearchTerm('');
   };
 
@@ -34,10 +47,13 @@ export const PortfolioFilterProvider = ({ children }: { children: ReactNode }) =
     <PortfolioFilterContext.Provider
       value={{
         selectedSectors,
+        selectedTracks,
         searchTerm,
         setSelectedSectors,
+        setSelectedTracks,
         setSearchTerm,
         toggleSector,
+        toggleTrack,
         clearFilters,
       }}
     >

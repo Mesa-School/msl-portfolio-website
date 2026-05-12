@@ -1,77 +1,75 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
-import { Oswald } from 'next/font/google';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { Search, X } from 'lucide-react';
+import { fontVariables } from '@/components/portfoliodetailed-revamp/fonts';
 
 type Sector = {
   id: number;
   name: string;
 };
 
-// Hardcoded sectors data
 const HARDCODED_SECTORS: Sector[] = [
-  {
-    id: 1,
-    name: 'AI',
-  },
-  {
-    id: 2,
-    name: 'D2C',
-  },
-  {
-    id: 3,
-    name: 'Agritech',
-  },
-  {
-    id: 4,
-    name: 'Quick Commerce/E Commerce',
-  },
-  {
-    id: 5,
-    name: 'Sports',
-  },
-  {
-    id: 6,
-    name: 'Mobility',
-  }
+  { id: 1, name: 'AI' },
+  { id: 2, name: 'D2C' },
+  { id: 3, name: 'Agritech' },
+  { id: 4, name: 'Quick Commerce/E Commerce' },
+  { id: 5, name: 'Sports' },
+  { id: 6, name: 'Mobility' },
 ];
 
-const oswald = Oswald({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-});
+type TrackTab = { id: string; name: string; value: string | null };
+
+const TRACK_TABS: TrackTab[] = [
+  { id: 'all', name: 'All', value: null },
+  { id: 'ai', name: 'AI Track', value: 'AI Track' },
+  { id: 'd2c', name: 'D2C Track', value: 'D2C Track' },
+  { id: 'services', name: 'Services Track', value: 'Services Track' },
+];
 
 export const OurStartupsHeader = () => {
-  const { searchTerm, setSearchTerm, selectedSectors, toggleSector, clearFilters } = usePortfolioFilters();
+  const {
+    searchTerm,
+    setSearchTerm,
+    selectedSectors,
+    toggleSector,
+    selectedTracks,
+    setSelectedTracks,
+    clearFilters,
+  } = usePortfolioFilters();
+
+  const activeTabId =
+    selectedTracks.length === 0
+      ? 'all'
+      : (TRACK_TABS.find((t) => t.value === selectedTracks[0])?.id ?? 'all');
+
+  const handleTabClick = (tab: TrackTab) => {
+    setSelectedTracks(tab.value ? [tab.value] : []);
+  };
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Sync search input with context
   useEffect(() => {
     if (!searchTerm) {
       setShowSuggestions(false);
     }
   }, [searchTerm]);
 
-  // Filter sectors based on search term
   const filteredSectors = useMemo(() => {
     if (!searchTerm.trim()) return HARDCODED_SECTORS;
     const searchLower = searchTerm.toLowerCase();
     return HARDCODED_SECTORS.filter((sector) =>
-      sector.name.toLowerCase().includes(searchLower)
+      sector.name.toLowerCase().includes(searchLower),
     );
   }, [searchTerm]);
 
-  // Handle click outside to close suggestions
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -95,152 +93,143 @@ export const OurStartupsHeader = () => {
         transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
       },
     }),
-    []
+    [],
   );
 
   const staggeredFadeVariants = useMemo<Variants>(
     () => ({
-      hidden: { opacity: 0, y: -30 },
+      hidden: { opacity: 0, y: -24 },
       visible: (custom: number = 0) => ({
         opacity: 1,
         y: 0,
         transition: {
-          duration: 0.75,
+          duration: 0.7,
           ease: [0.16, 1, 0.3, 1],
-          delay: custom * 0.2,
+          delay: custom * 0.15,
         },
       }),
     }),
-    []
-  );
-
-  const chipVariants = useMemo<Variants>(
-    () => ({
-      hidden: { opacity: 0, y: 12 },
-      visible: (custom: number = 0) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.45,
-          ease: [0.16, 1, 0.3, 1],
-          delay: custom * 0.05,
-        },
-      }),
-    }),
-    []
+    [],
   );
 
   return (
     <motion.section
-      className="relative overflow-hidden my-16 px-4 flex flex-col justify-center items-center sm:mt-20"
+      className={`${fontVariables} relative mt-16 sm:mt-20 px-4 flex flex-col items-center font-body`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
       variants={containerVariants}
     >
-      <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16 max-w-6xl w-full">
-        <div className="flex flex-1 flex-col items-center gap-8 text-center w-full">
+      <div className="w-full max-w-4xl flex flex-col items-center text-center gap-8">
+        <motion.div
+          className="font-mono text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-white/45"
+          variants={staggeredFadeVariants}
+          custom={0}
+        >
+          Startup Portfolio
+        </motion.div>
 
-          {/* Heading */}
-          <motion.div
-            className="flex flex-col items-center gap-2 md:gap-4"
+        <motion.div
+          className="flex flex-col items-center gap-5"
+          variants={staggeredFadeVariants}
+          custom={0.4}
+        >
+          <motion.h1
+            className=" font-bold leading-[0.95] tracking-[-0.025em] text-white text-[clamp(44px,8vw,88px)]"
             variants={staggeredFadeVariants}
-            custom={0}
+            custom={0.6}
           >
-            <motion.h1
-              className={`font-bold tracking-tight text-white text-4xl sm:text-4xl md:text-7xl leading-tight`}
-              variants={staggeredFadeVariants}
-              custom={0}
-            >
-              Mesa Startup Lab
-            </motion.h1>
-
-            <motion.p
-              className="text-sm sm:text-base md:text-lg text-white/70 px-2"
-              variants={staggeredFadeVariants}
-              custom={0.5}
-            >
-              Where India’s best founders build conviction.
-            </motion.p>
-          </motion.div>
-
-          {/* Search Bar */}
-          <motion.div
-            className="w-full max-w-3xl px-1"
+            Mesa Startup Lab
+          </motion.h1>
+          <motion.p
+            className="font-display font-light italic text-[clamp(16px,1.6vw,22px)] leading-normal text-white/65 max-w-xl"
             variants={staggeredFadeVariants}
-            custom={1}
-            ref={searchRef}
+            custom={0.8}
           >
-            <div className="relative">
-              <div className="flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 sm:px-6 py-2.5 sm:py-3 shadow-[0_25px_60px_rgba(2,6,23,0.65)] backdrop-blur">
-                <Search className="h-4 w-4 text-white/40 shrink-0" />
-                <input
-                  value={searchTerm}
-                  onChange={(event) => handleSearchChange(event.target.value)}
-                  onFocus={() => setShowSuggestions(searchTerm.length > 0)}
-                  placeholder="Search for startups"
-                  className="flex-1 bg-transparent text-sm sm:text-base text-white placeholder:text-white/40 focus:outline-none"
-                />
-                {(searchTerm || selectedSectors.length > 0) && (
-                  <button
-                    onClick={() => {
-                      clearFilters();
-                    }}
-                    className="rounded-full p-1 hover:bg-white/10 transition"
-                    aria-label="Clear filters"
-                  >
-                    <X className="h-4 w-4 text-white/60" />
-                  </button>
-                )}
-              </div>
+            Where India&rsquo;s best founders build conviction.
+          </motion.p>
+        </motion.div>
 
-              {/* Sector Suggestions Dropdown */}
-              {showSuggestions && filteredSectors.length > 0 && (
-                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/15 bg-msl-card backdrop-blur-xl shadow-[0_25px_60px_rgba(2,6,23,0.65)] overflow-hidden">
-                  <div className="max-h-64 overflow-y-auto p-2">
-                    {filteredSectors.map((sector) => (
-                      <button
-                        key={sector.id}
-                        onClick={() => handleSectorSelect(sector.name)}
-                        className="w-full text-left px-4 py-2.5 rounded-lg hover:bg-white/10 transition text-sm text-white/80 hover:text-white"
-                      >
-                        {sector.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+        <motion.div
+          className="w-full max-w-2xl px-1 mt-2"
+          variants={staggeredFadeVariants}
+          custom={1.1}
+          ref={searchRef}
+        >
+          <div className="relative">
+            <div className="flex items-center gap-3 rounded-full border border-white/12 bg-white/3 px-5 py-3 sm:py-3.5 backdrop-blur transition-colors focus-within:border-white/25 focus-within:bg-white/5">
+              <Search className="h-4 w-4 text-white/40 shrink-0" />
+              <input
+                value={searchTerm}
+                onChange={(event) => handleSearchChange(event.target.value)}
+                onFocus={() => setShowSuggestions(searchTerm.length > 0)}
+                placeholder="Search for startups"
+                className="flex-1 bg-transparent text-sm sm:text-[15px] text-white placeholder:text-white/35 focus:outline-none"
+              />
+              {(searchTerm ||
+                selectedSectors.length > 0 ||
+                selectedTracks.length > 0) && (
+                <button
+                  onClick={clearFilters}
+                  className="rounded-full p-1 hover:bg-white/10 transition"
+                  aria-label="Clear filters"
+                >
+                  <X className="h-4 w-4 text-white/60" />
+                </button>
               )}
             </div>
-          </motion.div>
 
-          {/* Sector Chips */}
-          {/* <motion.div
-            className="w-full max-w-3xl px-1"
-            variants={staggeredFadeVariants}
-            custom={2}
-          >
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-white/80">
-              {HARDCODED_SECTORS.map((sector, index) => {
-                const isSelected = selectedSectors.includes(sector.name);
-                return (
-                  <motion.button
-                    key={sector.id}
-                    onClick={() => toggleSector(sector.name)}
-                    className={`rounded-full border px-3 py-1 sm:px-4 sm:py-1 transition-all cursor-pointer ${
-                      isSelected
-                        ? 'border-[#27614A]/50 bg-[#27614A] text-white'
-                        : 'border-white/15 bg-white/10 text-white/80 hover:bg-white/15 hover:text-white'
+            {showSuggestions && filteredSectors.length > 0 && (
+              <div className="absolute z-50 mt-2 w-full rounded-2xl border border-white/12 bg-msl-card/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden">
+                <div className="max-h-64 overflow-y-auto p-2">
+                  {filteredSectors.map((sector) => (
+                    <button
+                      key={sector.id}
+                      onClick={() => handleSectorSelect(sector.name)}
+                      className="w-full text-left px-4 py-2.5 rounded-lg hover:bg-white/8 transition font-mono text-[11px] tracking-[0.18em] uppercase text-white/75 hover:text-white"
+                    >
+                      {sector.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="flex items-center justify-center -mt-3"
+          variants={staggeredFadeVariants}
+          custom={1.3}
+        >
+          <div className="relative inline-flex items-center rounded-full border border-white/12 bg-white/3 p-1 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+            {TRACK_TABS.map((tab) => {
+              const isSelected = activeTabId === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabClick(tab)}
+                  className="relative px-4 sm:px-5 py-1.5 text-[13px] sm:text-sm cursor-pointer"
+                >
+                  {isSelected && (
+                    <motion.span
+                      layoutId="track-tab-bg"
+                      className="absolute inset-0 rounded-full bg-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span
+                    className={`relative z-10 transition-colors ${
+                      isSelected ? 'text-white' : 'text-white/55 hover:text-white/85'
                     }`}
-                    variants={chipVariants}
-                    custom={index}
                   >
-                    {sector.name}
-                  </motion.button>
-                );
-              })}
-            </div>
-          </motion.div> */}
-        </div>
+                    {tab.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </motion.section>
   );

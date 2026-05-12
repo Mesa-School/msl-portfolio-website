@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -21,7 +20,9 @@ export type Startup = {
   location?: string | null;
   cohort?: string | null;
   sectorName?: string | null;
+  serviceTrack?: string | null;
   logoUrl?: string | null;
+  brandPrimary?: string | null;
   founders: Founder[];
 };
 
@@ -39,35 +40,9 @@ const renderInitials = (name: string) =>
     .slice(0, 2)
     .join('');
 
-const getGradientClass = (index: number, basePath: string): string => {
-  const gradientIndex = index % 3;
-  if (basePath === '/ignite') {
-    switch (gradientIndex) {
-      case 0:
-        return 'bg-gradient-to-br from-[#162848] to-[#2F5FB3]/90';
-      case 1:
-        return 'bg-gradient-to-br from-[#1A2D46] to-[#1B4377]/90';
-      case 2:
-        return 'bg-gradient-to-br from-[#0f1f3a] to-[#3461a8]/90';
-      default:
-        return 'bg-gradient-to-br from-[#162848] to-[#2F5FB3]/90';
-    }
-  }
-  switch (gradientIndex) {
-    case 0:
-      return 'bg-gradient-to-br from-[#12422D] to-[#27614A]/90';
-    case 1:
-      return 'bg-gradient-to-br from-[#1A3A3A] to-[#115555]/90';
-    case 2:
-      return 'bg-gradient-to-br from-[#1A2D46] to-[#1B4377]/90';
-    default:
-      return 'bg-gradient-to-br from-[#12422D] to-[#27614A]/90';
-  }
-};
 
 export const StartupOverviewCard = ({
   startup,
-  index,
   isLoading = false,
   basePath = '/portfolio',
 }: StartupOverviewCardProps) => {
@@ -81,7 +56,13 @@ export const StartupOverviewCard = ({
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
   const detailHref = startup.slug ? `${basePath}/${startup.slug}` : null;
-  const gradientClass = getGradientClass(index, basePath);
+
+  const brandPrimary = startup.brandPrimary;
+  const cardStyle: React.CSSProperties = brandPrimary
+    ? {
+        background: `linear-gradient(135deg, ${brandPrimary}55 0%, ${brandPrimary}1a 40%, var(--color-msl-card) 100%)`,
+      }
+    : { background: 'var(--color-msl-card)' };
 
   const handleViewDetail = () => {
     if (detailHref) {
@@ -95,7 +76,10 @@ export const StartupOverviewCard = ({
       className="group relative h-full overflow-hidden rounded-2xl sm:rounded-3xl bg-white/10 text-white transition duration-300 hover:bg-white/10"
     >
       <div className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl bg-linear-to-br from-white/20 via-transparent to-transparent opacity-0 blur-2xl transition duration-500 group-hover:opacity-80" />
-      <div className={`relative flex h-full flex-col ${gradientClass} gap-4 sm:gap-5 rounded-2xl sm:rounded-3xl p-4 sm:p-6`}>
+      <div
+        className="relative flex h-full flex-col gap-4 sm:gap-5 rounded-2xl sm:rounded-3xl p-4 sm:p-6"
+        style={cardStyle}
+      >
 
         {/* Sector tag */}
         <div className="flex flex-wrap items-center gap-2 text-xs sm:absolute sm:right-6 sm:top-6 sm:flex-col sm:items-end">
@@ -126,7 +110,7 @@ export const StartupOverviewCard = ({
                 src={startup.logoUrl ?? ''}
                 alt={`${startup.name} logo`}
                 fill
-                className="object-contain p-1"
+                className="object-contain"
                 skeletonClassName="rounded-xl sm:rounded-2xl"
               />
             ) : (

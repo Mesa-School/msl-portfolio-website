@@ -33,10 +33,12 @@ type V2ListItem = {
   location: string;
   cohort: string;
   sector_name: string | null;
+  service_track?: string | null;
   company_logo: string | null;
   founders: string[];
   published: boolean;
   published_at: string | null;
+  brand?: { primary?: string | null } | null;
 };
 
 type V2ListPayload = {
@@ -48,6 +50,7 @@ type V2ListPayload = {
 export async function fetchStartupsAction(
   page: number = 1,
   sectors: string[] = [],
+  tracks: string[] = [],
 ): Promise<FetchStartupsResult> {
   if (!API_URL) {
     return {
@@ -64,6 +67,9 @@ export async function fetchStartupsAction(
   params.set('limit', '10');
   params.set('published', 'true');
   sectors.forEach((s) => params.append('sector', s));
+  if (tracks.length > 0) {
+    params.set('service_track', tracks.join(','));
+  }
 
   try {
     const res = await fetch(`${API_URL}/api/v2/startups/?${params.toString()}`, {
@@ -98,13 +104,17 @@ export async function fetchStartupsAction(
       location: item.location ?? null,
       cohort: item.cohort ?? null,
       sectorName: item.sector_name ?? null,
+      serviceTrack: item.service_track ?? null,
       logoUrl: (toProxyUrl(item.company_logo) ?? item.company_logo) as string | null,
+      brandPrimary: item.brand?.primary ?? null,
       founders: (item.founders ?? []).map((name, index) => ({
         id: index,
         name,
         designation: null,
       })),
     }));
+
+    console.log("All Startups", startups);
 
     return {
       startups,
