@@ -9,10 +9,12 @@ export const FounderCard = ({
   founder,
   brand,
   layout,
+  className = '',
 }: {
   founder: Founder;
   brand: Brand;
   layout: 'row' | 'card';
+  className?: string;
 }) => {
   const cleanName = stripTodo(founder.name) || founder.name;
   const initials = cleanName
@@ -117,7 +119,7 @@ export const FounderCard = ({
     <div
       className={`rounded-2xl border border-white/[0.07] p-5 ${
         layout === 'row' ? 'flex items-start gap-5' : 'flex flex-col gap-5'
-      }`}
+      } ${className}`}
       style={{ background: 'var(--color-msl-card)' }}
     >
       {portrait}

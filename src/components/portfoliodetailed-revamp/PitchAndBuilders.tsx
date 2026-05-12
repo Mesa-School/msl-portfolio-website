@@ -61,14 +61,24 @@ export const PitchAndBuilders = ({
           {!hasVideo && founders.length > 1 ? (
             <div
               className={`mt-5 grid gap-4 ${
-                founders.length === 2
+                founders.length >= 2 && founders.length <= 4
                   ? 'grid-cols-1 md:grid-cols-2'
                   : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
               }`}
             >
-              {founders.map((founder) => (
-                <FounderCard key={founder.id} founder={founder} brand={brand} layout="card" />
-              ))}
+              {founders.map((founder, index) => {
+                const isLastOdd =
+                  founders.length === 3 && index === founders.length - 1;
+                return (
+                  <FounderCard
+                    key={founder.id}
+                    founder={founder}
+                    brand={brand}
+                    layout="row"
+                    className={isLastOdd ? 'md:col-span-2' : ''}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="mt-5 space-y-3">
