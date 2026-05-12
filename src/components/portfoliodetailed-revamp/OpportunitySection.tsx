@@ -43,9 +43,9 @@ export const OpportunitySection = ({
   brand: Brand;
 }) => {
   const stats = [
-    { ...cagr, blurb: 'Compounding annual growth · 5-yr forecast' },
-    { ...indiaMarket, blurb: 'India functional foods & supplements TAM' },
-    { ...globalMarket, blurb: 'Worldwide wellness economy ceiling' },
+    { ...cagr, blurb: 'Compounding annual growth · 5-year forecast' },
+    { ...indiaMarket, blurb: 'India total addressable market' },
+    { ...globalMarket, blurb: 'Worldwide market opportunity' },
   ].filter((s) => isPresent(s.value));
 
   if (stats.length === 0 && !isPresent(paragraph)) return null;
