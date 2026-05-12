@@ -5,6 +5,9 @@ import { StartupOverviewGrid } from '@/components/OurStartups/StartupOverviewGri
 import { PortfolioFilterProvider } from '@/contexts/PortfolioFilterContext';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const PORTFOLIO_DESCRIPTION =
   'Explore the Mesa Startup Lab portfolio — student- and early-stage founders building across D2C, AI, services and more.';
 

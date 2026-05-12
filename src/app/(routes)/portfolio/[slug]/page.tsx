@@ -9,6 +9,9 @@ import {
   type StartupData,
 } from '@/components/portfoliodetailed-revamp';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const fetchStartup = cache(async (slug: string): Promise<StartupData | null> => {
   if (!API_URL) return null;
 
@@ -16,7 +19,7 @@ const fetchStartup = cache(async (slug: string): Promise<StartupData | null> => 
 
   try {
     const res = await fetch(`${API_URL}/api/v2/startups/slug/${slug}`, {
-      next: { revalidate: 60 },
+      cache: 'no-store',
       headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     });
 
