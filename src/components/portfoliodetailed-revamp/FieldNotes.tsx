@@ -56,8 +56,9 @@ export const FieldNotes = ({
                   src={shot.url}
                   alt={shot.caption || `${startupName} field note ${i + 1}`}
                   fill
+                  quality={95}
                   className="object-cover transition-transform duration-700 group-hover/card:scale-105"
-                  sizes="300px"
+                  sizes="(min-width: 1024px) 640px, 480px"
                   onError={() => markBroken(shot.id)}
                 />
                 <div
