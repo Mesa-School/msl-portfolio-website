@@ -10,7 +10,6 @@ import { BriefAndEdge } from './BriefAndEdge';
 import { WhyNowSection } from './WhyNowSection';
 import { PitchAndBuilders } from './PitchAndBuilders';
 import { FieldNotes } from './FieldNotes';
-import { DetailFooter } from './DetailFooter';
 
 export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
   const brand = data.brand;
@@ -42,6 +41,7 @@ export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
             twoLiner={data.two_liner}
             startupWebsite={data.startup_website}
             founderVideo={data.founder_video}
+            socialLinks={data.social_media_links}
             brand={brand}
           />
           <StatsGrid metrics={data.key_metrics} brand={brand} />
@@ -73,14 +73,6 @@ export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
         <FieldNotes
           images={data.founder_gallery?.images || []}
           startupName={data.startup_name}
-          brand={brand}
-        />
-
-        <DetailFooter
-          socialLinks={data.social_media_links}
-          cohort={data.cohort}
-          publishedAt={data.published_at}
-          slug={data.slug}
           brand={brand}
         />
       </div>

@@ -28,6 +28,7 @@ export const OpportunitySection = ({
       <SectionLabel number="01" eyebrow="Market" title="The opportunity" brand={brand} />
 
       <div className="mt-7 grid grid-cols-12 gap-6 lg:gap-10 items-start">
+        {stats.length > 0 && (
         <div className="col-span-12 lg:col-span-5 rounded-2xl border border-white/[0.07] overflow-hidden divide-y divide-white/[0.07]">
           {stats.map((stat, i) => {
             const m = stat.value.match(/^(\D*)([\d.,]+)(.*)$/) || ['', '', stat.value, ''];
@@ -76,8 +77,13 @@ export const OpportunitySection = ({
             );
           })}
         </div>
+        )}
 
-        <div className="col-span-12 lg:col-span-7 lg:pt-1">
+        <div
+          className={`${
+            stats.length > 0 ? 'col-span-12 lg:col-span-7' : 'col-span-12'
+          } lg:pt-1`}
+        >
           <p className="text-[14.5px] leading-[1.7] text-white/80 font-light text-justify hyphens-auto">
             {paragraph}
           </p>
