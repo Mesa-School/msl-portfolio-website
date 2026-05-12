@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import type { Brand, GalleryImage } from './types';
 import { SectionLabel } from './SectionLabel';
@@ -49,16 +48,15 @@ export const FieldNotes = ({
             validImages.map((shot, i) => (
               <div
                 key={`${dup}-${shot.url}-${i}`}
-                className="relative shrink-0 w-[300px] h-[200px] rounded-xl overflow-hidden group/card"
+                className="relative shrink-0 h-[200px] rounded-xl overflow-hidden group/card"
                 style={{ background: 'var(--color-msl-card)' }}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={shot.url}
                   alt={shot.caption || `${startupName} field note ${i + 1}`}
-                  fill
-                  quality={95}
-                  className="object-cover transition-transform duration-700 group-hover/card:scale-105"
-                  sizes="(min-width: 1024px) 640px, 480px"
+                  loading="lazy"
+                  className="block h-full w-auto object-contain transition-transform duration-700 group-hover/card:scale-[1.03]"
                   onError={() => markBroken(shot.id)}
                 />
                 <div
