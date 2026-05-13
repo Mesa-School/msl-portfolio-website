@@ -31,7 +31,7 @@ export const FieldNotes = ({
   return (
     <section className="mt-9 pt-9 border-t border-white/6">
       <div className="flex items-end justify-between gap-4">
-        <SectionLabel number="07" eyebrow="Archive" title="Founder Gallery" brand={brand} />
+        <SectionLabel number="06" eyebrow="Archive" title="Founder Gallery" brand={brand} />
         <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-white/40 pb-1.5">
           {validImages.length} frames →
         </span>

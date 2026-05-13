@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import type { Brand } from './types';
+import { MediaImage } from './MediaImage';
 
 export const BannerCard = ({
   startupName,
@@ -19,13 +19,14 @@ export const BannerCard = ({
     style={{ background: 'var(--color-msl-card)' }}
   >
     {companyHeaderImage ? (
-      <Image
+      <MediaImage
         src={companyHeaderImage}
         alt={`${startupName} — header`}
         fill
         priority
         className="object-cover"
         sizes="(max-width: 1024px) 100vw, 1152px"
+        brandTint={brand.primary}
       />
     ) : (
       <div className="absolute inset-0">
@@ -59,7 +60,14 @@ export const BannerCard = ({
         style={{ background: 'var(--color-msl-card)' }}
       >
         {companyLogo ? (
-          <Image src={companyLogo} alt={startupName} fill className="object-contain" />
+          <MediaImage
+            src={companyLogo}
+            alt={startupName}
+            fill
+            className="object-contain"
+            brandTint={brand.primary}
+            rounded="rounded-xl"
+          />
         ) : (
           <span
             className="font-display font-semibold text-[24px] md:text-[28px] leading-none"

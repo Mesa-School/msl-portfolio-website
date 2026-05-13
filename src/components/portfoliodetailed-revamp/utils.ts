@@ -16,7 +16,7 @@ export type ParsedMetric = {
 
 export const parseMetricValue = (value: string): ParsedMetric => {
   const match = value.match(/^(\D*)([\d,.]+)(.*)$/);
-  if (!match) return { prefix: '', number: null, suffix: value, hasGrouping: false };
+  if (!match) return { prefix: '', number: null, suffix: '', hasGrouping: false };
   const prefix = match[1];
   const rawNum = match[2];
   const numStr = rawNum.replace(/,/g, '');

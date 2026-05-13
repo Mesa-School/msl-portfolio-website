@@ -55,6 +55,9 @@ export const StartupOverviewCard = ({
   const displayedFounders = founderNames.slice(0, 2).join(', ');
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
+  const extraFounderCount = Math.max(0, founderNames.length - 2);
+  const trackLabel =
+    startup.serviceTrack ?? startup.cohort ?? 'Portfolio';
   const detailHref = startup.slug ? `${basePath}/${startup.slug}` : null;
 
   const brandPrimary = startup.brandPrimary;
@@ -91,7 +94,7 @@ export const StartupOverviewCard = ({
           ) : (
             <>
               {startup.sectorName && (
-                <span className="rounded-full text-sm border border-white/15 bg-black/50 px-3 py-1 text-white/80">
+                <span className="rounded-full text-sm border border-white/15 bg-white/5 px-3 py-1 text-white/80">
                   {startup.sectorName}
                 </span>
               )}
@@ -131,8 +134,8 @@ export const StartupOverviewCard = ({
             ) : (
               <>
                 <h3 className="text-lg sm:text-xl font-semibold truncate">{startup.name}</h3>
-                <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] sm:tracking-[0.35em] text-white/45">
-                  {startup.location ?? 'Global'}
+                <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] sm:tracking-[0.35em] text-white/45 truncate">
+                  {trackLabel}
                 </p>
               </>
             )}
@@ -165,6 +168,9 @@ export const StartupOverviewCard = ({
                   </span>
                   <span className="sm:hidden">👥 </span>
                   <span className="text-white/90 truncate">{displayedFounders}</span>
+                  {extraFounderCount > 0 && (
+                    <span className="text-white/45"> +{extraFounderCount} more</span>
+                  )}
                 </>
               ) : (
                 <span className="text-white/60">—</span>

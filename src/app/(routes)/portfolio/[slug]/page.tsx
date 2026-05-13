@@ -149,6 +149,8 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
   const { slug } = await params;
   const detail = await fetchStartup(slug);
 
+  console.log("Detailed Startup Data", detail);
+
   if (!detail) notFound();
 
   const orgJsonLd = buildStartupJsonLd(detail, slug);

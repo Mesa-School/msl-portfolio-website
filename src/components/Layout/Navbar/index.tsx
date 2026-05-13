@@ -4,6 +4,7 @@ import MenuHeader from './MenuHeader'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NavbarMainSection = () => {
@@ -18,6 +19,9 @@ const NavbarMainSection = () => {
         : pathname?.startsWith('/portfolio')
             ? '/portfolio'
             : '/';
+
+    const isDetailPage = /^\/(portfolio|ignite)\/[^/]+$/.test(pathname ?? '');
+    const showBackHint = isDetailPage && isScrolled;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -69,13 +73,28 @@ const NavbarMainSection = () => {
             >
                 <div className='w-[95%] md:w-[90%] mx-auto flex justify-between items-center gap-4'>
 
-                    <Link href={logoHref}>
+                    <Link
+                        href={logoHref}
+                        aria-label={isDetailPage ? 'Back to listing' : 'Home'}
+                        className="relative inline-flex items-center"
+                    >
+                        <span
+                            aria-hidden
+                            className={cn(
+                                "absolute left-0 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white/8 backdrop-blur-md border border-white/10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none",
+                                showBackHint
+                                    ? "opacity-100 -translate-x-[calc(100%+10px)] -translate-y-1/2"
+                                    : "opacity-0 translate-x-0 -translate-y-1/2"
+                            )}
+                        >
+                            <ArrowLeft className="h-3.5 w-3.5 md:h-4 md:w-4 text-white/70" />
+                        </span>
                         <Image
                             src="/logo-mesa.png"
                             alt="logo"
                             width={150}
                             height={100}
-                            className='h-10 md:h-12 w-auto object-contain rounded-md'
+                            className='relative z-10 h-10 md:h-12 w-auto object-contain rounded-md'
                         />
                     </Link>
 

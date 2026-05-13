@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
 import type { Brand, Founder } from './types';
 import { stripTodo, isPresent } from './utils';
 import { Linkedin } from './icons';
 import { FounderBio } from './FounderBio';
+import { MediaImage } from './MediaImage';
 
 export const FounderCard = ({
   founder,
@@ -39,7 +39,7 @@ export const FounderCard = ({
       }}
     >
       {founder.founder_profile_pic ? (
-        <Image
+        <MediaImage
           src={founder.founder_profile_pic}
           alt={founder.name}
           fill
@@ -47,6 +47,7 @@ export const FounderCard = ({
           quality={92}
           className="object-cover"
           sizes={layout === 'row' ? '(min-width: 1024px) 192px, 160px' : '(min-width: 1024px) 360px, (min-width: 768px) 33vw, 50vw'}
+          brandTint={brand.primary}
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">

@@ -1,6 +1,5 @@
 import type { StartupData } from './types';
 import { fontVariables } from './fonts';
-import { BackNav } from './BackNav';
 import { BannerCard } from './BannerCard';
 import { IdentityRow } from './IdentityRow';
 import { StatsGrid } from './StatsGrid';
@@ -26,9 +25,7 @@ export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
       className={`${fontVariables} relative min-h-screen bg-msl-page text-white overflow-x-hidden font-body`}
     >
       <div className="relative mx-auto max-w-6xl px-4 sm:px-8 lg:px-12 pt-24 pb-12">
-        <BackNav />
-
-        <section className="mt-6">
+        <section className="mt-2">
           <BannerCard
             startupName={data.startup_name}
             companyLogo={data.company_logo}
