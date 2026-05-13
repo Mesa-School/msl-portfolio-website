@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Manrope } from "next/font/google";
+import HapticFeedback from "@/components/HapticFeedback";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -107,6 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-black text-white antialiased">
         <script type="application/ld+json">{JSON.stringify(organizationJsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
+        <HapticFeedback />
         {children}
       </body>
     </html>
