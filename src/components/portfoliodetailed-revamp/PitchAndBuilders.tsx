@@ -52,7 +52,7 @@ export const PitchAndBuilders = ({
 
         <div className={hasVideo ? 'col-span-12 lg:col-span-5' : 'col-span-12'}>
           <SectionLabel
-            number="06"
+            number="05"
             eyebrow="People"
             title={founders.length > 1 ? 'The builders' : 'The builder'}
             brand={brand}

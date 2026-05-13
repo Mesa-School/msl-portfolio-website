@@ -4,6 +4,7 @@ import { Mail } from 'lucide-react';
 import type { Brand, Founder } from './types';
 import { stripTodo, isPresent } from './utils';
 import { Linkedin } from './icons';
+import { FounderBio } from './FounderBio';
 
 export const FounderCard = ({
   founder,
@@ -108,9 +109,10 @@ export const FounderCard = ({
         {founder.name}
       </h3>
       {isPresent(stripTodo(founder.description)) && (
-        <p className="mt-3 font-display font-light text-[14px] leading-[1.6] tracking-[-0.005em] text-white/75 line-clamp-3">
-          &ldquo;{stripTodo(founder.description)}&rdquo;
-        </p>
+        <FounderBio
+          description={stripTodo(founder.description) as string}
+          brand={brand}
+        />
       )}
     </div>
   );
