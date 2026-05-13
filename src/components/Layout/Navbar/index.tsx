@@ -21,7 +21,7 @@ const NavbarMainSection = () => {
             : '/';
 
     const isDetailPage = /^\/(portfolio|ignite)\/[^/]+$/.test(pathname ?? '');
-    const showBackHint = isDetailPage && isScrolled;
+    const backLabel = isIgniteRoute ? 'Back to Ignite' : 'Back to startups';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -73,26 +73,25 @@ const NavbarMainSection = () => {
             >
                 <div className='w-[95%] md:w-[90%] mx-auto flex justify-between items-center gap-4'>
 
-                    <div className="relative inline-flex items-center">
-                        <Link
-                            href={logoHref}
-                            aria-label="Back to listing"
-                            aria-hidden={!showBackHint}
-                            tabIndex={showBackHint ? 0 : -1}
-                            className={cn(
-                                "absolute left-0 top-1/2 inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white/8 backdrop-blur-md border border-white/10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/15 hover:border-white/20",
-                                showBackHint
-                                    ? "opacity-100 -translate-y-1/2 -translate-x-[calc(100%+10px)] pointer-events-auto"
-                                    : "opacity-0 -translate-y-1/2 translate-x-0 pointer-events-none"
-                            )}
-                        >
-                            <ArrowLeft className="h-3.5 w-3.5 md:h-4 md:w-4 text-white/70" />
-                        </Link>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        {isDetailPage && (
+                            <Link
+                                href={logoHref}
+                                aria-label={backLabel}
+                                className="group inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-white/8 backdrop-blur-md border border-white/10 pl-2 pr-3 sm:pl-2.5 sm:pr-3.5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-medium text-white/75 transition-colors duration-300 hover:bg-white/15 hover:border-white/20 hover:text-white"
+                            >
+                                <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                                    <ArrowLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" />
+                                </span>
+                                <span className="hidden sm:inline">{backLabel}</span>
+                                <span className="sm:hidden">Back</span>
+                            </Link>
+                        )}
 
                         <Link
                             href={logoHref}
                             aria-label={isDetailPage ? 'Back to listing' : 'Home'}
-                            className="relative z-10 inline-flex items-center"
+                            className="inline-flex items-center"
                         >
                             <Image
                                 src="/logo-mesa.png"

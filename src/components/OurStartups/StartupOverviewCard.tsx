@@ -52,10 +52,29 @@ export const StartupOverviewCard = ({
   const summary = startup.summary ?? '';
   const founderNames =
     startup.founders?.map((founder) => founder.name).filter(Boolean) ?? [];
-  const displayedFounders = founderNames.slice(0, 2).join(', ');
   const hasFounders = founderNames.length > 0;
   const isSingleFounder = founderNames.length === 1;
-  const extraFounderCount = Math.max(0, founderNames.length - 2);
+
+  const firstNameOf = (full: string) => full.trim().split(/\s+/)[0];
+
+  const { displayedFounders, extraFounderCount } = (() => {
+    const count = founderNames.length;
+    if (count === 0) return { displayedFounders: '', extraFounderCount: 0 };
+    if (count === 1) return { displayedFounders: founderNames[0], extraFounderCount: 0 };
+    if (count === 2) {
+      return {
+        displayedFounders: founderNames.join(' & '),
+        extraFounderCount: 0,
+      };
+    }
+    const shown = Math.min(4, count);
+    const firsts = founderNames.slice(0, shown).map(firstNameOf);
+    return {
+      displayedFounders: `${firsts.slice(0, -1).join(', ')} & ${firsts[firsts.length - 1]}`,
+      extraFounderCount: Math.max(0, count - shown),
+    };
+  })();
+
   const trackLabel =
     startup.serviceTrack ?? startup.cohort ?? 'Portfolio';
   const detailHref = startup.slug ? `${basePath}/${startup.slug}` : null;
