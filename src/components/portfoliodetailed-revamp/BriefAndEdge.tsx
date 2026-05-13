@@ -24,7 +24,7 @@ export const BriefAndEdge = ({
       {hasBrief && (
         <div className={hasEdge ? 'col-span-12 lg:col-span-7' : 'col-span-12'}>
           <SectionLabel number="02" eyebrow="Premise" title="The brief" brand={brand} />
-          <p className="editorial-dropcap mt-5 font-display font-light text-[17px] leading-[1.6] tracking-[-0.005em] text-white/85 text-justify hyphens-auto">
+          <p className="mt-5 font-display font-light text-[15px] sm:text-[17px] leading-[1.6] tracking-[-0.005em] text-white/85 sm:text-justify hyphens-auto">
             {briefDescription}
           </p>
         </div>

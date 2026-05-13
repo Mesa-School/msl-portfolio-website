@@ -31,7 +31,7 @@ export const FounderCard = ({
     <div
       className={`relative shrink-0 overflow-hidden rounded-xl ${
         layout === 'row'
-          ? 'h-44 w-full sm:h-36 sm:w-36'
+          ? 'h-44 w-44 mx-auto sm:mx-0 sm:h-36 sm:w-36'
           : 'aspect-4/5 w-full'
       }`}
       style={{
@@ -47,7 +47,11 @@ export const FounderCard = ({
           fill
           priority
           quality={92}
-          className="object-cover"
+          className={
+            layout === 'row'
+              ? 'object-contain sm:object-cover'
+              : 'object-cover'
+          }
           sizes={layout === 'row' ? '(min-width: 1024px) 192px, 160px' : '(min-width: 1024px) 360px, (min-width: 768px) 33vw, 50vw'}
           brandTint={brand.primary}
         />
