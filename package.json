@@ -38,6 +38,7 @@
     "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.4.0",
     "three": "^0.171.0",
+    "use-haptic": "^1.1.13",
     "vaul": "^1.1.2",
     "zod": "^4.1.13"
   },

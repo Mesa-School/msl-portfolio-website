@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useHaptic } from 'use-haptic';
 
 export default function HapticFeedback() {
-  useEffect(() => {
-    if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') {
-      return;
-    }
+  const { triggerHaptic } = useHaptic(8);
 
+  useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -17,15 +16,15 @@ export default function HapticFeedback() {
       if (!interactive) return;
       if (interactive.hasAttribute('disabled')) return;
       try {
-        navigator.vibrate(8);
+        triggerHaptic();
       } catch {
-        // Vibration may fail silently on unsupported devices/contexts.
+        // Silently no-op on unsupported devices/contexts.
       }
     };
 
     document.addEventListener('click', handleClick, { passive: true });
     return () => document.removeEventListener('click', handleClick);
-  }, []);
+  }, [triggerHaptic]);
 
   return null;
 }
