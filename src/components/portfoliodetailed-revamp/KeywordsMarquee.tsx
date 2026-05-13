@@ -12,8 +12,8 @@ export const KeywordsMarquee = ({
     style={{ borderColor: 'rgba(255,255,255,0.08)' }}
   >
     <div
-      className="flex gap-10 whitespace-nowrap font-mono text-[10px] tracking-[0.32em] uppercase"
-      style={{ color: brand.accent, animation: 'marquee 40s linear infinite' }}
+      className="animate-marquee flex gap-10 whitespace-nowrap font-mono text-[10px] tracking-[0.32em] uppercase"
+      style={{ color: brand.accent }}
     >
       {[...Array(3)].flatMap((_, repeat) =>
         keywords.map((kw, i) => (

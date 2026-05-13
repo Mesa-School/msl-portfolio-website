@@ -65,10 +65,12 @@ export const OpportunitySection = ({
       <div className="mt-7 grid grid-cols-12 gap-6 lg:gap-10 items-start">
         {stats.length > 0 && (
           <motion.div
-            className="col-span-12 lg:col-span-5 rounded-2xl overflow-hidden backdrop-blur-md border divide-y divide-white/10"
+            className="col-span-12 lg:col-span-5 rounded-2xl overflow-hidden backdrop-blur-md border divide-y divide-white/10 isolate"
             style={{
               background: `radial-gradient(circle at top left, ${brand.primary}1a 0%, transparent 38%), radial-gradient(circle at bottom right, ${brand.primary}14 0%, transparent 38%), rgba(255, 255, 255, 0.05)`,
               borderColor: `${brand.primary}33`,
+              transform: 'translateZ(0)',
+              contain: 'layout style',
             }}
             variants={itemVariants}
           >
@@ -79,37 +81,40 @@ export const OpportunitySection = ({
                 <div
                   key={i}
                   className="group relative px-4 py-3 transition-colors"
+                  style={{ contain: 'layout style paint' }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="font-mono text-[8.5px] tracking-[0.22em] uppercase text-white/30 w-6 shrink-0">
-                      /0{i + 1}
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="font-mono text-[8.5px] tracking-[0.22em] uppercase text-white/30 w-6 shrink-0">
+                        /0{i + 1}
+                      </div>
+
+                      <div className="font-display font-light leading-none tracking-[-0.03em] text-[clamp(20px,2.4vw,28px)] tabular-nums shrink-0">
+                        {prefix && (
+                          <span style={{ color: brand.accent }} className="opacity-90">
+                            {prefix}
+                          </span>
+                        )}
+                        {number !== null ? (
+                          <span className="text-white">
+                            <CountUp
+                              to={number}
+                              duration={1.5}
+                              separator={hasGrouping ? ',' : ''}
+                            />
+                          </span>
+                        ) : (
+                          <span className="text-white">{stat.value}</span>
+                        )}
+                        {suffix && (
+                          <span style={{ color: brand.accent }} className="opacity-90">
+                            {suffix}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="font-display font-light leading-none tracking-[-0.03em] text-[clamp(22px,2.4vw,28px)] tabular-nums shrink-0 min-w-[76px]">
-                      {prefix && (
-                        <span style={{ color: brand.accent }} className="opacity-90">
-                          {prefix}
-                        </span>
-                      )}
-                      {number !== null ? (
-                        <span className="text-white">
-                          <CountUp
-                            to={number}
-                            duration={1.5}
-                            separator={hasGrouping ? ',' : ''}
-                          />
-                        </span>
-                      ) : (
-                        <span className="text-white">{stat.value}</span>
-                      )}
-                      {suffix && (
-                        <span style={{ color: brand.accent }} className="opacity-90">
-                          {suffix}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0 pl-3">
+                    <div className="min-w-0 flex-1 pl-9 sm:pl-3">
                       <div
                         className="font-mono text-[9.5px] tracking-[0.16em] uppercase leading-tight"
                         style={{ color: brand.accent }}

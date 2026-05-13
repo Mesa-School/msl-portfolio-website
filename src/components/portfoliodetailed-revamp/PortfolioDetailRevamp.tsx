@@ -32,13 +32,13 @@ export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
             companyHeaderImage={data.company_header_image}
             sectorName={data.sector.name}
             brand={brand}
+            startupWebsite={data.startup_website}
+            socialLinks={data.social_media_links}
+            founderVideo={data.founder_video}
           />
           <IdentityRow
             tagline={data.tagline}
             twoLiner={data.two_liner}
-            startupWebsite={data.startup_website}
-            founderVideo={data.founder_video}
-            socialLinks={data.social_media_links}
             brand={brand}
           />
           <StatsGrid metrics={data.key_metrics} brand={brand} />

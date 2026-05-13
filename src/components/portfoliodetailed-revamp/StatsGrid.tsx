@@ -50,10 +50,12 @@ export const StatsGrid = ({
 
   return (
     <motion.div
-      className={`mt-7 grid ${gridCols} rounded-2xl overflow-hidden backdrop-blur-md border divide-x divide-y divide-white/10`}
+      className={`mt-7 grid ${gridCols} rounded-2xl overflow-hidden backdrop-blur-md border divide-x divide-y divide-white/10 isolate`}
       style={{
         background: `radial-gradient(circle at top left, ${brand.primary}1a 0%, transparent 38%), radial-gradient(circle at bottom right, ${brand.primary}14 0%, transparent 38%), rgba(255, 255, 255, 0.05)`,
         borderColor: `${brand.primary}33`,
+        transform: 'translateZ(0)',
+        contain: 'layout style',
       }}
       variants={containerVariants}
       initial="hidden"
@@ -62,11 +64,17 @@ export const StatsGrid = ({
     >
       {metrics.map((metric) => {
         const { prefix, number, suffix, hasGrouping } = parseMetricValue(metric.value);
+        const reservedCh =
+          number !== null
+            ? number.toString().length +
+              (hasGrouping ? Math.max(0, Math.floor((number.toString().length - 1) / 3)) : 0)
+            : 0;
         return (
           <motion.div
             key={metric.id}
             className="group relative p-5 transition-colors hover:bg-white/5"
             variants={itemVariants}
+            style={{ contain: 'layout style paint' }}
           >
             <div
               className="font-mono text-[9px] tracking-[0.22em] uppercase mb-3"
@@ -77,11 +85,16 @@ export const StatsGrid = ({
             <div className="font-display text-[40px] leading-[0.9] tracking-[-0.04em] font-light tabular-nums text-white">
               {prefix}
               {number !== null ? (
-                <CountUp
-                  to={number}
-                  duration={1.5}
-                  separator={hasGrouping ? ',' : ''}
-                />
+                <span
+                  className="inline-block text-left"
+                  style={{ minWidth: `${reservedCh}ch` }}
+                >
+                  <CountUp
+                    to={number}
+                    duration={1.5}
+                    separator={hasGrouping ? ',' : ''}
+                  />
+                </span>
               ) : (
                 metric.value
               )}

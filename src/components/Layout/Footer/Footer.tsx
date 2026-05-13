@@ -112,7 +112,7 @@ const Footer = () => {
         <div className="mt-12 sm:mt-14 mb-6 h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
         {/* Bottom row */}
-        <div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] tracking-wide text-white/40 text-center sm:text-left">
             &copy; {currentYear} Mesa Startup Lab. All rights reserved.
           </p>

@@ -115,7 +115,7 @@ export const OurStartupsHeader = () => {
 
   return (
     <motion.section
-      className={`${fontVariables} relative isolate pt-16 sm:pt-24 px-4 pb-2 flex flex-col items-center font-body`}
+      className={`${fontVariables} relative isolate pt-28 sm:pt-32 px-4 pb-2 flex flex-col items-center font-body`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
@@ -222,18 +222,18 @@ export const OurStartupsHeader = () => {
         </motion.div>
 
         <motion.div
-          className="flex items-center justify-center -mt-3"
+          className="w-full flex justify-center -mt-3"
           variants={staggeredFadeVariants}
           custom={1.3}
         >
-          <div className="relative inline-flex items-center rounded-full border border-white/12 bg-white/[0.035] backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+          <div className="relative inline-flex items-center max-w-full rounded-full border border-white/12 bg-white/[0.035] backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.4)] overflow-x-auto scrollbar-hide">
             {TRACK_TABS.map((tab) => {
               const isSelected = activeTabId === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => handleTabClick(tab)}
-                  className="relative px-4 sm:px-5 py-2 text-[13px] sm:text-sm cursor-pointer"
+                  className="relative px-3 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-sm cursor-pointer shrink-0 whitespace-nowrap"
                 >
                   {isSelected && (
                     <motion.span

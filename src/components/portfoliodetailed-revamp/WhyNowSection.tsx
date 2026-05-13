@@ -12,7 +12,7 @@ export const WhyNowSection = ({ whyNow, brand }: { whyNow: string; brand: Brand 
         <SectionLabel number="04" eyebrow="Timing" title="Why now" brand={brand} />
       </div>
       <div className="col-span-12 lg:col-span-9">
-        <p className="text-[15px] leading-[1.7] font-light text-white/85 text-justify hyphens-auto">
+        <p className="text-[13px] sm:text-[15px] leading-[1.65] sm:leading-[1.7] font-light text-white/85 sm:text-justify hyphens-auto wrap-break-word">
           {cleaned}
         </p>
       </div>

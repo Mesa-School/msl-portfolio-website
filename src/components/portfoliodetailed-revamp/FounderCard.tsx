@@ -30,7 +30,9 @@ export const FounderCard = ({
   const portrait = (
     <div
       className={`relative shrink-0 overflow-hidden rounded-xl ${
-        layout === 'row' ? 'h-36 w-36' : 'aspect-4/5 w-full'
+        layout === 'row'
+          ? 'h-44 w-full sm:h-36 sm:w-36'
+          : 'aspect-4/5 w-full'
       }`}
       style={{
         background: founder.founder_profile_pic
@@ -120,8 +122,10 @@ export const FounderCard = ({
 
   return (
     <div
-      className={`rounded-2xl border border-white/[0.07] p-5 ${
-        layout === 'row' ? 'flex items-start gap-5' : 'flex flex-col gap-5'
+      className={`rounded-2xl border border-white/[0.07] p-4 sm:p-5 ${
+        layout === 'row'
+          ? 'flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5'
+          : 'flex flex-col gap-5'
       } ${className}`}
       style={{ background: 'var(--color-msl-card)' }}
     >
