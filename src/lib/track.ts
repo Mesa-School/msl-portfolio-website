@@ -33,7 +33,7 @@ export const TRACKS: readonly TrackEntry[] = [
     description:
       "Mesa Startup Lab's Services Track — founders building service-led and B2B startups.",
   },
-] as const;
+];
 
 export function trackBySlug(slug?: string | null): TrackEntry | null {
   if (!slug) return null;

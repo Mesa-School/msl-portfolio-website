@@ -19,6 +19,10 @@ describe('trackBySlug', () => {
     expect(trackBySlug('foo')).toBeNull();
   });
 
+  it('returns null when given an apiValue instead of a slug', () => {
+    expect(trackBySlug('AI Track')).toBeNull();
+  });
+
   it('returns null for empty/nullish input', () => {
     expect(trackBySlug('')).toBeNull();
     expect(trackBySlug(null)).toBeNull();
