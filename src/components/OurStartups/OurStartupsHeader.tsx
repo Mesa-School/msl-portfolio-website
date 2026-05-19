@@ -45,7 +45,6 @@ export const OurStartupsHeader = () => {
     selectedSectors,
     toggleSector,
     selectedTracks,
-    setSelectedTracks,
     clearFilters,
   } = usePortfolioFilters();
   const router = useRouter();
