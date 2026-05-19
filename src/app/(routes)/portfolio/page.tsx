@@ -4,35 +4,32 @@ import { OurStartupsHeader } from '@/components/OurStartups/OurStartupsHeader';
 import { StartupOverviewGrid } from '@/components/OurStartups/StartupOverviewGrid';
 import { PortfolioFilterProvider } from '@/contexts/PortfolioFilterContext';
 import { fetchStartupsAction } from '@/actions/fetchStartups';
+import { trackBySlug } from '@/lib/track';
+import { buildPortfolioMetadata } from '@/lib/portfolioMeta';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-const PORTFOLIO_DESCRIPTION =
-  'Explore the Mesa Startup Lab portfolio — student- and early-stage founders building across D2C, AI, services and more.';
-
-export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: PORTFOLIO_DESCRIPTION,
-  alternates: { canonical: '/portfolio' },
-  openGraph: {
-    title: 'MSL Portfolio',
-    description: PORTFOLIO_DESCRIPTION,
-    url: '/portfolio',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'MSL Portfolio',
-    description: PORTFOLIO_DESCRIPTION,
-  },
+type PageProps = {
+  searchParams: Promise<{ track?: string }>;
 };
 
-const OurStartupsPage = async () => {
-  const { startups, pagination } = await fetchStartupsAction(1, []);
+export async function generateMetadata(
+  { searchParams }: PageProps,
+): Promise<Metadata> {
+  const { track } = await searchParams;
+  return buildPortfolioMetadata(track);
+}
+
+const OurStartupsPage = async ({ searchParams }: PageProps) => {
+  const { track } = await searchParams;
+  const entry = trackBySlug(track);
+  const tracksForApi = entry ? [entry.apiValue] : [];
+
+  const { startups, pagination } = await fetchStartupsAction(1, [], tracksForApi);
 
   return (
-    <PortfolioFilterProvider>
+    <PortfolioFilterProvider initialTracks={tracksForApi}>
       <main className="min-h-screen bg-msl-page text-white px-4 sm:px-8 lg:px-16">
         <div className="mx-auto w-full max-w-6xl">
           <OurStartupsHeader />
