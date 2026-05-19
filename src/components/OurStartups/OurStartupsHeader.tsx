@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { usePortfolioFilters } from '@/contexts/PortfolioFilterContext';
 import { Search, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { TRACKS } from '@/lib/track';
 import { fontVariables } from '@/components/portfoliodetailed-revamp/fonts';
 
 type Sector = {
@@ -19,13 +21,21 @@ const HARDCODED_SECTORS: Sector[] = [
   { id: 6, name: 'Mobility' },
 ];
 
-type TrackTab = { id: string; name: string; value: string | null };
+type TrackTab = {
+  id: string;
+  name: string;
+  value: string | null;
+  slug: string | null;
+};
 
 const TRACK_TABS: TrackTab[] = [
-  { id: 'all', name: 'All', value: null },
-  { id: 'ai', name: 'AI Track', value: 'AI Track' },
-  { id: 'd2c', name: 'D2C Track', value: 'D2C Track' },
-  { id: 'services', name: 'Services Track', value: 'Services Track' },
+  { id: 'all', name: 'All', value: null, slug: null },
+  ...TRACKS.map((t) => ({
+    id: t.slug,
+    name: t.label,
+    value: t.apiValue,
+    slug: t.slug,
+  })),
 ];
 
 export const OurStartupsHeader = () => {
@@ -38,6 +48,7 @@ export const OurStartupsHeader = () => {
     setSelectedTracks,
     clearFilters,
   } = usePortfolioFilters();
+  const router = useRouter();
 
   const activeTabId =
     selectedTracks.length === 0
@@ -45,7 +56,9 @@ export const OurStartupsHeader = () => {
       : (TRACK_TABS.find((t) => t.value === selectedTracks[0])?.id ?? 'all');
 
   const handleTabClick = (tab: TrackTab) => {
-    setSelectedTracks(tab.value ? [tab.value] : []);
+    router.push(tab.slug ? `/portfolio?track=${tab.slug}` : '/portfolio', {
+      scroll: false,
+    });
   };
 
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -194,7 +207,10 @@ export const OurStartupsHeader = () => {
                 selectedSectors.length > 0 ||
                 selectedTracks.length > 0) && (
                 <button
-                  onClick={clearFilters}
+                  onClick={() => {
+                    clearFilters();
+                    router.push('/portfolio', { scroll: false });
+                  }}
                   className="relative rounded-full p-1 hover:bg-white/10 transition"
                   aria-label="Clear filters"
                 >
