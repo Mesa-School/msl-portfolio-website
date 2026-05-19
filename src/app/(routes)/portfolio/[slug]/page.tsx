@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { API_URL } from '@/config/apiUrl';
 import { normalizeStartupV2, type V2Envelope } from '@/lib/normalizeStartupV2';
+import { serializeJsonLd } from '@/lib/jsonLd';
 import {
   PortfolioDetailRevamp,
   type StartupData,
@@ -77,7 +78,7 @@ export async function generateMetadata({ params }: DetailPageProps): Promise<Met
 }
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.mesaschool.co';
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://msl.mesaschool.co.in';
 
 const buildStartupJsonLd = (detail: StartupData, slug: string) => {
   const canonical = `${SITE_URL}/portfolio/${detail.slug ?? slug}`;
@@ -149,8 +150,6 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
   const { slug } = await params;
   const detail = await fetchStartup(slug);
 
-  console.log("Detailed Startup Data", detail);
-
   if (!detail) notFound();
 
   const orgJsonLd = buildStartupJsonLd(detail, slug);
@@ -158,8 +157,14 @@ const StartupDetailPage = async ({ params }: DetailPageProps) => {
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(orgJsonLd)}</script>
-      <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <PortfolioDetailRevamp data={detail} />
     </>
   );

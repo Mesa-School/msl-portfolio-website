@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Manrope } from "next/font/google";
 import HapticFeedback from "@/components/HapticFeedback";
+import { serializeJsonLd } from "@/lib/jsonLd";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -9,7 +10,7 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mesaschool.co";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msl.mesaschool.co.in";
 const SITE_NAME = "Mesa Startup Lab";
 const DEFAULT_DESCRIPTION =
   "Mesa Startup Lab is India's launchpad for the next generation of builders — backing student and early-stage founders across D2C, AI, and services.";
@@ -106,8 +107,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${manrope.variable}`}>
       <body className="bg-black text-white antialiased">
-        <script type="application/ld+json">{JSON.stringify(organizationJsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
+        />
         <HapticFeedback />
         {children}
       </body>
