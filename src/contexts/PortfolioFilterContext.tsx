@@ -16,10 +16,8 @@ type PortfolioFilterContextType = {
   selectedTracks: string[];
   searchTerm: string;
   setSelectedSectors: (sectors: string[]) => void;
-  setSelectedTracks: (tracks: string[]) => void;
   setSearchTerm: (term: string) => void;
   toggleSector: (sectorName: string) => void;
-  toggleTrack: (trackName: string) => void;
   clearFilters: () => void;
 };
 
@@ -59,14 +57,6 @@ export const PortfolioFilterProvider = ({
     );
   };
 
-  const toggleTrack = (trackName: string) => {
-    setSelectedTracks((prev) =>
-      prev.includes(trackName)
-        ? prev.filter((t) => t !== trackName)
-        : [...prev, trackName],
-    );
-  };
-
   const clearFilters = () => {
     setSelectedSectors([]);
     setSelectedTracks([]);
@@ -80,10 +70,8 @@ export const PortfolioFilterProvider = ({
         selectedTracks,
         searchTerm,
         setSelectedSectors,
-        setSelectedTracks,
         setSearchTerm,
         toggleSector,
-        toggleTrack,
         clearFilters,
       }}
     >
