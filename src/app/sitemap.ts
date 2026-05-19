@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { API_URL } from '@/config/apiUrl';
+import { TRACKS } from '@/lib/track';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://msl.mesaschool.co.in';
 
@@ -52,6 +53,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 1.0,
     },
+    ...TRACKS.map((t) => ({
+      url: `${SITE_URL}/portfolio?track=${t.slug}`,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'daily' as const,
+      priority: 0.8,
+    })),
   ];
 
   const portfolioSlugs = await fetchAllPortfolioSlugs();
