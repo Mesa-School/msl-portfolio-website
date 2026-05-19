@@ -36,4 +36,10 @@ describe('buildPortfolioMetadata', () => {
     expect(m.alternates?.canonical).toBe('/portfolio');
     expect(m.robots).toEqual({ index: false, follow: true });
   });
+
+  it('treats empty string as no param (base, no noindex)', () => {
+    const m = buildPortfolioMetadata('');
+    expect(m.robots).toBeUndefined();
+    expect(m.alternates?.canonical).toBe('/portfolio');
+  });
 });
