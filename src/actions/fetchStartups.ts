@@ -114,8 +114,6 @@ export async function fetchStartupsAction(
       })),
     }));
 
-    console.log("All Startups", startups);
-
     return {
       startups,
       pagination: payload.pagination ?? DEFAULT_PAGINATION,
