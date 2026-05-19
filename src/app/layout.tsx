@@ -3,19 +3,20 @@ import "./globals.css";
 import { Manrope } from "next/font/google";
 import HapticFeedback from "@/components/HapticFeedback";
 import { serializeJsonLd } from "@/lib/jsonLd";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  OG_IMAGE_URL,
+  OG_IMAGE,
+  TWITTER_IMAGE,
+} from "@/lib/seo";
 
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
   display: "swap",
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msl.mesaschool.co.in";
-const SITE_NAME = "Mesa Startup Lab";
-const DEFAULT_DESCRIPTION =
-  "Mesa Startup Lab is India's launchpad for the next generation of builders — backing student and early-stage founders across D2C, AI, and services.";
-const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/careers-crm-data/mesa-assets/mesa_startup_lab_logo.jpeg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -44,23 +45,14 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: SITE_NAME,
     description: DEFAULT_DESCRIPTION,
-    images: [
-      {
-        url: DEFAULT_OG_IMAGE,
-        secureUrl: DEFAULT_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        type: "image/jpeg",
-        alt: `${SITE_NAME} logo`,
-      },
-    ],
+    images: OG_IMAGE,
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
     description: DEFAULT_DESCRIPTION,
-    images: [{ url: DEFAULT_OG_IMAGE, alt: `${SITE_NAME} logo` }],
+    images: TWITTER_IMAGE,
   },
   robots: {
     index: true,
@@ -84,8 +76,8 @@ const organizationJsonLd = {
   name: SITE_NAME,
   alternateName: "MSL",
   url: SITE_URL,
-  logo: DEFAULT_OG_IMAGE,
-  image: DEFAULT_OG_IMAGE,
+  logo: OG_IMAGE_URL,
+  image: OG_IMAGE_URL,
   description: DEFAULT_DESCRIPTION,
   foundingLocation: {
     "@type": "Place",
@@ -110,7 +102,7 @@ const websiteJsonLd = {
   publisher: {
     "@type": "Organization",
     name: SITE_NAME,
-    logo: DEFAULT_OG_IMAGE,
+    logo: OG_IMAGE_URL,
   },
 };
 
