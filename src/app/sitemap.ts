@@ -5,8 +5,6 @@ import { TRACKS } from '@/lib/track';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://msl.mesaschool.co.in';
 
-// Evaluated once at module load (deploy time) so static entries report a
-// stable lastModified instead of churning on every request.
 const BUILD_DATE = new Date();
 
 type SlugItem = { slug: string | null; updated_at?: string | null };
@@ -72,3 +70,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticEntries, ...portfolioEntries];
 }
+
