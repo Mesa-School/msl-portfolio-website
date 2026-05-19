@@ -9,7 +9,15 @@
       "Bash(node run.js \"C:\\\\\\\\Users\\\\\\\\DELL\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\forge-deep-audit.js\")",
       "Bash(curl -s \"https://web.archive.org/web/20260317004959/https://mesaschool.co/forge/\" -o forge-wayback-mar17.html)",
       "Bash(curl -s \"https://web.archive.org/cdx/search/cdx?url=mesaschool.co/forge&from=20250101&to=20251231&output=json&limit=10\")",
-      "Bash(curl -s \"https://web.archive.org/cdx/search/cdx?url=mesaschool.co/*&matchType=domain&filter=mimetype:application/pdf&output=json&limit=50\")"
+      "Bash(curl -s \"https://web.archive.org/cdx/search/cdx?url=mesaschool.co/*&matchType=domain&filter=mimetype:application/pdf&output=json&limit=50\")",
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: add shared track module \\(slug/apiValue/label/description\\) *)",
+      "Bash(npx vitest *)",
+      "Bash(npx tsc *)",
+      "Bash(Select-String -Pattern \"^\\(?!\\\\.next\\)\")",
+      "Bash(Select-Object -First 30)",
+      "Bash(git commit -m ' *)",
+      "PowerShell(cd \"C:\\\\Users\\\\DELL\\\\Desktop\\\\MSL website\"; npx tsc --noEmit 2>&1 | Where-Object { $_ -notmatch \"^\\\\.next/\" })"
     ]
   }
 }
