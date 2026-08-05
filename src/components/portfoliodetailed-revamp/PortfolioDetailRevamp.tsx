@@ -9,6 +9,7 @@ import { BriefAndEdge } from './BriefAndEdge';
 import { WhyNowSection } from './WhyNowSection';
 import { PitchAndBuilders } from './PitchAndBuilders';
 import { FieldNotes } from './FieldNotes';
+import { InterestDialog } from './InterestDialog';
 
 export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
   const brand = data.brand;
@@ -73,6 +74,12 @@ export const PortfolioDetailRevamp = ({ data }: { data: StartupData }) => {
           brand={brand}
         />
       </div>
+
+      <InterestDialog
+        startupName={data.startup_name}
+        startupSlug={data.slug}
+        brand={brand}
+      />
     </div>
   );
 };
