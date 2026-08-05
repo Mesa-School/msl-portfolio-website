@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Check, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 import {
   Dialog,
@@ -17,6 +17,7 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { interestFormSchema, type InterestFormValues } from '@/lib/interestForm';
 import { poppins } from './fonts';
+import { SuccessTick } from './SuccessTick';
 import type { Brand } from './types';
 
 const FIELD_CLASS =
@@ -155,27 +156,33 @@ export const InterestDialog = ({
       >
         {submitted ? (
           <div className="flex flex-col items-center gap-4 py-6 text-center">
-            <div
-              className="flex h-14 w-14 items-center justify-center rounded-full"
-              style={{ background: `${brand.primary}22`, color: brand.primary }}
+            <SuccessTick color={brand.primary} />
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Check className="h-7 w-7" />
-            </div>
-            <div>
               <DialogTitle className="text-xl font-semibold">
                 Thanks, we&rsquo;ve got it
               </DialogTitle>
               <DialogDescription className="mt-1.5 text-sm text-white/50">
                 The {startupName} team will reach out to you shortly.
               </DialogDescription>
-            </div>
-            <button
+            </motion.div>
+
+            <motion.button
               type="button"
               onClick={() => handleOpenChange(false)}
-              className="mt-1 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#05070f] transition-transform hover:scale-[1.03]"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.68, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="mt-1 rounded-full bg-white px-6 py-2 text-sm font-semibold text-[#05070f]"
             >
               Done
-            </button>
+            </motion.button>
           </div>
         ) : (
           <>
