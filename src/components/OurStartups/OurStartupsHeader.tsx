@@ -38,7 +38,22 @@ const TRACK_TABS: TrackTab[] = [
   })),
 ];
 
-export const OurStartupsHeader = () => {
+type OurStartupsHeaderProps = {
+  /** Route the track tabs and the clear-filters button navigate to. */
+  basePath?: string;
+  eyebrow?: string;
+  titleLead?: string;
+  titleAccent?: string;
+  subtitle?: string;
+};
+
+export const OurStartupsHeader = ({
+  basePath = '/portfolio',
+  eyebrow = 'Startup Portfolio',
+  titleLead = 'Mesa Startup',
+  titleAccent = 'Lab',
+  subtitle = 'Where India’s best founders build conviction.',
+}: OurStartupsHeaderProps = {}) => {
   const {
     searchTerm,
     setSearchTerm,
@@ -55,7 +70,7 @@ export const OurStartupsHeader = () => {
       : (TRACK_TABS.find((t) => t.value === selectedTracks[0])?.id ?? 'all');
 
   const handleTabClick = (tab: TrackTab) => {
-    router.push(tab.slug ? `/portfolio?track=${tab.slug}` : '/portfolio', {
+    router.push(tab.slug ? `${basePath}?track=${tab.slug}` : basePath, {
       scroll: false,
     });
   };
@@ -133,7 +148,6 @@ export const OurStartupsHeader = () => {
       viewport={{ once: true, amount: 0.4 }}
       variants={containerVariants}
     >
- 
       <div className="relative w-full max-w-4xl flex flex-col items-center text-center gap-8">
         <motion.div
           className="flex items-center gap-4"
@@ -142,7 +156,7 @@ export const OurStartupsHeader = () => {
         >
           <span className="h-px w-8 bg-linear-to-r from-transparent to-white/35" />
           <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.34em] uppercase text-white/60">
-            Startup Portfolio
+            {eyebrow}
           </span>
           <span className="h-px w-8 bg-linear-to-l from-transparent to-white/35" />
         </motion.div>
@@ -165,7 +179,7 @@ export const OurStartupsHeader = () => {
                   'linear-gradient(180deg, #ffffff 0%, #e8efe9 100%)',
               }}
             >
-              Mesa Startup
+              {titleLead}
             </span>{' '}
             <span
               className="font-body font-bold bg-clip-text tracking-[-0.01em]"
@@ -174,7 +188,7 @@ export const OurStartupsHeader = () => {
               //     'linear-gradient(180deg, #cfe1d5 0%, #6c9784 60%, #4d7a64 100%)',
               // }}
             >
-              Lab
+              {titleAccent}
             </span>
           </motion.h1>
           <motion.p
@@ -182,7 +196,7 @@ export const OurStartupsHeader = () => {
             variants={staggeredFadeVariants}
             custom={0.8}
           >
-            Where India&rsquo;s best founders build conviction.
+            {subtitle}
           </motion.p>
         </motion.div>
 
@@ -208,7 +222,7 @@ export const OurStartupsHeader = () => {
                 <button
                   onClick={() => {
                     clearFilters();
-                    router.push('/portfolio', { scroll: false });
+                    router.push(basePath, { scroll: false });
                   }}
                   className="relative rounded-full p-1 hover:bg-white/10 transition"
                   aria-label="Clear filters"

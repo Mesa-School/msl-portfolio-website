@@ -1,7 +1,7 @@
 'use server';
 
 import { API_URL } from '@/config/apiUrl';
-import { toProxyUrl } from '@/lib/imageProxy';
+import { toStartup, type V2ListPayload } from '@/lib/startupListItem';
 import type { Startup } from '@/components/OurStartups/StartupOverviewCard';
 
 export type PaginationData = {
@@ -22,29 +22,6 @@ const DEFAULT_PAGINATION: PaginationData = {
   page: 1,
   limit: 10,
   total_pages: 1,
-};
-
-type V2ListItem = {
-  id: string;
-  slug: string;
-  startup_name: string;
-  tagline: string;
-  two_liner: string;
-  location: string;
-  cohort: string;
-  sector_name: string | null;
-  service_track?: string | null;
-  company_logo: string | null;
-  founders: string[];
-  published: boolean;
-  published_at: string | null;
-  brand?: { primary?: string | null } | null;
-};
-
-type V2ListPayload = {
-  success: boolean;
-  data: V2ListItem[];
-  pagination: PaginationData;
 };
 
 export async function fetchStartupsAction(
@@ -95,24 +72,7 @@ export async function fetchStartupsAction(
       };
     }
 
-    const startups: Startup[] = payload.data.map((item) => ({
-      id: item.id,
-      documentId: item.id,
-      slug: item.slug ?? null,
-      name: item.startup_name ?? 'Untitled Startup',
-      summary: item.two_liner ?? item.tagline ?? '',
-      location: item.location ?? null,
-      cohort: item.cohort ?? null,
-      sectorName: item.sector_name ?? null,
-      serviceTrack: item.service_track ?? null,
-      logoUrl: (toProxyUrl(item.company_logo) ?? item.company_logo) as string | null,
-      brandPrimary: item.brand?.primary ?? null,
-      founders: (item.founders ?? []).map((name, index) => ({
-        id: index,
-        name,
-        designation: null,
-      })),
-    }));
+    const startups: Startup[] = payload.data.map(toStartup);
 
     return {
       startups,

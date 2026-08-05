@@ -24,14 +24,14 @@ export default function DemoDayPage() {
     useEffect(() => {
         const vcCookie = Cookies.get("demo_day_vc");
         if (!vcCookie) {
-            router.replace("/demo-day/on-boarding");
+            router.replace("/demo-day/vc/on-boarding");
             return;
         }
         try {
             setVc(JSON.parse(vcCookie));
         } catch {
             Cookies.remove("demo_day_vc");
-            router.replace("/demo-day/on-boarding");
+            router.replace("/demo-day/vc/on-boarding");
         }
     }, [router]);
 
@@ -162,7 +162,7 @@ export default function DemoDayPage() {
                         transition={{ duration: 0.7, delay: 0.7 }}
                     >
                         <button
-                            onClick={() => { setNavigating(true); router.push("/demo-day/live"); }}
+                            onClick={() => { setNavigating(true); router.push("/demo-day/vc/live"); }}
                             disabled={navigating}
                             className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/10 disabled:opacity-70 disabled:hover:scale-100"
                         >
@@ -189,7 +189,7 @@ export default function DemoDayPage() {
                         <button
                             onClick={() => {
                                 Cookies.remove("demo_day_vc");
-                                router.replace("/demo-day/on-boarding");
+                                router.replace("/demo-day/vc/on-boarding");
                             }}
                             className="text-sm text-white/25 transition-colors hover:text-white/60"
                         >

@@ -99,7 +99,7 @@ export default function DemoDayOnboardingPage() {
       );
     }
 
-    router.push("/demo-day");
+    router.push("/demo-day/vc");
   };
 
   return (

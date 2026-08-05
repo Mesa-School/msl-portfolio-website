@@ -84,7 +84,7 @@ export default function DemoDayLivePage() {
   useEffect(() => {
     const vcCookie = Cookies.get("demo_day_vc");
     if (!vcCookie) {
-      router.replace("/demo-day/on-boarding");
+      router.replace("/demo-day/vc/on-boarding");
       return;
     }
     try {
@@ -92,7 +92,7 @@ export default function DemoDayLivePage() {
       setVc(parsed);
     } catch {
       Cookies.remove("demo_day_vc");
-      router.replace("/demo-day/on-boarding");
+      router.replace("/demo-day/vc/on-boarding");
     }
   }, [router]);
 
@@ -257,7 +257,7 @@ export default function DemoDayLivePage() {
         <button
           onClick={() => {
             Cookies.remove("demo_day_vc");
-            router.replace("/demo-day/on-boarding");
+            router.replace("/demo-day/vc/on-boarding");
           }}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/40 backdrop-blur-md text-white/40 transition-colors hover:text-white/70 hover:bg-black/60"
         >

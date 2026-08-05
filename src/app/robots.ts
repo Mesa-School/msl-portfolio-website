@@ -8,7 +8,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/demo-day/', '/test', '/maintenance'],
+        // Only the cookie-gated investor portal is blocked. /demo-day itself is
+        // the public Demo Day startup list and must stay crawlable.
+        disallow: ['/api/', '/demo-day/vc/', '/test', '/maintenance'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ViewToggle, viewForPathname } from './ViewToggle';
 
 const NavbarMainSection = () => {
 
@@ -22,6 +23,7 @@ const NavbarMainSection = () => {
 
     const isDetailPage = /^\/(portfolio|ignite)\/[^/]+$/.test(pathname ?? '');
     const backLabel = isIgniteRoute ? 'Back to Ignite' : 'Back to startups';
+    const activeView = viewForPathname(pathname);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -102,6 +104,8 @@ const NavbarMainSection = () => {
                             />
                         </Link>
                     </div>
+
+                    {activeView && <ViewToggle active={activeView} />}
 
 
                     {/* Nav Links - Center */}

@@ -1,9 +1,10 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
 
-import { API_URL } from '@/config/apiUrl';
-import { TRACKS } from '@/lib/track';
+import { API_URL } from "@/config/apiUrl";
+import { TRACKS } from "@/lib/track";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://msl.mesaschool.co.in';
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://msl.mesaschool.co.in";
 
 const BUILD_DATE = new Date();
 
@@ -21,14 +22,17 @@ const fetchAllPortfolioSlugs = async (): Promise<SlugItem[]> => {
     do {
       const res = await fetch(
         `${API_URL}/api/v2/startups/?page=${page}&limit=50&published=true`,
-        { cache: 'no-store', headers },
+        { cache: "no-store", headers },
       );
       if (!res.ok) break;
       const payload = await res.json();
       if (!payload?.success || !Array.isArray(payload.data)) break;
-      payload.data.forEach((item: { slug?: string | null; updated_at?: string }) => {
-        if (item.slug) collected.push({ slug: item.slug, updated_at: item.updated_at });
-      });
+      payload.data.forEach(
+        (item: { slug?: string | null; updated_at?: string }) => {
+          if (item.slug)
+            collected.push({ slug: item.slug, updated_at: item.updated_at });
+        },
+      );
       totalPages = payload.pagination?.total_pages ?? 1;
       page += 1;
     } while (page <= totalPages);
@@ -48,26 +52,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${SITE_URL}/portfolio`,
       lastModified: BUILD_DATE,
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1.0,
     },
     ...TRACKS.map((t) => ({
       url: `${SITE_URL}/portfolio?track=${t.slug}`,
       lastModified: BUILD_DATE,
-      changeFrequency: 'daily' as const,
+      changeFrequency: "daily" as const,
       priority: 0.8,
     })),
+    {
+      url: `${SITE_URL}/demo-day`,
+      lastModified: BUILD_DATE,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
   ];
 
   const portfolioSlugs = await fetchAllPortfolioSlugs();
 
-  const portfolioEntries: MetadataRoute.Sitemap = portfolioSlugs.map((item) => ({
-    url: `${SITE_URL}/portfolio/${item.slug}`,
-    lastModified: item.updated_at ? new Date(item.updated_at) : now,
-    changeFrequency: 'weekly',
-    priority: 0.7,
-  }));
+  const portfolioEntries: MetadataRoute.Sitemap = portfolioSlugs.map(
+    (item) => ({
+      url: `${SITE_URL}/portfolio/${item.slug}`,
+      lastModified: item.updated_at ? new Date(item.updated_at) : now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }),
+  );
 
   return [...staticEntries, ...portfolioEntries];
 }
-

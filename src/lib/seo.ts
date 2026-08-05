@@ -28,3 +28,31 @@ export const OG_IMAGE: NonNullable<
 
 /** Shared Twitter image descriptor. */
 export const TWITTER_IMAGE = [{ url: OG_IMAGE_URL, alt: `${SITE_NAME} logo` }];
+
+/** Title + description + canonical, with the shared OG/Twitter block applied. */
+export function buildPageMetadata(
+  title: string,
+  description: string,
+  canonical: string,
+): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: "website",
+      siteName: SITE_NAME,
+      locale: "en_IN",
+      images: OG_IMAGE,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: TWITTER_IMAGE,
+    },
+  };
+}

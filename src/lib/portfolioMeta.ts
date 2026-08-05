@@ -1,33 +1,10 @@
 import type { Metadata } from 'next';
 
 import { trackBySlug } from '@/lib/track';
-import { SITE_NAME, OG_IMAGE, TWITTER_IMAGE } from '@/lib/seo';
+import { buildPageMetadata as base } from '@/lib/seo';
 
 export const PORTFOLIO_DESCRIPTION =
   'Explore the Mesa Startup Lab portfolio — student- and early-stage founders building across AI, D2C, and services.';
-
-function base(title: string, description: string, canonical: string): Metadata {
-  return {
-    title,
-    description,
-    alternates: { canonical },
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      type: 'website',
-      siteName: SITE_NAME,
-      locale: 'en_IN',
-      images: OG_IMAGE,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: TWITTER_IMAGE,
-    },
-  };
-}
 
 /**
  * Pure metadata builder for the portfolio route.
