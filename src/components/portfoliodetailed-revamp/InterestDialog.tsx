@@ -16,13 +16,15 @@ import {
 } from '@/components/ui/dialog';
 import { Spinner } from '@/components/ui/spinner';
 import { interestFormSchema, type InterestFormValues } from '@/lib/interestForm';
+import { poppins } from './fonts';
 import type { Brand } from './types';
 
 const FIELD_CLASS =
   'w-full rounded-xl border border-white/12 bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition focus:border-white/30 focus:bg-white/[0.07]';
 
+// No font-* class here — the labels inherit Poppins from DialogContent.
 const LABEL_CLASS =
-  'font-mono text-[10px] tracking-[0.18em] uppercase text-white/45';
+  'text-[10px] font-medium tracking-[0.18em] uppercase text-white/45';
 
 type InterestDialogProps = {
   startupName: string;
@@ -148,7 +150,9 @@ export const InterestDialog = ({
         </motion.button>
       </DialogTrigger>
 
-      <DialogContent className="border-white/10 bg-msl-card text-white sm:max-w-md">
+      <DialogContent
+        className={`${poppins.className} border-white/10 bg-msl-card text-white sm:max-w-md`}
+      >
         {submitted ? (
           <div className="flex flex-col items-center gap-4 py-6 text-center">
             <div
@@ -158,7 +162,7 @@ export const InterestDialog = ({
               <Check className="h-7 w-7" />
             </div>
             <div>
-              <DialogTitle className="font-display text-xl font-medium">
+              <DialogTitle className="text-xl font-semibold">
                 Thanks, we&rsquo;ve got it
               </DialogTitle>
               <DialogDescription className="mt-1.5 text-sm text-white/50">
@@ -176,7 +180,7 @@ export const InterestDialog = ({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="font-display text-xl font-medium">
+              <DialogTitle className="text-xl font-semibold">
                 Interested in {startupName}?
               </DialogTitle>
               <DialogDescription className="text-sm text-white/50">

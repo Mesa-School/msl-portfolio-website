@@ -1,4 +1,4 @@
-import { Fraunces, Manrope, IBM_Plex_Mono } from 'next/font/google';
+import { Fraunces, Manrope, IBM_Plex_Mono, Poppins } from 'next/font/google';
 
 export const fraunces = Fraunces({
   subsets: ['latin'],
@@ -18,6 +18,17 @@ export const mono = IBM_Plex_Mono({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-mono',
+  display: 'swap',
+});
+
+/**
+ * Used only by the interest dialog. That dialog is portalled to document.body,
+ * so it sits outside `fontVariables` and has to carry its own font class.
+ */
+export const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
   display: 'swap',
 });
 
