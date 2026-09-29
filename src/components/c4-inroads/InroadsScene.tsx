@@ -58,7 +58,12 @@ const cardFragment = /* glsl */ `
     float d = sdRoundBox(p, vec2(0.4, 0.5), 0.06);
     float inside = 1.0 - smoothstep(-0.0015, 0.0015, d);
 
-    vec3 col = texture2D(uTex, vUv).rgb;
+    // Founders are background-removed cutouts: sit them on a deep-green panel
+    // that lifts toward mint at the bottom, like stage light from below.
+    vec4 tex = texture2D(uTex, vUv);
+    vec3 panel = mix(vec3(0.016, 0.1, 0.075), vec3(0.06, 0.42, 0.3), smoothstep(0.95, 0.0, vUv.y));
+    panel += uMint * 0.18 * smoothstep(0.55, 0.0, length((vUv - vec2(0.5, 0.62)) * vec2(1.0, 0.8)));
+    vec3 col = mix(panel, tex.rgb, tex.a);
 
     // Inner mint keyline, same weight relationship as the logo frame.
     float line = smoothstep(0.004, 0.0, abs(d + 0.012));

@@ -20,27 +20,27 @@ export const C4_INROADS: InroadsStartup[] = [
     sector: "Consumer",
     description:
       "A consumer startup building ₹5 caffeine sachets for quick, convenient energy and alertness — without tobacco or nicotine.",
-    founders: [{ name: "Ishaan Panchal", role: "Founder", photo: "/c4_inroads/ishaan-panchal.webp" }],
+    founders: [{ name: "Ishaan Panchal", role: "Founder", photo: "/c4_inroads/cutout/ishaan-panchal.webp" }],
   },
   {
     startup: "Skillhance",
     sector: "EdTech",
     description: "A trusted, learner-first platform for discovering, comparing and choosing education programs.",
-    founders: [{ name: "Honey Gupta", role: "Founder", photo: "/c4_inroads/honey-gupta.webp" }],
+    founders: [{ name: "Honey Gupta", role: "Founder", photo: "/c4_inroads/cutout/honey-gupta.webp" }],
   },
   {
     startup: "Alfred Scholar",
     sector: "Research Tech",
     description:
       "Streamlines the researcher's workflow into one place — gather research, then write your own papers confidently and securely.",
-    founders: [{ name: "Bhushan", role: "Founder", photo: "/c4_inroads/bhushan.webp" }],
+    founders: [{ name: "Bhushan", role: "Founder", photo: "/c4_inroads/cutout/bhushan.webp" }],
   },
   {
     startup: "Praroh",
     sector: "AgriTech",
     description:
       "Growing organic, pesticide-free produce year-round in controlled greenhouses, using 60–70% less water than conventional farming.",
-    founders: [{ name: "Dhruv Chandan", role: "Founder", photo: "/c4_inroads/dhruv-chandan.webp" }],
+    founders: [{ name: "Dhruv Chandan", role: "Founder", photo: "/c4_inroads/cutout/dhruv-chandan.webp" }],
   },
   {
     startup: "Athanni",
@@ -48,27 +48,27 @@ export const C4_INROADS: InroadsStartup[] = [
     sector: "FinTech",
     description:
       "The one-stop solution for freelancers to secure their payments and run the back office of their personal brand.",
-    founders: [{ name: "Vedant Yadav", role: "Founder", photo: "/c4_inroads/vedant-yadav.webp" }],
+    founders: [{ name: "Vedant Yadav", role: "Founder", photo: "/c4_inroads/cutout/vedant-yadav.webp" }],
   },
   {
     startup: "SudoSquad Club",
     sector: "Gaming",
     description: "Takes the Sudoku people already know and makes it something they can play with others.",
-    founders: [{ name: "Ashish Bajaj", role: "Founder", photo: "/c4_inroads/ashish-bajaj.webp" }],
+    founders: [{ name: "Ashish Bajaj", role: "Founder", photo: "/c4_inroads/cutout/ashish-bajaj.webp" }],
   },
   {
     startup: "Sauce It Up",
     sector: "Food & Beverage",
     description:
       "Protein-rich sauces and dips for consumers who want great taste without compromising on nutrition.",
-    founders: [{ name: "Adit Shah", role: "Founder", photo: "/c4_inroads/adit-shah.webp" }],
+    founders: [{ name: "Adit Shah", role: "Founder", photo: "/c4_inroads/cutout/adit-shah.webp" }],
   },
   {
     startup: "Beta",
     startupFull: "Beta by Digimuse",
     sector: "Creator Economy",
     description: "The platform brands use to price and evaluate creators with data instead of guesswork.",
-    founders: [{ name: "Srishiv Patro", role: "Founder", photo: "/c4_inroads/srishiv-patro.webp" }],
+    founders: [{ name: "Srishiv Patro", role: "Founder", photo: "/c4_inroads/cutout/srishiv-patro.webp" }],
   },
   {
     startup: "House of Indian Spirits",
@@ -76,8 +76,8 @@ export const C4_INROADS: InroadsStartup[] = [
     description:
       "Building the brand infrastructure to take India's indigenous spirits from fragmented local products to standardized consumer brands.",
     founders: [
-      { name: "Karan Menon", role: "Co-founder", photo: "/c4_inroads/karan-menon.webp" },
-      { name: "Aryan Wadhwa", role: "Co-founder", photo: "/c4_inroads/aryan-wadhwa.webp" },
+      { name: "Karan Menon", role: "Co-founder", photo: "/c4_inroads/cutout/karan-menon.webp" },
+      { name: "Aryan Wadhwa", role: "Co-founder", photo: "/c4_inroads/cutout/aryan-wadhwa.webp" },
     ],
   },
 ];

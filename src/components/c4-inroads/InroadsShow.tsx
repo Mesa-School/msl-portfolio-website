@@ -157,7 +157,7 @@ export default function InroadsShow() {
                 className="group relative shrink-0 rounded-[9px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C891]"
               >
                 <span
-                  className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] transition-colors duration-300 sm:h-14 ${
+                  className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] bg-linear-to-b from-[#041A13] to-[#0F6B4C] transition-colors duration-300 sm:h-14 ${
                     s.founders.length > 1 ? "w-14 sm:w-[72px]" : "w-9 sm:w-11"
                   } ${on ? "border-[#22C891]" : "border-white/10 group-hover:border-white/40"}`}
                 >
@@ -344,7 +344,7 @@ function Finale({ onPick }: { onPick: (i: number) => void }) {
               onClick={() => onPick(C4_INROADS.findIndex((s) => s.startup === f.startup))}
               className="group w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22C891]"
             >
-              <span className="relative block aspect-[4/5] overflow-hidden rounded-[10px] border-[1.5px] border-[#22C891]/40 transition-colors group-hover:border-[#22C891]">
+              <span className="relative block aspect-4/5 overflow-hidden rounded-[10px] border-[1.5px] border-[#22C891]/40 bg-linear-to-b from-[#041A13] to-[#0F6B4C] transition-colors group-hover:border-[#22C891]">
                 <Image src={f.photo} alt="" fill sizes="(min-width: 640px) 170px, 20vw" className="object-cover" />
               </span>
               <span className="mt-2 block truncate text-[10px] font-semibold sm:text-sm">{f.name}</span>
