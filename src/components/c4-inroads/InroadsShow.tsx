@@ -1,19 +1,18 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion } from "framer-motion";
+import { animate, createScope, splitText, stagger, utils } from "animejs";
 import { ChevronLeft, ChevronRight, Maximize2, Pause, Play } from "lucide-react";
 import { C4_FOUNDERS, C4_INROADS, type InroadsStartup } from "@/data/c4Inroads";
+import LightRays from "@/components/animated/LightRays";
 
 const InroadsScene = dynamic(() => import("./InroadsScene"), { ssr: false });
 
 const INTRO_MS = 5500;
 const SLIDE_MS = 8000;
 const FINALE_MS = 10000;
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 type Phase = "intro" | "show" | "finale";
 
@@ -27,9 +26,9 @@ const NUMBER_WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Sev
  */
 function nameSize(name: string): CSSProperties {
   const longest = Math.max(...name.split(" ").map((w) => w.length));
-  const desktop = Math.min(17, 150 / name.length);
-  const mobile = Math.min(name.includes(" ") ? 12 : 16, 96 / longest);
-  return { "--fs-d": `min(${desktop.toFixed(2)}vw, 25vh)`, "--fs-m": `${mobile.toFixed(2)}vw` } as CSSProperties;
+  const desktop = Math.min(13.5, 122 / name.length);
+  const mobile = Math.min(name.includes(" ") ? 10.5 : 14, 84 / longest);
+  return { "--fs-d": `min(${desktop.toFixed(2)}vw, 20vh)`, "--fs-m": `${mobile.toFixed(2)}vw` } as CSSProperties;
 }
 
 /** "Karan Menon and Aryan Wadhwa" / "Ishaan Panchal" */
@@ -91,30 +90,33 @@ export default function InroadsShow() {
   const current = C4_INROADS[index];
 
   return (
-    <div className="relative h-dvh w-full overflow-hidden bg-[#03110C] text-white select-none">
+    <div className="relative h-dvh w-full overflow-hidden bg-[#030504] text-white select-none">
       {/* Floor glow: the only gradient on the page, pooled under the stage */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_62%,rgba(34,200,145,0.16),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_62%,rgba(34,200,145,0.07),transparent_70%)]"
       />
+
+      {/* Mint light pouring down onto the stage; leans toward the cursor */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#22C891"
+          raysSpeed={1.2}
+          lightSpread={0.9}
+          rayLength={1.4}
+          fadeDistance={1.1}
+          followMouse
+          mouseInfluence={0.12}
+          noiseAmount={0.08}
+          distortion={0.05}
+        />
+      </div>
 
       <InroadsScene slides={slides} index={index} showCards={phase === "show"} />
 
-      {/* Giant startup name above the stage on desktop, drawn over the tunnel so it stays clean */}
-      <AnimatePresence mode="wait">
-        {phase === "show" && (
-          <motion.h1
-            key={current.startup}
-            style={nameSize(current.startup)}
-            className="pointer-events-none absolute inset-x-0 top-[9vh] z-6 hidden px-[3vw] text-center text-(length:--fs-d) leading-[0.9] font-extrabold tracking-[-0.045em] whitespace-nowrap md:block"
-            initial="hidden"
-            animate="show"
-            exit="exit"
-          >
-            <SplitLetters text={current.startup} />
-          </motion.h1>
-        )}
-      </AnimatePresence>
+      {/* Giant startup name above the stage on desktop */}
+      {phase === "show" && <StartupName key={current.startup} name={current.startup} />}
 
       <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 px-5 pt-5 sm:px-10 sm:pt-8">
         <Image src="/msl-mesa-logo.png" alt="Mesa Startup Lab" width={405} height={148} priority className="h-10 w-auto sm:h-12" />
@@ -128,11 +130,9 @@ export default function InroadsShow() {
         </p>
       </header>
 
-      <AnimatePresence mode="wait">
-        {phase === "intro" && <Intro key="intro" />}
-        {phase === "finale" && <Finale key="finale" onPick={goTo} />}
-        {phase === "show" && <StartupDetails key={index} index={index} />}
-      </AnimatePresence>
+      {phase === "intro" && <Intro key="intro" />}
+      {phase === "finale" && <Finale key="finale" onPick={goTo} />}
+      {phase === "show" && <StartupDetails key={index} index={index} />}
 
       <p className="sr-only" aria-live="polite">
         {phase === "show" && `${index + 1} of ${COUNT}: ${current.startup}, by ${founderNames(current)}`}
@@ -157,7 +157,7 @@ export default function InroadsShow() {
                 className="group relative shrink-0 rounded-[9px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C891]"
               >
                 <span
-                  className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] bg-linear-to-b from-[#041A13] to-[#0F6B4C] transition-colors duration-300 sm:h-14 ${
+                  className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] bg-linear-to-b from-[#060908] to-[#0B3D2C] transition-colors duration-300 sm:h-14 ${
                     s.founders.length > 1 ? "w-14 sm:w-[72px]" : "w-9 sm:w-11"
                   } ${on ? "border-[#22C891]" : "border-white/10 group-hover:border-white/40"}`}
                 >
@@ -209,71 +209,95 @@ export default function InroadsShow() {
   );
 }
 
-/** Letters rise out of a mask on enter and leave upward on exit. */
-function SplitLetters({ text, delay = 0 }: { text: string; delay?: number }) {
-  // Each word is its own unbreakable mask, so long names wrap between words, never inside one.
-  let n = 0;
-  return (
-    <span aria-label={text}>
-      {text.split(" ").map((word, w) => (
-        <Fragment key={w}>
-          {w > 0 && " "}
-          <span aria-hidden className="inline-block overflow-hidden pb-[0.06em] align-bottom whitespace-nowrap">
-          {word.split("").map((ch) => {
-            const i = n++;
-            return (
-              <motion.span
-                key={i}
-                className="inline-block"
-                variants={{
-                  hidden: { y: "105%" },
-                  show: { y: "0%", transition: { delay: delay + i * 0.028, duration: 0.85, ease: EASE } },
-                  exit: { y: "-105%", transition: { delay: i * 0.012, duration: 0.4, ease: "easeIn" } },
-                }}
-              >
-                {ch}
-              </motion.span>
-            );
-          })}
-          </span>
-        </Fragment>
-      ))}
-    </span>
-  );
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/**
+ * Runs an anime.js choreography once when the component mounts, scoped to its root
+ * element, and reverts it (animations and any split text) on unmount. Layout effect,
+ * so hidden start states apply before first paint instead of flashing.
+ */
+function useAnime(build: (root: HTMLElement, keep: (s: { revert(): unknown }) => void) => void) {
+  const root = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = root.current;
+    if (!el || prefersReducedMotion()) return;
+    const splits: { revert(): unknown }[] = [];
+    const scope = createScope({ root: el }).add(() => build(el, (s) => splits.push(s)));
+    return () => {
+      scope.revert();
+      splits.forEach((s) => s.revert());
+    };
+    // Each animated block is keyed, so it remounts (and re-runs) per slide.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return root;
 }
 
-const fade = {
-  hidden: { opacity: 0, y: 14 },
-  show: (d: number) => ({ opacity: 1, y: 0, transition: { delay: d, duration: 0.7, ease: EASE } }),
-  exit: { opacity: 0, transition: { duration: 0.25 } },
-};
+/** Split into characters, hide them below a clip mask, then rise them in on a stagger. */
+function riseChars(target: HTMLElement, keep: (s: { revert(): unknown }) => void, start = 0) {
+  const split = splitText(target, { words: true, chars: { wrap: "clip" } });
+  keep(split);
+  utils.set(split.chars, { y: "110%" });
+  animate(split.chars, {
+    y: "0%",
+    rotate: { from: 7, to: 0 },
+    duration: 950,
+    ease: "outExpo",
+    delay: stagger(26, { start }),
+  });
+}
+
+/** Fade-and-lift every [data-reveal] element in order. */
+function revealItems(start: number, gap = 110) {
+  utils.set("[data-reveal]", { opacity: 0, y: 18 });
+  animate("[data-reveal]", { opacity: 1, y: 0, duration: 850, ease: "out(3)", delay: stagger(gap, { start }) });
+}
+
+function StartupName({ name }: { name: string }) {
+  const root = useAnime((el, keep) => {
+    const h = el.querySelector<HTMLElement>("h1");
+    if (h) riseChars(h, keep, 150);
+  });
+  return (
+    <div ref={root} className="pointer-events-none absolute inset-x-0 top-[9vh] z-6 hidden px-[3vw] md:block">
+      <h1
+        style={nameSize(name)}
+        className="text-center text-(length:--fs-d) leading-[0.95] font-extrabold tracking-[-0.045em] whitespace-nowrap"
+      >
+        {name}
+      </h1>
+    </div>
+  );
+}
 
 function StartupDetails({ index }: { index: number }) {
   const s = C4_INROADS[index];
   const pair = s.founders.length > 1;
+  const root = useAnime((el, keep) => {
+    const mobileName = el.querySelector<HTMLElement>("[data-name]");
+    if (mobileName && mobileName.offsetParent) riseChars(mobileName, keep, 150);
+    revealItems(450);
+  });
   return (
-    <motion.section initial="hidden" animate="show" exit="exit" className="pointer-events-none absolute inset-0 z-10">
+    <section ref={root} className="pointer-events-none absolute inset-0 z-10">
       {/* Mobile: name + details flow below the photos */}
       <div className="absolute inset-x-0 top-[56vh] px-5 md:hidden">
-        <h1 style={nameSize(s.startup)} className="text-(length:--fs-m) leading-[0.95] font-extrabold tracking-[-0.04em]">
-          <SplitLetters text={s.startup} />
+        <h1 data-name style={nameSize(s.startup)} className="text-(length:--fs-m) leading-[1.02] font-extrabold tracking-[-0.04em]">
+          {s.startup}
         </h1>
-        <motion.p variants={fade} custom={0.35} className="mt-3 text-[15px] leading-relaxed text-white/75">
+        <p data-reveal className="mt-3 text-[15px] leading-relaxed text-white/75">
           {s.description}
-        </motion.p>
-        <motion.p variants={fade} custom={0.5} className="mt-3 text-sm">
+        </p>
+        <p data-reveal className="mt-3 text-sm">
           <span className="font-semibold">{founderNames(s)}</span>
           <span className="text-[#7FA394]">, {founderRole(s).toLowerCase()}</span>
-        </motion.p>
+        </p>
       </div>
 
       {/* Desktop: founders bottom-left, description bottom-right, flanking the photos */}
-      <motion.div
-        variants={fade}
-        custom={0.45}
-        className={`absolute bottom-[13vh] left-10 hidden max-w-sm md:block lg:left-16 ${pair ? "w-[22vw]" : "w-[27vw]"}`}
-      >
-        <p className="text-[clamp(1.5rem,2.3vw,2.3rem)] leading-tight font-semibold tracking-[-0.02em]">
+      <div className={`absolute bottom-[13vh] left-10 hidden max-w-sm md:block lg:left-16 ${pair ? "w-[22vw]" : "w-[27vw]"}`}>
+        <p data-reveal className="text-[clamp(1.5rem,2.3vw,2.3rem)] leading-tight font-semibold tracking-[-0.02em]">
           {s.founders.map((f, i) => (
             <span key={f.name} className="block">
               {i > 0 && <span className="text-[#7FA394]">and </span>}
@@ -281,79 +305,95 @@ function StartupDetails({ index }: { index: number }) {
             </span>
           ))}
         </p>
-        <p className="mt-2 text-base text-[#7FA394]">
+        <p data-reveal className="mt-2 text-base text-[#7FA394]">
           {founderRole(s)}, {s.startupFull ?? s.startup}
         </p>
-        <p className="mt-5 inline-flex items-center rounded-full border border-[#22C891]/50 px-3.5 py-1 text-sm font-medium text-[#22C891]">
+        <p
+          data-reveal
+          className="mt-5 inline-flex items-center rounded-full border border-[#22C891]/50 px-3.5 py-1 text-sm font-medium text-[#22C891]"
+        >
           {s.sector}
         </p>
-      </motion.div>
-      <motion.p
-        variants={fade}
-        custom={0.6}
+      </div>
+      <p
+        data-reveal
         className={`absolute right-10 bottom-[13vh] hidden max-w-sm text-[clamp(1rem,1.25vw,1.2rem)] leading-relaxed font-light text-white/85 md:block lg:right-16 ${
           pair ? "w-[22vw]" : "w-[27vw]"
         }`}
       >
         {s.description}
-      </motion.p>
-    </motion.section>
+      </p>
+    </section>
   );
 }
 
 function Intro() {
+  const root = useAnime((el, keep) => {
+    const split = splitText(el.querySelector<HTMLElement>("h1")!, { words: true, chars: true });
+    keep(split);
+    // Letters flip up out of the floor, one after another.
+    utils.set(split.chars, { opacity: 0, y: "60%", rotateX: -90 });
+    animate(split.chars, {
+      opacity: 1,
+      y: "0%",
+      rotateX: 0,
+      duration: 1100,
+      ease: "outExpo",
+      delay: stagger(55, { start: 450 }),
+    });
+    revealItems(1500);
+  });
   return (
-    <motion.section
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      className="absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center"
-    >
-      <h1 className="flex flex-col items-center text-[clamp(3.5rem,13vw,13rem)] leading-[0.88] font-extrabold tracking-[-0.05em] md:flex-row md:gap-[0.22em]">
-        <SplitLetters text="Inroads" delay={0.5} />
-        <span className="text-[#22C891]">
-          <SplitLetters text="results" delay={0.75} />
-        </span>
+    <section ref={root} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center">
+      <h1 className="text-[clamp(3.5rem,13vw,13rem)] leading-[0.95] font-extrabold tracking-[-0.05em] perspective-midrange">
+        Inroads <span className="text-[#22C891]">results</span>
       </h1>
-      <motion.p variants={fade} custom={1.4} className="mt-8 max-w-md text-base leading-relaxed text-white/70 sm:text-xl">
+      <p data-reveal className="mt-8 max-w-md text-base leading-relaxed text-white/70 sm:text-xl">
         {NUMBER_WORDS[COUNT] ?? COUNT} startups from Mesa Startup Lab Cohort 4 are heading to Inroads.
-      </motion.p>
-    </motion.section>
+      </p>
+    </section>
   );
 }
 
 function Finale({ onPick }: { onPick: (i: number) => void }) {
+  const root = useAnime((el, keep) => {
+    riseChars(el.querySelector<HTMLElement>("h2")!, keep, 150);
+    revealItems(700);
+    // Founder tiles burst outward from the middle of the grid.
+    utils.set("[data-tile]", { opacity: 0, scale: 0.6, y: 30 });
+    animate("[data-tile]", {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      duration: 1000,
+      ease: "outBack(1.4)",
+      delay: stagger(80, { grid: [5, 2], from: "center", start: 900 }),
+    });
+  });
   return (
-    <motion.section
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-20 pb-24 text-center"
-    >
-      <h2 className="text-[clamp(2.4rem,7vw,6.5rem)] leading-none font-extrabold tracking-[-0.045em]">
-        <SplitLetters text="Welcome to Inroads" delay={0.2} />
-      </h2>
-      <motion.p variants={fade} custom={0.7} className="mt-4 text-sm text-[#7FA394] sm:text-lg">
+    <section ref={root} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-20 pb-24 text-center">
+      <h2 className="text-[clamp(2.4rem,7vw,6.5rem)] leading-[1.05] font-extrabold tracking-[-0.045em]">Welcome to Inroads</h2>
+      <p data-reveal className="mt-4 text-sm text-[#7FA394] sm:text-lg">
         Congratulations to every founder on the list.
-      </motion.p>
+      </p>
       <ul className="mt-8 grid w-full max-w-4xl grid-cols-5 gap-2 sm:mt-10 sm:gap-4">
-        {C4_FOUNDERS.map((f, i) => (
-          <motion.li key={f.name} variants={fade} custom={0.8 + i * 0.07}>
+        {C4_FOUNDERS.map((f) => (
+          <li key={f.name} data-tile>
             <button
               type="button"
               onClick={() => onPick(C4_INROADS.findIndex((s) => s.startup === f.startup))}
               className="group w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22C891]"
             >
-              <span className="relative block aspect-4/5 overflow-hidden rounded-[10px] border-[1.5px] border-[#22C891]/40 bg-linear-to-b from-[#041A13] to-[#0F6B4C] transition-colors group-hover:border-[#22C891]">
+              <span className="relative block aspect-4/5 overflow-hidden rounded-[10px] border-[1.5px] border-[#22C891]/40 bg-linear-to-b from-[#060908] to-[#0B3D2C] transition-colors group-hover:border-[#22C891]">
                 <Image src={f.photo} alt="" fill sizes="(min-width: 640px) 170px, 20vw" className="object-cover" />
               </span>
               <span className="mt-2 block truncate text-[10px] font-semibold sm:text-sm">{f.name}</span>
               <span className="block truncate text-[9px] text-[#7FA394] sm:text-xs">{f.startup}</span>
             </button>
-          </motion.li>
+          </li>
         ))}
       </ul>
-    </motion.section>
+    </section>
   );
 }
 
