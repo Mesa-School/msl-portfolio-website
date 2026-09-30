@@ -64,8 +64,7 @@ export const C4_INROADS: InroadsStartup[] = [
     founders: [{ name: "Adit Shah", role: "Founder", photo: "/c4_inroads/cutout/adit-shah.webp" }],
   },
   {
-    startup: "Beta",
-    startupFull: "Beta by Digimuse",
+    startup: "Beta by Digimuse",
     sector: "Creator Economy",
     description: "The platform brands use to price and evaluate creators with data instead of guesswork.",
     founders: [{ name: "Srishiv Patro", role: "Founder", photo: "/c4_inroads/cutout/srishiv-patro.webp" }],

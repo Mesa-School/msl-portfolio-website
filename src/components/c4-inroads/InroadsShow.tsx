@@ -90,11 +90,11 @@ export default function InroadsShow() {
   const current = C4_INROADS[index];
 
   return (
-    <div className="relative h-dvh w-full overflow-hidden bg-[#030504] text-white select-none">
+    <div className="relative h-dvh w-full overflow-hidden bg-[#051510] text-white select-none">
       {/* Floor glow: the only gradient on the page, pooled under the stage */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_62%,rgba(34,200,145,0.07),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_62%,rgba(34,200,145,0.2),transparent_70%)]"
       />
 
       {/* Mint light pouring down onto the stage; leans toward the cursor */}
@@ -103,8 +103,8 @@ export default function InroadsShow() {
           raysOrigin="top-center"
           raysColor="#22C891"
           raysSpeed={1.2}
-          lightSpread={0.9}
-          rayLength={1.4}
+          lightSpread={1.1}
+          rayLength={1.8}
           fadeDistance={1.1}
           followMouse
           mouseInfluence={0.12}
@@ -120,8 +120,8 @@ export default function InroadsShow() {
 
       <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 px-5 pt-5 sm:px-10 sm:pt-8">
         <Image src="/msl-mesa-logo.png" alt="Mesa Startup Lab" width={405} height={148} priority className="h-10 w-auto sm:h-12" />
-        <p className="text-right text-xs leading-snug text-[#7FA394] sm:text-sm">
-          Inroads results, Cohort 4
+        <p className="text-right text-xs leading-snug text-[#A8DCC6] sm:text-sm">
+          MSL C4 Inroads, September
           {phase === "show" && (
             <span className="block font-semibold text-[#22C891] tabular-nums">
               {index + 1} of {COUNT}
@@ -159,7 +159,7 @@ export default function InroadsShow() {
                 <span
                   className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] bg-linear-to-b from-[#060908] to-[#0B3D2C] transition-colors duration-300 sm:h-14 ${
                     s.founders.length > 1 ? "w-14 sm:w-[72px]" : "w-9 sm:w-11"
-                  } ${on ? "border-[#22C891]" : "border-white/10 group-hover:border-white/40"}`}
+                  } ${on ? "border-[#22C891]" : "border-[#22C891]/30 group-hover:border-[#22C891]/70"}`}
                 >
                   {s.founders.map((f) => (
                     <span key={f.name} className="relative h-full flex-1">
@@ -168,7 +168,7 @@ export default function InroadsShow() {
                         alt=""
                         fill
                         sizes="44px"
-                        className={`object-cover transition-opacity duration-300 ${on ? "opacity-100" : "opacity-40 group-hover:opacity-80"}`}
+                        className={`object-cover transition-opacity duration-300 ${on ? "opacity-100" : "opacity-75 group-hover:opacity-100"}`}
                       />
                     </span>
                   ))}
@@ -286,12 +286,12 @@ function StartupDetails({ index }: { index: number }) {
         <h1 data-name style={nameSize(s.startup)} className="text-(length:--fs-m) leading-[1.02] font-extrabold tracking-[-0.04em]">
           {s.startup}
         </h1>
-        <p data-reveal className="mt-3 text-[15px] leading-relaxed text-white/75">
+        <p data-reveal className="mt-3 text-[15px] leading-relaxed text-white/90">
           {s.description}
         </p>
         <p data-reveal className="mt-3 text-sm">
           <span className="font-semibold">{founderNames(s)}</span>
-          <span className="text-[#7FA394]">, {founderRole(s).toLowerCase()}</span>
+          <span className="text-[#A8DCC6]">, {founderRole(s).toLowerCase()}</span>
         </p>
       </div>
 
@@ -300,12 +300,12 @@ function StartupDetails({ index }: { index: number }) {
         <p data-reveal className="text-[clamp(1.5rem,2.3vw,2.3rem)] leading-tight font-semibold tracking-[-0.02em]">
           {s.founders.map((f, i) => (
             <span key={f.name} className="block">
-              {i > 0 && <span className="text-[#7FA394]">and </span>}
+              {i > 0 && <span className="text-[#A8DCC6]">and </span>}
               {f.name}
             </span>
           ))}
         </p>
-        <p data-reveal className="mt-2 text-base text-[#7FA394]">
+        <p data-reveal className="mt-2 text-base text-[#A8DCC6]">
           {founderRole(s)}, {s.startupFull ?? s.startup}
         </p>
         <p
@@ -317,7 +317,7 @@ function StartupDetails({ index }: { index: number }) {
       </div>
       <p
         data-reveal
-        className={`absolute right-10 bottom-[13vh] hidden max-w-sm text-[clamp(1rem,1.25vw,1.2rem)] leading-relaxed font-light text-white/85 md:block lg:right-16 ${
+        className={`absolute right-10 bottom-[13vh] hidden max-w-sm text-[clamp(1rem,1.25vw,1.2rem)] leading-relaxed font-light text-white md:block lg:right-16 ${
           pair ? "w-[22vw]" : "w-[27vw]"
         }`}
       >
@@ -345,12 +345,83 @@ function Intro() {
   });
   return (
     <section ref={root} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center">
-      <h1 className="text-[clamp(3.5rem,13vw,13rem)] leading-[0.95] font-extrabold tracking-[-0.05em] perspective-midrange">
-        Inroads <span className="text-[#22C891]">results</span>
-      </h1>
-      <p data-reveal className="mt-8 max-w-md text-base leading-relaxed text-white/70 sm:text-xl">
-        {NUMBER_WORDS[COUNT] ?? COUNT} startups from Mesa Startup Lab Cohort 4 are heading to Inroads.
+      <p
+        data-reveal
+        className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-[#22C891]/30 bg-[#051510]/60 px-4 py-1.5 text-[11px] font-medium tracking-[0.22em] text-[#A8DCC6] uppercase backdrop-blur-md sm:text-xs"
+      >
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inset-0 animate-ping rounded-full bg-[#3EE6AC]/70" />
+          <span className="relative h-2 w-2 rounded-full bg-[#3EE6AC]" />
+        </span>
+        Mesa Startup Lab · Cohort 04
       </p>
+
+      <div className="relative">
+        <h1 className="intro-title text-[clamp(2.2rem,6vw,6.5rem)] leading-[1.05] font-semibold tracking-[-0.035em] perspective-midrange">
+          Welcome to <span className="accent block">MSL C4 Inroads</span>
+        </h1>
+        {/* A band of light sweeps across the letters; overlay blending keeps it off the dark background */}
+        <span aria-hidden className="intro-shine pointer-events-none absolute inset-0" />
+      </div>
+
+      <div data-reveal className="mt-8 flex items-center gap-4 text-[#22C891]">
+        <span className="h-px w-10 bg-linear-to-r from-transparent to-[#22C891]/70 sm:w-20" />
+        <span className="text-xs font-semibold tracking-[0.4em] uppercase sm:text-sm">September 2026</span>
+        <span className="h-px w-10 bg-linear-to-l from-transparent to-[#22C891]/70 sm:w-20" />
+      </div>
+
+      <p
+        data-reveal
+        className="mt-6 max-w-3xl rounded-2xl border border-[#22C891]/35 bg-[#22C891]/10 px-6 py-3.5 text-lg leading-snug text-balance font-medium text-white shadow-[0_0_40px_rgba(34,200,145,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md sm:text-2xl"
+      >
+        <span className="font-semibold text-[#3EE6AC]">{NUMBER_WORDS[COUNT] ?? COUNT} startups</span> from PG C4 are into{" "}
+        <span className="font-semibold text-[#3EE6AC]">Mesa Startup Lab</span>.
+      </p>
+
+      {/* A preview of the faces about to take the stage */}
+      <div data-reveal className="mt-8 flex items-center gap-4">
+        <ul className="flex">
+          {C4_FOUNDERS.map((f, i) => (
+            <li
+              key={f.name}
+              className="relative -ml-3 h-10 w-10 overflow-hidden rounded-full border-2 border-[#051510] bg-linear-to-b from-[#0B3D2C] to-[#157a57] shadow-[0_0_0_1px_rgba(34,200,145,0.45)] first:ml-0 sm:h-12 sm:w-12"
+              style={{ zIndex: C4_FOUNDERS.length - i }}
+            >
+              <Image src={f.photo} alt="" fill sizes="48px" className="object-cover object-top" />
+            </li>
+          ))}
+        </ul>
+        <span className="hidden text-left text-sm leading-tight text-[#A8DCC6] sm:block">
+          <span className="block font-semibold text-white">{C4_FOUNDERS.length} founders</span>
+          on stage next
+        </span>
+      </div>
+
+      {/* Flat fill with a soft glow; solid colours stay safe with the split-letter animation */}
+      <style>{`
+        .intro-title {
+          color: #eef9f4;
+          text-shadow: 0 0 32px rgba(255, 255, 255, 0.18);
+        }
+        .intro-title .accent {
+          color: #3ee6ac;
+          text-shadow: 0 0 40px rgba(62, 230, 172, 0.4);
+        }
+        .intro-shine {
+          background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%);
+          background-size: 260% 100%;
+          background-position: 130% 0;
+          mix-blend-mode: overlay;
+          animation: intro-shine 3.2s ease-in-out 2.2s infinite;
+        }
+        @keyframes intro-shine {
+          0% { background-position: 130% 0 }
+          55%, 100% { background-position: -30% 0 }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .intro-shine { animation: none }
+        }
+      `}</style>
     </section>
   );
 }
@@ -373,7 +444,7 @@ function Finale({ onPick }: { onPick: (i: number) => void }) {
   return (
     <section ref={root} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-20 pb-24 text-center">
       <h2 className="text-[clamp(2.4rem,7vw,6.5rem)] leading-[1.05] font-extrabold tracking-[-0.045em]">Welcome to Inroads</h2>
-      <p data-reveal className="mt-4 text-sm text-[#7FA394] sm:text-lg">
+      <p data-reveal className="mt-4 text-sm text-[#A8DCC6] sm:text-lg">
         Congratulations to every founder on the list.
       </p>
       <ul className="mt-8 grid w-full max-w-4xl grid-cols-5 gap-2 sm:mt-10 sm:gap-4">
@@ -388,7 +459,7 @@ function Finale({ onPick }: { onPick: (i: number) => void }) {
                 <Image src={f.photo} alt="" fill sizes="(min-width: 640px) 170px, 20vw" className="object-cover" />
               </span>
               <span className="mt-2 block truncate text-[10px] font-semibold sm:text-sm">{f.name}</span>
-              <span className="block truncate text-[9px] text-[#7FA394] sm:text-xs">{f.startup}</span>
+              <span className="block truncate text-[9px] text-[#A8DCC6] sm:text-xs">{f.startup}</span>
             </button>
           </li>
         ))}

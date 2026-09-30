@@ -79,8 +79,8 @@ const fieldFragment = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.1, d);
-    vec3 col = mix(uMint * 0.6, vec3(0.8, 1.0, 0.92), clamp(vGlow - 1.0, 0.0, 1.0));
-    gl_FragColor = vec4(col, a * vFade * vGlow * 0.9);
+    vec3 col = mix(uMint, vec3(0.85, 1.0, 0.94), clamp(vGlow - 0.9, 0.0, 1.0));
+    gl_FragColor = vec4(col, min(a * vFade * vGlow * 1.25, 1.0));
   }
 `;
 
@@ -103,13 +103,9 @@ const cardFragment = /* glsl */ `
   uniform sampler2D uTex;
   uniform float uAlpha;
   uniform float uTime;
-  uniform vec3 uMint;
   uniform vec2 uGlare;    // cursor position in card UV space
-  uniform vec2 uTilt;     // smoothed pointer, drives the foil shift
   uniform float uHover;   // 1 while the cursor is over this card
   varying vec2 vUv;
-
-  const float PI = 3.14159265;
 
   float sdRoundBox(vec2 p, vec2 b, float r) {
     vec2 q = abs(p) - b + r;
@@ -122,62 +118,26 @@ const cardFragment = /* glsl */ `
     vec2 p = (cuv - 0.5) * vec2(0.8, 1.0);
     float d = sdRoundBox(p, vec2(0.4, 0.5), 0.07);
     float inside = 1.0 - smoothstep(-0.0015, 0.0015, d);
+    if (inside <= 0.0) discard;
 
-    // ---- Panel: near-black, dot grid, halo behind the head ----
-    vec3 panel = mix(vec3(0.008, 0.016, 0.013), vec3(0.02, 0.15, 0.105), smoothstep(1.0, 0.0, cuv.y));
-    vec2 g = fract(cuv * vec2(22.0, 27.5)) - 0.5;
-    panel += uMint * smoothstep(0.1, 0.0, length(g)) * 0.09 * (1.1 - cuv.y);
-    panel += uMint * 0.24 * smoothstep(0.42, 0.0, length((cuv - vec2(0.5, 0.64)) * vec2(1.0, 0.9)));
-
-    // ---- Founder cutout with a mint rim light that follows the tilt ----
+    // Founder photo in its original colours over a plain dark backdrop.
+    vec3 panel = mix(vec3(0.07, 0.09, 0.085), vec3(0.16, 0.19, 0.18), smoothstep(1.0, 0.0, cuv.y));
     vec4 tex = texture2D(uTex, clamp(cuv, 0.0, 1.0));
-    vec2 lightDir = normalize(vec2(uTilt.x * 0.8 + 0.25, 0.9 - uTilt.y * 0.4));
-    float behind = texture2D(uTex, cuv + lightDir * 0.006).a;
-    // Only where the silhouette meets the panel, not where the photo was cropped.
-    float edgeFade = smoothstep(0.0, 0.03, cuv.y) * smoothstep(1.0, 0.97, cuv.y) * smoothstep(0.0, 0.03, cuv.x) * smoothstep(1.0, 0.97, cuv.x);
-    float rim = tex.a * (1.0 - behind) * edgeFade;
     vec3 col = mix(panel, tex.rgb, tex.a);
-    col += mix(uMint, vec3(1.0), 0.35) * rim * 0.55;
 
-    // ---- Holographic foil: iridescent bands that slide as you tilt ----
-    float h = (cuv.x * 1.2 + cuv.y * 0.7) * 2.2 + uTilt.x * 1.6 - uTilt.y * 1.1 + uTime * 0.08;
-    vec3 iri = 0.5 + 0.5 * cos(2.0 * PI * (h + vec3(0.0, 0.33, 0.67)));
-    iri = mix(iri, uMint * 1.3, 0.45);
-    float foil = (1.0 - tex.a * 0.8) * (0.07 + uHover * 0.13);
-    col += (iri - 0.35) * foil;
-
-    // ---- Gloss: a sharp sheen sweeps across every few seconds ----
+    // ---- Shine: a glossy sheen sweeps across every few seconds ----
     float sweep = cuv.x * 0.7 + cuv.y - mod(uTime * 0.32, 4.2) + 1.1;
-    col += smoothstep(0.14, 0.0, abs(sweep)) * 0.12 + smoothstep(0.018, 0.0, abs(sweep)) * 0.35;
+    col += smoothstep(0.14, 0.0, abs(sweep)) * 0.1 + smoothstep(0.018, 0.0, abs(sweep)) * 0.3;
 
     // Cursor glare, stronger on hover.
     float glare = smoothstep(0.55, 0.0, length((cuv - uGlare) * vec2(0.8, 1.0)));
-    col += glare * (0.04 + uHover * 0.12);
+    col += glare * (0.03 + uHover * 0.1);
 
-    // Inner edge shading gives the panel depth.
-    col *= mix(0.7, 1.0, smoothstep(0.0, 0.05, -d));
+    // Thin light edge.
+    float ring = smoothstep(0.004, 0.0, abs(d + 0.002));
+    col = mix(col, vec3(1.0), ring * 0.55);
 
-    // ---- Corner brackets, the logo frame's motif ----
-    vec2 ap = abs(p);
-    vec2 inset = vec2(0.4, 0.5) - 0.032;
-    float lx = step(abs(ap.x - inset.x), 0.0022) * step(inset.y - 0.06, ap.y) * step(ap.y, inset.y + 0.0022);
-    float ly = step(abs(ap.y - inset.y), 0.0022) * step(inset.x - 0.06, ap.x) * step(ap.x, inset.x + 0.0022);
-    col = mix(col, vec3(0.9, 1.0, 0.96), max(lx, ly) * 0.85);
-
-    // ---- Border with two comets of light racing around it ----
-    float ring = smoothstep(0.0055, 0.0, abs(d + 0.002));
-    float ang = atan(p.y, p.x);
-    float comet = pow(0.5 + 0.5 * cos(ang - uTime * 1.1), 28.0)
-                + pow(0.5 + 0.5 * cos(ang - uTime * 1.1 + PI), 28.0);
-    vec3 borderCol = mix(uMint, vec3(1.0), clamp(comet * 1.3, 0.0, 1.0)) * (0.75 + comet * 1.6 + uHover * 0.4);
-    col = mix(col, borderCol, ring);
-
-    // ---- Outer glow beyond the edge ----
-    float glow = exp(-max(d, 0.0) * 34.0) * (1.0 - inside) * (0.32 + uHover * 0.35 + comet * 0.25);
-
-    float a = max(inside, ring);
-    vec3 outCol = mix(uMint, col, a);
-    gl_FragColor = vec4(outCol, (a + glow * (1.0 - a)) * uAlpha);
+    gl_FragColor = vec4(col, inside * uAlpha);
   }
 `;
 
@@ -291,10 +251,8 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
           uTex: { value: null },
           uAlpha: { value: 0 },
           uTime: { value: 0 },
-          uMint: { value: MINT },
           uGlare: { value: new THREE.Vector2(0.5, 0.5) },
           uHover: { value: 0 },
-          uTilt: { value: new THREE.Vector2() },
         },
       });
       const mesh = new THREE.Mesh(cardGeo, material);
@@ -527,7 +485,6 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
         c.material.uniforms.uTime.value = t + k * 1.3;
         c.material.uniforms.uHover.value = c.hover;
         c.material.uniforms.uGlare.value.set(0.5 + smooth.x * 0.6, 0.5 - smooth.y * 0.6);
-        c.material.uniforms.uTilt.value.set(smooth.x, smooth.y);
       });
 
 
