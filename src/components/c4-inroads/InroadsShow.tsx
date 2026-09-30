@@ -138,54 +138,7 @@ export default function InroadsShow() {
         {phase === "show" && `${index + 1} of ${COUNT}: ${current.startup}, by ${founderNames(current)}`}
       </p>
 
-      <footer className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-4 px-5 pb-5 sm:px-10 sm:pb-8">
-        <nav
-          aria-label="Startups"
-          className={`flex gap-1.5 overflow-x-auto pb-1 transition-opacity duration-500 sm:gap-2 ${
-            phase === "show" ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-        >
-          {C4_INROADS.map((s, i) => {
-            const on = phase === "show" && i === index;
-            return (
-              <button
-                key={s.startup}
-                type="button"
-                aria-current={on ? "true" : undefined}
-                aria-label={`${s.startup}, by ${founderNames(s)}`}
-                onClick={() => goTo(i)}
-                className="group relative shrink-0 rounded-[9px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C891]"
-              >
-                <span
-                  className={`relative flex h-11 overflow-hidden rounded-[9px] border-[1.5px] bg-linear-to-b from-[#060908] to-[#0B3D2C] transition-colors duration-300 sm:h-14 ${
-                    s.founders.length > 1 ? "w-14 sm:w-[72px]" : "w-9 sm:w-11"
-                  } ${on ? "border-[#22C891]" : "border-[#22C891]/30 group-hover:border-[#22C891]/70"}`}
-                >
-                  {s.founders.map((f) => (
-                    <span key={f.name} className="relative h-full flex-1">
-                      <Image
-                        src={f.photo}
-                        alt=""
-                        fill
-                        sizes="44px"
-                        className={`object-cover transition-opacity duration-300 ${on ? "opacity-100" : "opacity-75 group-hover:opacity-100"}`}
-                      />
-                    </span>
-                  ))}
-                </span>
-                <span className="absolute inset-x-1 -bottom-1 h-0.5 overflow-hidden rounded-full">
-                  {on && (
-                    <span
-                      key={index}
-                      className="block h-full origin-left bg-[#22C891] animate-[inroads-fill_linear_forwards]"
-                      style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: paused ? "paused" : "running" }}
-                    />
-                  )}
-                </span>
-              </button>
-            );
-          })}
-        </nav>
+      <footer className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-end gap-4 px-5 pb-5 sm:px-10 sm:pb-8">
         <div className="flex shrink-0 items-center gap-1.5">
           <ControlButton label="Previous startup" onClick={prev}>
             <ChevronLeft className="h-4 w-4" />
@@ -202,9 +155,6 @@ export default function InroadsShow() {
         </div>
       </footer>
 
-      <style>{`
-        @keyframes inroads-fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
-      `}</style>
     </div>
   );
 }
