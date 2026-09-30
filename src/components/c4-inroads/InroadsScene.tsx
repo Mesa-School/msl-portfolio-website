@@ -102,9 +102,6 @@ const CARD_PAD_Y = 1.18;
 const cardFragment = /* glsl */ `
   uniform sampler2D uTex;
   uniform float uAlpha;
-  uniform float uTime;
-  uniform vec2 uGlare;    // cursor position in card UV space
-  uniform float uHover;   // 1 while the cursor is over this card
   varying vec2 vUv;
 
   float sdRoundBox(vec2 p, vec2 b, float r) {
@@ -124,14 +121,6 @@ const cardFragment = /* glsl */ `
     vec3 panel = mix(vec3(0.07, 0.09, 0.085), vec3(0.16, 0.19, 0.18), smoothstep(1.0, 0.0, cuv.y));
     vec4 tex = texture2D(uTex, clamp(cuv, 0.0, 1.0));
     vec3 col = mix(panel, tex.rgb, tex.a);
-
-    // ---- Shine: a glossy sheen sweeps across every few seconds ----
-    float sweep = cuv.x * 0.7 + cuv.y - mod(uTime * 0.32, 4.2) + 1.1;
-    col += smoothstep(0.14, 0.0, abs(sweep)) * 0.1 + smoothstep(0.018, 0.0, abs(sweep)) * 0.3;
-
-    // Cursor glare, stronger on hover.
-    float glare = smoothstep(0.55, 0.0, length((cuv - uGlare) * vec2(0.8, 1.0)));
-    col += glare * (0.03 + uHover * 0.1);
 
     // Thin light edge.
     float ring = smoothstep(0.004, 0.0, abs(d + 0.002));
@@ -232,7 +221,9 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
     const textures = slides.map((photos) =>
       photos.map((src) => {
         const tex = loader.load(src);
-        tex.colorSpace = THREE.SRGBColorSpace;
+        // Keep the raw sRGB pixels: the custom card shader writes straight to the screen with no
+        // linear→sRGB conversion, so decoding here would darken every photo.
+        tex.colorSpace = THREE.NoColorSpace;
         tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
         return tex;
       }),
@@ -250,9 +241,6 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
         uniforms: {
           uTex: { value: null },
           uAlpha: { value: 0 },
-          uTime: { value: 0 },
-          uGlare: { value: new THREE.Vector2(0.5, 0.5) },
-          uHover: { value: 0 },
         },
       });
       const mesh = new THREE.Mesh(cardGeo, material);
@@ -482,9 +470,6 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
         c.mesh.rotation.x = smooth.y * tilt * 0.7;
         c.mesh.position.z = c.hover * 0.35;
         c.material.uniforms.uAlpha.value = visible;
-        c.material.uniforms.uTime.value = t + k * 1.3;
-        c.material.uniforms.uHover.value = c.hover;
-        c.material.uniforms.uGlare.value.set(0.5 + smooth.x * 0.6, 0.5 - smooth.y * 0.6);
       });
 
 
@@ -515,7 +500,7 @@ export default function InroadsScene({ slides, index, showCards }: InroadsSceneP
     <div
       ref={mountRef}
       aria-hidden
-      className="pointer-events-none absolute inset-0 [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full"
+      className="pointer-events-none absolute inset-0 z-4 [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full"
     />
   );
 }
