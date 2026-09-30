@@ -393,7 +393,7 @@ function Finale({ onPick }: { onPick: (i: number) => void }) {
   });
   return (
     <section ref={root} className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pt-20 pb-24 text-center">
-      <h2 className="text-[clamp(2.4rem,7vw,6.5rem)] leading-[1.05] font-extrabold tracking-[-0.045em]">Welcome to Inroads</h2>
+      <h2 className="text-[clamp(2.4rem,7vw,6.5rem)] leading-[1.05] font-extrabold tracking-[-0.045em]">Welcome to MSL</h2>
       <p data-reveal className="mt-4 text-sm text-[#A8DCC6] sm:text-lg">
         Congratulations to every founder on the list.
       </p>
