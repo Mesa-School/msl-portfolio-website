@@ -308,7 +308,7 @@ function Intro() {
 
       <div className="relative">
         <h1 className="intro-title text-[clamp(2.2rem,6vw,6.5rem)] leading-[1.05] font-semibold tracking-[-0.035em] perspective-midrange">
-          Welcome to <span className="accent block">MSL C4 Inroads</span>
+          MSL Inroads <span className="accent block">Results</span>
         </h1>
         {/* A band of light sweeps across the letters; overlay blending keeps it off the dark background */}
         <span aria-hidden className="intro-shine pointer-events-none absolute inset-0" />
@@ -324,7 +324,7 @@ function Intro() {
         data-reveal
         className="mt-6 max-w-3xl rounded-2xl border border-[#22C891]/35 bg-[#22C891]/10 px-6 py-3.5 text-lg leading-snug text-balance font-medium text-white shadow-[0_0_40px_rgba(34,200,145,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md sm:text-2xl"
       >
-        <span className="font-semibold text-[#3EE6AC]">{NUMBER_WORDS[COUNT] ?? COUNT} startups</span> from PG C4 are into{" "}
+        <span className="font-semibold text-[#3EE6AC]">{NUMBER_WORDS[COUNT] ?? COUNT} startups</span> from PG C4 made it to{" "}
         <span className="font-semibold text-[#3EE6AC]">Mesa Startup Lab</span>.
       </p>
 
